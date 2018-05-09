@@ -151,10 +151,11 @@ United Kingdom\\
  \pagebreak
 
 % ============================================================================== 
-% SHORT ESSAY
+% CONTENT
 % ============================================================================== 
 
 \pagenumbering{arabic} % start numbering  
+
 
 
 % TODO 
@@ -164,10 +165,65 @@ United Kingdom\\
 
 
 \section{Review: System Requirements}
-
+% Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
 
 \section{Code Review}
 
+\subsection{Code Read}
+% Detail what notes were taken when reading the code and what was noticed from afar
+
+\subsection{Code Refactoring}
+
+% md5_refactor_check
+% ------------------
+% Talk about how we want to prevent our code refactoring from actually fixing hidden bugs. Of course we cannot practically be sure that it does not, but we have done is write a script that compares the stdout from certain sequences of commands from both the original code and the modified-refactored code. The script generates the md5 hash from each of the outputs. They should match. If they don't this points to us having modified the current output. This script has been added as a post-commit hook, which means that on commit made a Jenkins build runs.  
+
+
+\subsubsection{Changes in TaxEngine.java}
+
+% [1] create the exception type TaxEngineException
+[1] First off, we are displeased with the error reporting of this class, it does not make testing for error conditions any easier. We create an "exceptions" package and add TaxEngineException which extends RuntimeException in this package. We will expect this exception object to be thrown in TaxEngine methods where errors occur. 
+
+% why choose RuntimeException
+We chose RuntimeException as it then does not require all methods to add the "throws TaxEngineException" which will be added to a lot of sections of the code causing many other changes. We opted for the most gains for the least upsets to the code here. 
+
+% [2] split out the different branches in taxAmount() to smaller more testable methods
+[2] The contents of every block similar to `if (strTaxCode.indexOf(Constants.MARRIED_CODE) >0 ) {` were moved to private methods, making for 8 in total (see below). As these methods are private, they cannot be tested without the usage of reflection or other Java dark arts. As such, we further create 3 public methods (see below).
+
+In taxAmount(String, int), the changes involve replacing the contents of the different if blocks with the right method calls to taxBasedOnMaritalStatus(), taxBAsedOnChildren() and taxBasedOnEducationalStatus() each time passing the proper enum. 
+
+% Just trying to explain that separating the big method into smaller ones that are individually testable is better, as it allows us to more quickly/easily locate bugs when the different tests fail. 
+From a testing point of view, we still want to write tests on taxAmount with the different combinations of TaxCodes and input parameters, checking each time if the return is as expected. Doing  
+
+But in addition to the above, we also write different tests for each of the [taxBasedOn...] method. With simpler methods in TaxEngine, and tests targeting those simple methods, we can more quickly identify the source of bugs when tests fail. The alternative 
+
+% -----------------------------
+% Methods added: 
+% -----------------------------
+* taxBasedOnMaritalStatus
+* taxBasedOnChildren
+* taxBasedOnEducationStatus  
+% -----------------------------
+* taxMarriedCode
+* taxSingleCode
+* taxDivorcedCode
+* taxOneChildCode
+* taxTwoChildrenCode
+* taxMultipleChildrenCode
+* taxFullTimeStudentUnder24
+* taxFullTimeStudentOver24
+% -----------------------------
+
+\section{Test implementation}
+
+
+% TODO:  use surefire report
+\subsection{Unit testing}
+
+* we use display names to give more readable output for tests
+* we use parametrized tests to allow for high flexibility in generating the testCases. --> Explain the alternative where we would have to write an explicit test case for every input type. And further explains, why running a loop with asserts() in there is not equivalent to our current approach. (Basically the answer to the question, why did we use Paramterized testing). 
+
+\subsection{Cucumber testing}
 
 % ============================================================================== 
 % APPENDIX
