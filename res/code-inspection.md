@@ -17,6 +17,8 @@ Very badly named class.
 1. We create an array of customers with size = MAX_CUSTOMERS = 100. 
   * Do we check that number when adding? Is it possible to overflow this array?
   * some stuff is not specified as private, protected, public (bad practice). 
+
+2. We never return the Customer object, which is fair maybe we don't want to expose it? But anyway, we should be returning something about its ID. --> we have added getIntCurrentCustomerIndex
   
 ### addCustomer()
 
@@ -42,6 +44,9 @@ Details:
 This probably does not manifest now because we either find the guy we're looking for before reaching the end, or we don't find him 
 and reach the last empty entry. 
 
+DEFECT: we check the account number by using == which doesn't work for Strings. we should use equals() - testAddAndGetCustomer() finds that. 
+
+
 ### deleteCustomer(int customerID)
 
 Visibility: public 
@@ -58,6 +63,11 @@ in code will fix both.
 
 
 ## Customer
+
+* there are no getters for field names first name, last name, tax code. 
+* not using camel case in the name of setter methods setlasname and setfirstname 
+* field parameters have a different name from the setter method. This is justifiable sometimes, but this is just a cock up. 
+* the overall desgin of the class is poor and poses some headaches for testers. Creating a customer with default constructor gives them an INVALID_ACCOUNT number. Is this in the requirements? Should we test for it? 
 
 
 ## TaxEngine
@@ -262,6 +272,7 @@ and put the numeric part of the tax code either before or after the non-numeric 
 Bugs: 
 
 * regex is wrong
+	* it is not enforced that there be any numbers. They use the 0 or more sign "\*" instead of "+"
     * all alphanumerics are allowed in the first place.
 * indexOf, strictly greater than zero (>0)
 * since supposedly one cannot be both divorced and single and married, we should have "else if" instead of "if" in the code checker. 
@@ -373,5 +384,6 @@ public class Constants {
 
 ## Bugs to test for 
 
+* string handling can be improved by using stringbuffer (improvement)
 * Code enforces a 100 client limit. The requirements make no mention of this. 
 * 

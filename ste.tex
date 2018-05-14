@@ -8,7 +8,7 @@
 \author{Sami Farhat}
 \title{STE}
 
-% ---------------------------------------------------------------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
 % packages
 \usepackage{titlesec} 				% to change the section font-size
 \usepackage[margin=0.8in]{geometry} 	% for Margins
@@ -55,12 +55,8 @@
 \newcommand{\tblheader}{\textbf}
 \definecolor{listinggray}{gray}{0.9}
 \definecolor{lbcolor}{rgb}{0.9,0.9,0.9}
-%
 
-\newlist{todolist}{itemize}{1}
-\setlist[todolist]{label=$\square$}
-
-% path for graphics 
+% path to graphics 
 \graphicspath{ {res/} }
 
 % sections
@@ -147,8 +143,8 @@ United Kingdom\\
 
 \clearpage
 \tableofcontents 
- \thispagestyle{empty} % remove page number
- \pagebreak
+\thispagestyle{empty} % remove page number
+\pagebreak
 
 % ============================================================================== 
 % CONTENT
@@ -171,6 +167,11 @@ United Kingdom\\
 
 \subsection{Code Read}
 % Detail what notes were taken when reading the code and what was noticed from afar
+% We should say that reading the code is not great in that it usually focuses our testing on some things and push us not to test, things that 
+% we expect to be correct (given we know the implementation). As such, it is always better to try and make no assumptions about the contents 
+% of the code when writing the tests. 
+
+% DEFECT: There's somewhat of an assumption being made that a users salary always fits in Integer. What if they earned more than 2^31 - 1 ? 
 
 \subsection{Code Refactoring}
 
@@ -197,6 +198,10 @@ From a testing point of view, we still want to write tests on taxAmount with the
 
 But in addition to the above, we also write different tests for each of the [taxBasedOn...] method. With simpler methods in TaxEngine, and tests targeting those simple methods, we can more quickly identify the source of bugs when tests fail. The alternative 
 
+Basically if there was something wrong with how we compute salaries for Married people, then I'd expect this to manifest in the test for taxAmount() and
+in taxBasedOnMarriage(), these two methods failing together should indicate to the tester or developer checking the tests that it is likely that the logic
+in Marriage taxing is causing that in taxAmount to fail. Having both higher level and lower level tests is useful in that way. 
+
 % -----------------------------
 % Methods added: 
 % -----------------------------
@@ -222,8 +227,20 @@ But in addition to the above, we also write different tests for each of the [tax
 
 * we use display names to give more readable output for tests
 * we use parametrized tests to allow for high flexibility in generating the testCases. --> Explain the alternative where we would have to write an explicit test case for every input type. And further explains, why running a loop with asserts() in there is not equivalent to our current approach. (Basically the answer to the question, why did we use Paramterized testing). 
+* we acknowledge that some regex guru may come up with a regex that replaces the 3 we currently use right now. That's not a problem, we opted for readability anyway ;) 
+* we've made some effort to make the tests generalised in that. If some of the requirements change (change the letter used for a symbol) or if more letters are added, then we wouldn't have to overhaul the whole Test class but merely make some select changes. Of course, some tests take @ValueSource which are hardcoded strings to test. In case of change in requirements, those especially should be carefully reviewed (one by one). 
+
 
 \subsection{Cucumber testing}
+
+
+\subsection{List of defects}
+
+% Requirements defects 
+% Logic defects
+% User Interface defects
+% Code style defects
+
 
 % ============================================================================== 
 % APPENDIX

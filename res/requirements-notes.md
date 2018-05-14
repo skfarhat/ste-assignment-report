@@ -109,7 +109,10 @@ _Same as A8.8_
 
 -
 
-## Issues with requirements. 
+## Issues with requirements
+* no mention of negative numbers being allowed. Are negative salaries a thing? Does the system guard against them? What about taxableAmounts, can we manage to squeeze them in to the taxCode string? 
+* there is no mention of whether some of the codes in the tax code are mutually exclusive (e.g. D and S and M, or T and U, or C and E and F). 
+* there is not mention of it not being acceptable for duplicate letters to be found in the taxcode. 
 * We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
 * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
 * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates... 
