@@ -219,6 +219,17 @@ in Marriage taxing is causing that in taxAmount to fail. Having both higher leve
 * taxFullTimeStudentOver24
 % -----------------------------
 
+\subsection{Changes in Main}
+
+* Allow for the selection of PrintStream and UserInputStream to Main. If not set then System.in and System.out are used. 
+We could have also just used System.setOut() and System.setIn(), but our approach should be even more flexible as it doesn't affect our usage of System.out in the testing framework. 
+
+* Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
+
+* Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
+ -	In a normal running App,   when the method returns, the app will reach the end of Main and exit naturally (and gracefully), when run under a test suite, the framework will continue to run after the method has returned which is what we wanted in the first place. 
+  - Add method `stop()` and member field `running` which when set to false causes the User Input loop to exit, leading to stop of the program.
+
 \section{Test implementation}
 
 
@@ -233,6 +244,11 @@ in Marriage taxing is causing that in taxAmount to fail. Having both higher leve
 
 \subsection{Cucumber testing}
 
+Many of our Scenarios (if not all) depend on applicationHasStarted(). This step starts the "Main" application. By design "Main" waits for user input to proceed and will block the execution thread until exits. To stop this, we make applicationHasStarted start "Main.run()" in a separate thread. 
+
+This introduces some timing challenges. Subsequent steps in our framework need to work with Main by injecting user input and monitoring the output, but the steps need to know if "Main" is currently accepting of user input and if it has printed the output it requires. 
+
+One solution to this is to add a boolean field member `waitingForCommand` in "Main" which indicates that the app is currently waiting for the next command to execute. The framework can then know for certain if it can safely inject new input to System.in and whether it can assume that Main has printed all it needed to already. This latter is ensured by the fact that Main will not have anything more to print() when it is blocked waiting for a new command from user input. 
 
 \subsection{List of defects}
 
