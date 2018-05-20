@@ -160,7 +160,9 @@ United Kingdom\\
 % Place the requirements in a table and number them to allow for clear referencing. 
 
 
-\section{Review: System Requirements}
+% REQUIREMENTS 
+\include{res/requirements}
+
 % Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
 
 \section{Code Review}
@@ -189,7 +191,7 @@ United Kingdom\\
 We chose RuntimeException as it then does not require all methods to add the "throws TaxEngineException" which will be added to a lot of sections of the code causing many other changes. We opted for the most gains for the least upsets to the code here. 
 
 % [2] split out the different branches in taxAmount() to smaller more testable methods
-[2] The contents of every block similar to `if (strTaxCode.indexOf(Constants.MARRIED_CODE) >0 ) {` were moved to private methods, making for 8 in total (see below). As these methods are private, they cannot be tested without the usage of reflection or other Java dark arts. As such, we further create 3 public methods (see below).
+% [2] The contents of every block similar to `if (strTaxCode.indexOf(Constants.MARRIED_CODE) >0 ) {` were moved to private methods, making for 8 in total (see below). As these methods are private, they cannot be tested without the usage of reflection or other Java dark arts. As such, we further create 3 public methods (see below).
 
 In taxAmount(String, int), the changes involve replacing the contents of the different if blocks with the right method calls to taxBasedOnMaritalStatus(), taxBAsedOnChildren() and taxBasedOnEducationalStatus() each time passing the proper enum. 
 
@@ -221,10 +223,12 @@ in Marriage taxing is causing that in taxAmount to fail. Having both higher leve
 
 \subsection{Changes in Main}
 
+% this is not a change that we've made, just a note that we have redirected stdin and stdout of the application 
+% in order to capture and analyse its output and to control its input. 
 * Allow for the selection of PrintStream and UserInputStream to Main. If not set then System.in and System.out are used. 
 We could have also just used System.setOut() and System.setIn(), but our approach should be even more flexible as it doesn't affect our usage of System.out in the testing framework. 
 
-* Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
+% * Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
 
 * Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
  -	In a normal running App,   when the method returns, the app will reach the end of Main and exit naturally (and gracefully), when run under a test suite, the framework will continue to run after the method has returned which is what we wanted in the first place. 
@@ -244,11 +248,43 @@ We could have also just used System.setOut() and System.setIn(), but our approac
 
 \subsection{Cucumber testing}
 
+% not A LOT OF REFACTORING was done 
+Explain that, we questioned how much refactoring we should be doing before starting the testing and opted on the conservative end of the spectrum deciding not to do too much and fix the existing code. Our role is to test it, and it may even be that we have been hired to highlight how many defects existed so that administration takes action on the developers (oops), in which case we must stick to our defined role and do testing the best we can given what we are given. 
+
+Other changes and refactoring could have been done to Main, such as setting up an event communication loop that would allow the thread in which Main ran to synchronize with the cucumber thread that is doing the testing. We opted against making major changes. 
+
+Method getCustomer was added to main, this was needed for testing. It acts as a proxy to allCustomers. An alternative approach could have been to return a getter to the allCustomers private field, or to simply make that field public. But as only one feature of allCustomers is needed for testing (at the time of writing at least), we went ahead an exposed the single method we care for from allCustomers. 
+
 Many of our Scenarios (if not all) depend on applicationHasStarted(). This step starts the "Main" application. By design "Main" waits for user input to proceed and will block the execution thread until exits. To stop this, we make applicationHasStarted start "Main.run()" in a separate thread. 
 
 This introduces some timing challenges. Subsequent steps in our framework need to work with Main by injecting user input and monitoring the output, but the steps need to know if "Main" is currently accepting of user input and if it has printed the output it requires. 
 
 One solution to this is to add a boolean field member `waitingForCommand` in "Main" which indicates that the app is currently waiting for the next command to execute. The framework can then know for certain if it can safely inject new input to System.in and whether it can assume that Main has printed all it needed to already. This latter is ensured by the fact that Main will not have anything more to print() when it is blocked waiting for a new command from user input. 
+
+% note on checking uniqueness
+It's near impossible to fully confirm that the application is indeed returning unique identifier without incurring high computational costs. For example, the application may be coded to return a Random int ID in the range [1-100] for each customer. A test that creates 5 customers would still only have 10\% chance of hitting a uniqueness case: 
+$1 - P(100,5) = 0.10$. This is known as the Birthday problem % https://en.wikipedia.org/wiki/Birthday_problem]. 
+An application returning a random Integer. 
+
+% The concurrency issues observed 
+Whilst doing cucumber testing we noted, that the Cucumber suite ran tests in parallel and while this is desired to reduce the time it takes to run tests, it introduced multiple threading issues. With Main class being static, all threads effectively shared the same PrintStream  - as well. [ More to say ? ]
+
+We then decided to refactor both our test suite, which at the time comprised of one class containing all Step Definitions, and the Main class. Main was moved from being static based, to instance based; all static modifiers were removed, a method run() was created. Main constructors were introduced: a default one that would use the standard (default) stdin and stdout, and another that can have those provided as a dependency injection. This greatly increased flexibility and our ability to test the different Main instances independently. 
+
+% NOTE: refactoring Main to become non-static introduces an issue with the customer identifier index being static 
+
+% Refactoring of our Cucumber test suite. 
+We moved from having a single StepDefs.java class that contained all steps to creating a separated FeatureXStepDefs class for each feature undergoing acceptance testing. Those classes shared a lot in common in terms of the helper functions they would need to call, but also of the member variables they would use to test the app's behaviour. For this reason, we moved these common members and helper functions into their own class BaseStepDefs, which then became the inheritance parent of each FeatureXStepDefs. 
+
+% challenge with ApplicationHasStarted 
+As all features defined in .features rely on the Given "Application has started", we first thought it logical to move the corresponding step definition method into BaseStepDefs; alas, cucumber complained that a class defining a Step Definition cannot be inherited from, so this could not be done. Our workaround, was to defined applicationHasStarted() as a helper in BaseSteps and have a separate regex "application has started" for each feature:
+% * in 1_ClientAdd.feature, there's  Application has started1"
+% * in 2_UniqueID.feature, there's Application has started2"
+... 
+Each of those step definitions then calls the method applicationHasStarted() from BaseStepDefs, which avoids code redundancy. 
+
+This approach may not be perfect, but (1) it does the job, (2) it avoids code duplication, (3) it is not very confusing. 
+
 
 \subsection{List of defects}
 
