@@ -89,9 +89,46 @@ The requirements do not specify there must be a letter from the marital status i
 
 The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
 
+% common to all next sections: 
 
+The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount.""
 
-% ---------------------------------------------------------------------------------------------------------------
+alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
+
+We assume the intention is to say: 
+
+* People earning between [0-5000[ should pay 70\% tax rate 
+* People earning between [5000-12000] should pay 90\%
+
+The requirements are not as well expressed here. 
+
+% 8 - Married section 
+The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
+
+% 8 - Single section 
+Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
+
+* People earning in bracket [11k-22k[ pay a rate of 125\%
+* People earning 22k and above pay rate 132\%
+
+If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
+
+% 8 - Divorced 
+Same as single section. 
+
+The following salaries / tax codes are not covered by the requirements: 
+\begin{itemize}
+	\item Married and earning £27,000
+	\item Single and earning £22,000 (if other typo is fixed)* (see Single Section)
+	\item Divorced and earning £24,000 (if other typo is fixed) *(see Divorced Section)
+	\item Single Child and earning £10,400
+	\item Two children and earning £9900
+	\item More than 2 children and earning £9000
+	\item FT education below 24yo and earning £3000
+	\item FT education 24yo and above earning £3000
+\end{itemize}
+
+% ----------------------------------------------------------------------------------------------
 % MISSING REQUIREMENTS ? 
 
 % showing the ID of created clients 
@@ -100,11 +137,17 @@ Requirement 4 points to the need to allow users to see customers based on their 
 % no requirement to delete clients. 
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
 
+% Edge case
+
+Is it implicity that negative salaries are not a thing? How does the code deal with that? 
+
 % Adjustments and assumptions we make on the requirements. 
+Assumptions: 
+\begin{itemize}
+	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
+\end{itemize}
 
 
 % Requests for improvements on the requirements. 
-
-
 % TODO: would be great if we could write the requirements as we understood them.
 
