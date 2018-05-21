@@ -6,7 +6,10 @@ It is not evident at the outset what type of requirements document these require
 % vocabulary not defined before the requirements. 
 In formal requirements documents, key terms such as "will", "should", "must", and "may" are defined prior to the listing of the requirements in order to more precisely depict the requirement priorities.
 It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
+Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 Client and customer are used interchangeably in the requirements, we assume they refer to the same entity, but it would be good to put that in writing. Again "Definitions" section before the requirements would be the place to have that (IEEE).
+System and application seem to have been used interchangeably in the requirements: the 2 requirements before last "They system must .." while others refer to the application. We assume from context that they both refer to the software being tested, but it would be better to confirm this. System can often refer to the whole machine. 
+
 
 % requirements organisation (bullets, no numbering)
 The requirements are bulletized, a numbering scheme would be much more useful as that would allow for specific referencing in future discussions, documents and code. 
@@ -18,7 +21,12 @@ Seventh bullet "The system must include a simple ‘help’ [...]" does not term
 When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 
 % non-functional requirements. 
-The only non-functional requirement related to the application's robustness. Should we assume there is no interest in security, performance? Surely this isn't the case for a Tax Calculation application. 
+The only non-functional requirement related to the application's robustness. Should we assume there is no interest in security, performance? Surely this isn't the case for a Tax Calculation application. What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
+
+% * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
+
+% * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates...
+
 
 % DEFECTS and VAGUENESS in requirements 
 % --------------------------------------
@@ -44,6 +52,9 @@ This requirement can be further expanded on, especially considering that it rela
 What details can a user update? Should it be allowed to update a customer's account number (ID)?
 Is it required that there be a separate menu command for updating each of the following: first name, last name, tax code ? What about salary? Was this a desirable or required feature?    
 
+% requiremrents lacking more explanation (e.g. 3)
+% no expanding on how the update process should be. It seems that we want to allow the flexibility to update either of the customer's fields directly with its own command, but this does not link back to an evident requirement from the bulletised list. 
+
 % 4
 [ The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers. ]
 
@@ -53,15 +64,34 @@ This requirement can further do with specificity to what type of block can be se
 Should it be possible to use a comma-separated list of blocks to print out? This approach is not uncommon in other computer applications (e.g. specifying the list of pages to print on modern OSes is possible with "2-10,15-35"). This requirement could do with more specificity to the pages format. 
 
 % 5
-[ The application will calculate the tax amount to be paid by each client and display this
-amount along with the other customer details. The amount of the tax is based on their tax
+[ The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their tax
 code and their current salary according to the rules below. ]
 
+This requirement is reasonably understandable. It is not however clear why it was separeted from the tax rules, seems like they could have been structured to follow each other. 
+
+% 6 
+[ The system must include a simple 'help' system that lists all commands ]
+Assuming system refers to application, there's no ambiguity in the functionality requested in this requirement. 
+
+% 7 
+[The system must not crash if the user enters something that they are not meant to.]
+Assuming system refers to the application, the requirement is clear. This requirement relates to the application's robustness and should (in a more formal document) be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security. 
+
+% 8
+[ Thus, for clarity, both of the following tax codes are valid. ] 
+It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
+
+% The alphabetic portion of the code may consist of multiple letters drawn from the
+% following set, with their corresponding meanings:
+The requirement does not explicitly elicit the fact that the different letters pertaning to marital status are mutually exclusive. Similarly, it does not do this for education and number of children. 
+
+The requirements do not specify there must be a letter from the marital status in the tax code. Intuitively, an individual must be in one of those sections hence the tax code MUST have a letter from the marital status. This is not specified in the requirement but was assumed during testing. 
+
+The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
 
 
-% requiremrents lacking more explanation (e.g. 3)
-no expanding on how the update process should be. It seems that we want to allow the flexibility to update either of the customer's fields directly with its own command, but this does not link back to an evident requirement from the bulletised list. 
 
+% ---------------------------------------------------------------------------------------------------------------
 % MISSING REQUIREMENTS ? 
 
 % showing the ID of created clients 
@@ -71,4 +101,10 @@ Requirement 4 points to the need to allow users to see customers based on their 
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
 
 % Adjustments and assumptions we make on the requirements. 
+
+
 % Requests for improvements on the requirements. 
+
+
+% TODO: would be great if we could write the requirements as we understood them.
+

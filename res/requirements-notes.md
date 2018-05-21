@@ -111,20 +111,18 @@ _Same as A8.8_
 
 ## Issues with requirements
 * no mention of negative numbers being allowed. Are negative salaries a thing? Does the system guard against them? What about taxableAmounts, can we manage to squeeze them in to the taxCode string? 
-* there is no mention of whether some of the codes in the tax code are mutually exclusive (e.g. D and S and M, or T and U, or C and E and F). 
-* there is not mention of it not being acceptable for duplicate letters to be found in the taxcode. 
+<!-- * there is no mention of whether some of the codes in the tax code are mutually exclusive (e.g. D and S and M, or T and U, or C and E and F).  -->
+<!-- * there is not mention of it not being acceptable for duplicate letters to be found in the taxcode.  -->
 * We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
-* Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
-* Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates... 
+<!-- * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. --> 
+<!-- * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates... --> 
+<!-- * There is no mention of non-functional requirements. How many clients does the system need to support? --> 
 * They are wrong with regards to the tax brackets, we don't know what to do if someone earns exactly 27,000 etc.etc.
-* There is no mention of non-functional requirements. How many clients does the system need to support? 
 * There is no mention of the tax year in which the tax code applies. If an accountant runs the program after a tax year has ended, or they forget to clear the system from all entries, and use it in the new year, it will be highly misleading. 
-* Can we be more specific with the word storage in the first requirement. A1. It doesn't specify if this is persistent storage or only for the lifetime of the application. The implementation has assumed this will only be accross the lifetime of the application. 
+<!-- * Can we be more specific with the word storage in the first requirement. A1. It doesn't specify if this is persistent storage or only for the lifetime of the application. The implementation has assumed this will only be accross the lifetime of the application.  -->
 
 ### Requirements questions
 
 * Q1: Can the letters in the tax code be lowercase? 
-* Q2: 8.4 Can we have both 'M' and 'S' at the same time? Are they not mutually exclusive? Same for 'T' and 'U' ? The other ones with the children?
+<!-- * Q2: 8.4 Can we have both 'M' and 'S' at the same time? Are they not mutually exclusive? Same for 'T' and 'U' ? The other ones with the children? -->
 * Q3: 8.5 What about people with exactly £27,000? Given that this detail has been overlooked, can we please get some clarification on what exactly is the intended behaviour for people earning £12,000. Understand that from the given requirements, they belong to group of people earning less than £27,000. But can we please get confirmation on this? 
-
--
