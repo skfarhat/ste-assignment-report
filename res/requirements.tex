@@ -1,27 +1,51 @@
 \section{Review: System Requirements}
 
 % what type of requirements document is this, are they informal? 
-It is not evident at the outset what type of requirements document these requirements belong in. If they are meant to be informal, we would kindly ask for a formal requirements specification to guide our testing, as without one, there will be muchroom for vagueness and assumptions to be made. This could lead to testing being done on a false understanding of the requirements and this in turn would be costly both in terms of money and time.  
+It is not evident at the outset what type of requirements document these requirements belong in. If they are meant to be informal, we would kindly ask for a formal requirements specification to guide our testing, as without one, there will be much room for vagueness and assumptions to be made. This could lead to testing being done on a false understanding of the requirements and this in turn would be costly both in terms of money and time. 	
+\par
+
+
+
+% Requirements are missing "definitions" section 
+% ----------------------------------------------
+The requirements are missing key sections that provide the completeness required by an SRS document to properly define the requirements of the project. 	
+\par
+
+For instance, we note the absence of a definitions section which defines key terms used in the requirements. It would be useful to point out that terms "will", "should", "must", and "may" conform to a predefined standard definition (e.g. IEEE Std 610.12-1990) to highlight the priority of said requirements and avoid ambiguity in their interpretation.
+More significantly though, terms more specific to the application should be explicitly defined: 
+
+\begin{itemize} 
+	\item Client and customer are used interchangeably. We assume through contextual understanding that they refer to the same entity. However, it would be good to put that in writing. Again "Definitions" section before the requirements would be the place to have that (IEEE).
+	\item System and application are used interchangeably: the 2 requirements before last state "They system must [..]" while others refer to "the application". Again, we assume through contextual understanding that the terms refer to the software being tested, but request the requirements writers specify this. 
+\end{itemize}
+\par
+
 
 % vocabulary not defined before the requirements. 
-In formal requirements documents, key terms such as "will", "should", "must", and "may" are defined prior to the listing of the requirements in order to more precisely depict the requirement priorities.
-It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
-Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
-Client and customer are used interchangeably in the requirements, we assume they refer to the same entity, but it would be good to put that in writing. Again "Definitions" section before the requirements would be the place to have that (IEEE).
-System and application seem to have been used interchangeably in the requirements: the 2 requirements before last "They system must .." while others refer to the application. We assume from context that they both refer to the software being tested, but it would be better to confirm this. System can often refer to the whole machine. 
+% The requirements seem to be missing a section that defines key terms used in the the different requirements such as "will", "should", "must", and "may". This is common practice in SRS documents are defined prior to the listing of the requirements in order to more precisely depict the requirement priorities.
+% It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
+% Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
 
-% requirements organisation (bullets, no numbering)
-The requirements are bulletized, a numbering scheme would be much more useful as that would allow for specific referencing in future discussions, documents and code. 
-We will take it on ourselves to label the requirements for our own workflow, it is suggested that any additions or alterations needed on the requirements be done on the table (reference to table here). 
+% Requirements organisation (bullets, no numbering)
+% -------------------------------------------------
+The requirements are bulletized, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
+
+We will take it on ourselves to label the requirements for our own workflow, it is suggested that any additions or alterations needed on the requirements be done on the table (reference to table here).
+
+
+% Requirements doc lacks of coherence 
+% which lends to an overall lack of professionalism
+% --------------------------------------------------
+
 The first bullet in the list is not an explicit requirement, but an introductory sentence. This is misleading to the reader. 
 
-% Some lack of coherence which lends to an overall lack of professionalism in the requirements 
 Seventh bullet "The system must include a simple ‘help’ [...]" does not terminate with a full stop while the rest do. 
 When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 
 % non-functional requirements. 
 The only non-functional requirement related to the application's robustness. Should we assume there is no interest in security, performance? Surely this isn't the case for a Tax Calculation application. What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
+\par
 
 % * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
 
