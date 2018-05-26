@@ -4,8 +4,6 @@
 It is not evident at the outset what type of requirements document these requirements belong in. If they are meant to be informal, we would kindly ask for a formal requirements specification to guide our testing, as without one, there will be much room for vagueness and assumptions to be made. This could lead to testing being done on a false understanding of the requirements and this in turn would be costly both in terms of money and time. 	
 \par
 
-
-
 % Requirements are missing "definitions" section 
 % ----------------------------------------------
 The requirements are missing key sections that provide the completeness required by an SRS document to properly define the requirements of the project. 	
@@ -20,23 +18,24 @@ More significantly though, terms more specific to the application should be expl
 \end{itemize}
 \par
 
-
 % vocabulary not defined before the requirements. 
 % The requirements seem to be missing a section that defines key terms used in the the different requirements such as "will", "should", "must", and "may". This is common practice in SRS documents are defined prior to the listing of the requirements in order to more precisely depict the requirement priorities.
 % It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
 % Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
-
+% -------------------------------------------------
 % Requirements organisation (bullets, no numbering)
 % -------------------------------------------------
+\subsection{Requirements organisation}
 The requirements are bulletized, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
 
 We will take it on ourselves to label the requirements for our own workflow, it is suggested that any additions or alterations needed on the requirements be done on the table (reference to table here).
 
-
+% -------------------------------------------------
 % Requirements doc lacks of coherence 
 % which lends to an overall lack of professionalism
 % --------------------------------------------------
+\subsection{Requirements coherence}
 
 The first bullet in the list is not an explicit requirement, but an introductory sentence. This is misleading to the reader. 
 
@@ -52,25 +51,33 @@ The only non-functional requirement related to the application's robustness. Sho
 % * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates...
 
 
+% --------------------------------------
 % DEFECTS and VAGUENESS in requirements 
 % --------------------------------------
 
-% 1 
-[ The application must enable the storage of client’s personal details including.  ] 
+\subsection{Defects and Vagueness}
+
+In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix X) to improve readability and accessibility of the report. 
+
+% -----------------------------------------------------------------------------
+% [1]
+\subsubsection{ R1 - The application must enable the storage of client’s personal details including. }
 
 There is a lack of specificity on what storage means here. Does it refer to persistent storage? In which, case a form of database on disk would be required, or is it sufficient for it to be stored in memory during application runtime? The latter would not offer persistent for if the application or machine crashed.  
 
 If persistent storage is to be used, it would be useful for the requirements to ouline the requirements on such database, are there non-function requirements such as performance metrics that the database should respect? 
 
-% 2 
-[ The software should issue each customer a numeric identifier which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to ‘die’ with them). ] 
+% -----------------------------------------------------------------------------
+% [2]
+\subsubsection{R2 - The software should issue each customer a numeric identifier which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
 
 This requirement is relatively more detailed than some of the others, given it is accompanied by an example detailing a scenario and how the application should behave with respect to that scenario. 
 
 While 'die' is quoted, it is still an aggressive term to use in a requirement. 'Expire' is a reasonable alternative term, but we won't pedantize on this as there are more serious defects and vaguenesses in the requirements.
 
-% 3
-[ The PTMA should enable customer details to be updated. ]
+% -----------------------------------------------------------------------------
+% [3]
+\subsubsection{R3 - The PTMA should enable customer details to be updated.}
 
 This requirement can be further expanded on, especially considering that it relates to significant chunks of the code. 
 What details can a user update? Should it be allowed to update a customer's account number (ID)?
@@ -79,29 +86,34 @@ Is it required that there be a separate menu command for updating each of the fo
 % requiremrents lacking more explanation (e.g. 3)
 % no expanding on how the update process should be. It seems that we want to allow the flexibility to update either of the customer's fields directly with its own command, but this does not link back to an evident requirement from the bulletised list. 
 
-% 4
-[ The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers. ]
+% -----------------------------------------------------------------------------
+% [4]
+\subsubsection{R4 - The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers.}
 
 This requirements weakness only becomes evident when the application is tested and it becomes apparent that the Unique Identifiers generated for the created customers are never presented to the the application user for them to take note of. 
 
 This requirement can further do with specificity to what type of block can be selected in the list to print. 
 Should it be possible to use a comma-separated list of blocks to print out? This approach is not uncommon in other computer applications (e.g. specifying the list of pages to print on modern OSes is possible with "2-10,15-35"). This requirement could do with more specificity to the pages format. 
 
-% 5
-[ The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their tax
-code and their current salary according to the rules below. ]
+% -----------------------------------------------------------------------------
+% [5]
+\subsubsection{ The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
 
 This requirement is reasonably understandable. It is not however clear why it was separeted from the tax rules, seems like they could have been structured to follow each other. 
 
-% 6 
-[ The system must include a simple 'help' system that lists all commands ]
+% -----------------------------------------------------------------------------
+% [6]
+\subsubsection{R6 -  The system must include a simple 'help' system that lists all commands}
 Assuming system refers to application, there's no ambiguity in the functionality requested in this requirement. 
 
-% 7 
-[The system must not crash if the user enters something that they are not meant to.]
-Assuming system refers to the application, the requirement is clear. This requirement relates to the application's robustness and should (in a more formal document) be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security. 
+% -----------------------------------------------------------------------------
+% [7]
+\subsubsection{R7 - The system must not crash if the user enters something that they are not meant to.}
+Assuming system refers to the application, the requirement is clear. This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security. 
 
-% 8
+% -----------------------------------------------------------------------------
+% [8]
+\subsubsection{R8 - TaxRules}
 [ Thus, for clarity, both of the following tax codes are valid. ] 
 It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
 
@@ -166,7 +178,7 @@ There is no requirement about the user's ability to delete customers from storag
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 
 
 % Adjustments and assumptions we make on the requirements. 
-Assumptions: 
+\subsection{Assumptions}
 \begin{itemize}
 	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
 \end{itemize}

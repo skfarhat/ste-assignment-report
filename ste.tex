@@ -30,22 +30,27 @@
 \usepackage[export]{adjustbox}
 \usepackage{wrapfig}
 \usepackage{graphicx}
-\usepackage{longtable}
 \usepackage{listings}
-\usepackage{textcomp}
-\usetikzlibrary{shapes,arrows}
-\usepackage{subcaption}
-\usepackage[perpage, bottom]{footmisc}		% restart footnote count on per page basis
-\usepackage{calc}	% for math computations
-\usepackage[nomessages]{fp} % http://ctan.org/pkg/fp
-\usepackage{enumitem,amssymb}
-\usepackage[fleqn]{amsmath}
-\usepackage{mathtools}
-\usepackage{unicode-math}
-\usepackage{xcolor,listings}
-\usepackage{textcomp}
+
+% \usepackage{longtable}
+
+% \usepackage{textcomp}
+% \usetikzlibrary{shapes,arrows}
+% \usepackage{subcaption}
+% \usepackage[perpage, bottom]{footmisc}		% restart footnote count on per page basis
+% \usepackage{calc}	% for math computations
+% \usepackage[nomessages]{fp} % http://ctan.org/pkg/fp
+% \usepackage{enumitem,amssymb}
+% \usepackage[fleqn]{amsmath}
+% \usepackage{mathtools}
+% \usepackage{unicode-math}
+% \usepackage{xcolor,listings}
+% \usepackage{textcomp}
 \setmainfont{Helvetica}
 
+
+% Items
+% -----------------------
 
 % Graphics
 % ---------------------
@@ -56,6 +61,18 @@
 \setcounter{section}{0}
 % no numbering of sections 
 %\setcounter{secnumdepth}{0}
+
+
+\newcommand\subexercise{\@startsection{subsection}{2}{\z@}
+{3ex\@plus 0ex \@minus 0ex}%
+{0ex\@plus 0ex}%
+{\normalfont\normalsize\bfseries}
+}
+\newcommand{\qheader}[2]{{
+  \subexercise[#1]{#1 \hspace{1pt} #2\\}
+  \noindent\rule{\textwidth}{0.5pt}
+  \par
+}}
 
 % Tables
 % ---------------------
@@ -187,6 +204,8 @@ United Kingdom\\
 
 \subsection{Code Refactoring}
 
+% say that in our changes we aim not to impact the behaviour of existing applications that depend on the current implementation, so older apps still have to work. 
+
 % md5_refactor_check
 % ------------------
 % Talk about how we want to prevent our code refactoring from actually fixing hidden bugs. Of course we cannot practically be sure that it does not, but we have done is write a script that compares the stdout from certain sequences of commands from both the original code and the modified-refactored code. The script generates the md5 hash from each of the outputs. They should match. If they don't this points to us having modified the current output. This script has been added as a post-commit hook, which means that on commit made a Jenkins build runs.  
@@ -256,6 +275,12 @@ Pass PrintStream 'out' via DI injection too. If none provided, then System.out i
 
 \section{Test implementation}
 
+\subsection{Exploratory Testing}
+
+* we notice the table is not very well formatted, the last line's '|' is not properly aligned with the rest. This is very difficult to detect in testing, and one would have to be looking for it to find it, really. 
+
+* it prints out "Customer deleted when doing an update, or something similar". 
+
 
 % TODO:  use surefire report
 \subsection{Unit testing}
@@ -305,6 +330,7 @@ Each of those step definitions then calls the method applicationHasStarted() fro
 
 This approach may not be perfect, but (1) it does the job, (2) it avoids code duplication, (3) it is not very confusing. 
 
+% there's a better way to test when adding customer and that is to get the Customer object back rather on relyin on the output of the command line to get the object back 
 \subsection{Testing calculated tax values}
 
 Time was taken to decide how to proceed with verifying correctness of tax values. JUnit offers @ParametrizedTest annotation that allows the calling of a test function multiple times with different parameters, each time checking the correctness of the output given the input parameters. This is not only useful but needed, it is far too costly time and effort wise to write a new tests for each combination of tax code and salary. (Provide calculation estimate here on how many there are approximately).
@@ -341,21 +367,7 @@ While it may be argued that the approach taken here is overkill or not in the sp
 % APPENDIX
 % ============================================================================ 
 
-\appendix
-
-\setcounter{section}{0}
-\pagebreak 
-\clearpage
-\thispagestyle{empty} % remove page number
-\vspace*{9cm}
-\begin{center}
-{\bf \LARGE Appendix}
-\end{center}
-\vfill
-\pagebreak
-
-% \section{More details}
-
+\include{appendix}
 
 % =============================================================================
 % END DOCUMENT
