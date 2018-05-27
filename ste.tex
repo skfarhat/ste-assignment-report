@@ -34,13 +34,11 @@
 \usepackage{tocloft}				% customize Table of Contents
 \usepackage{fancyhdr}				% for page numbering
 \usepackage{lastpage}				% for page numbering
+\usepackage[autostyle, english = american]{csquotes} % makes quotes sane 
 
-% Table of Contents 
-% -----------------------------------
-% \cftsetindents{section}{0em}{2em}
-% \cftsetindents{subsection}{0em}{2em}
-% \renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
-% \renewcommand\cftaftertoctitle{\hfill\mbox{}}
+% General 
+% -----------------------
+\MakeOuterQuote{"} % to make double quotes work
 
 % Font
 % -----------------------
@@ -96,6 +94,13 @@
 % remove paragraph indent
 \setlength{\parindent}{0pt} 
 \parskip=10pt
+
+% Table of Contents 
+% -----------------------------------
+% \cftsetindents{section}{0em}{2em}
+% \cftsetindents{subsection}{0em}{2em}
+% \renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
+% \renewcommand\cftaftertoctitle{\hfill\mbox{}}
 
 % Code 
 % ----
@@ -176,12 +181,19 @@ United Kingdom\\
 
 % =================================================================================
 % CODE READ
-\include{code-read}
+\input{code-read}
 % =================================================================================
 
 % =================================================================================
 % CODE REFACTORING
 \include{code-refactor}
+% =================================================================================
+
+\section{Test implementation}
+
+% =================================================================================
+% EXPLORATORY TESTING
+\input{exploratory-testing}
 % =================================================================================
 
 % =================================================================================
