@@ -1,0 +1,65 @@
+\subsection{Cucumber testing}
+
+% not A LOT OF REFACTORING was done 
+Explain that, we questioned how much refactoring we should be doing before starting the testing and opted on the conservative end of the spectrum deciding not to do too much and fix the existing code. Our role is to test it, and it may even be that we have been hired to highlight how many defects existed so that administration takes action on the developers (oops), in which case we must stick to our defined role and do testing the best we can given what we are given. 
+
+Other changes and refactoring could have been done to Main, such as setting up an event communication loop that would allow the thread in which Main ran to synchronize with the cucumber thread that is doing the testing. We opted against making major changes. 
+
+Method getCustomer was added to main, this was needed for testing. It acts as a proxy to allCustomers. An alternative approach could have been to return a getter to the allCustomers private field, or to simply make that field public. But as only one feature of allCustomers is needed for testing (at the time of writing at least), we went ahead an exposed the single method we care for from allCustomers. 
+
+Many of our Scenarios (if not all) depend on applicationHasStarted(). This step starts the "Main" application. By design "Main" waits for user input to proceed and will block the execution thread until exits. To stop this, we make applicationHasStarted start "Main.run()" in a separate thread. 
+
+This introduces some timing challenges. Subsequent steps in our framework need to work with Main by injecting user input and monitoring the output, but the steps need to know if "Main" is currently accepting of user input and if it has printed the output it requires. 
+
+One solution to this is to add a boolean field member `waitingForCommand` in "Main" which indicates that the app is currently waiting for the next command to execute. The framework can then know for certain if it can safely inject new input to System.in and whether it can assume that Main has printed all it needed to already. This latter is ensured by the fact that Main will not have anything more to print() when it is blocked waiting for a new command from user input. 
+
+% note on checking uniqueness
+It's near impossible to fully confirm that the application is indeed returning unique identifier without incurring high computational costs. For example, the application may be coded to return a Random int ID in the range [1-100] for each customer. A test that creates 5 customers would still only have 10\% chance of hitting a uniqueness case: 
+$1 - P(100,5) = 0.10$. This is known as the Birthday problem % https://en.wikipedia.org/wiki/Birthday_problem]. 
+An application returning a random Integer. 
+
+% The concurrency issues observed 
+Whilst doing cucumber testing we noted, that the Cucumber suite ran tests in parallel and while this is desired to reduce the time it takes to run tests, it introduced multiple threading issues. With Main class being static, all threads effectively shared the same PrintStream  - as well. [ More to say ? ]
+
+We then decided to refactor both our test suite, which at the time comprised of one class containing all Step Definitions, and the Main class. Main was moved from being static based, to instance based; all static modifiers were removed, a method run() was created. Main constructors were introduced: a default one that would use the standard (default) stdin and stdout, and another that can have those provided as a dependency injection. This greatly increased flexibility and our ability to test the different Main instances independently. 
+
+% NOTE: refactoring Main to become non-static introduces an issue with the customer identifier index being static 
+
+% Refactoring of our Cucumber test suite. 
+We moved from having a single StepDefs.java class that contained all steps to creating a separated FeatureXStepDefs class for each feature undergoing acceptance testing. Those classes shared a lot in common in terms of the helper functions they would need to call, but also of the member variables they would use to test the app's behaviour. For this reason, we moved these common members and helper functions into their own class BaseStepDefs, which then became the inheritance parent of each FeatureXStepDefs. 
+
+% challenge with ApplicationHasStarted 
+As all features defined in .features rely on the Given "Application has started", we first thought it logical to move the corresponding step definition method into BaseStepDefs; alas, cucumber complained that a class defining a Step Definition cannot be inherited from, so this could not be done. Our workaround, was to defined applicationHasStarted() as a helper in BaseSteps and have a separate regex "application has started" for each feature:
+% * in 1_ClientAdd.feature, there's  Application has started1"
+% * in 2_UniqueID.feature, there's Application has started2"
+... 
+Each of those step definitions then calls the method applicationHasStarted() from BaseStepDefs, which avoids code redundancy. 
+
+This approach may not be perfect, but (1) it does the job, (2) it avoids code duplication, (3) it is not very confusing. 
+
+% there's a better way to test when adding customer and that is to get the Customer object back rather on relyin on the output of the command line to get the object back 
+
+
+\subsubsection{Testing calculated tax values}
+
+Time was taken to decide how to proceed with verifying correctness of tax values. JUnit offers @ParametrizedTest annotation that allows the calling of a test function multiple times with different parameters, each time checking the correctness of the output given the input parameters. This is not only useful but needed, it is far too costly time and effort wise to write a new tests for each combination of tax code and salary. (Provide calculation estimate here on how many there are approximately).
+If the tests were to be spelled out individually (one test for each taxcode-salary combination), then it would require even more testing time if a new taxcode 'letter', or a new salary bracket were to be added in the future. (e.g. adding a new taxcode letter for people with 3 children exactly, would require xxxx tests more). 
+
+For the above reason, we looked into parametrized tests using Cucumber and found this to be possible using the "Examples" keyword. 
+An "Examples" section placed just below a scenario definition determines the combinations of parameters to be used when running this Scenario, for our tax verification purposes we use the table below: 
+\begin{lstlisting}
+firstName	| lastName	| taxCode 	| Salary 	| expectedTax
+Tobias 		| Mann 		| TB1000 	| 10000 	| ....
+Sophie		| Caseby	| S2000 	| 20000		| ....
+\end{lstlisting}
+This entails the test will be run with Tobias as firstName, Mann as lastName... for the first run of the scenario. Then for the second run "Sophie" will be used for the firstName and so on. 
+This approach allows us to define fewer scenarios that can take in more combinations increasing our scenarios' readability all the while reducing the time needed to test the large number of combinations we need to. 
+
+The changes needed for this to work on the Scenario's side of things is to use <firstname> and <lastname> in the steps in the feature file instead of hardcoding the values, and to add String parameters to the Java StepDefinitions.
+
+
+% ExamplesTableGenerator 
+% 
+Explain how the tool is provided to help generate the Examples table that can be plugged into the .feature file. And how after some careful reading, it was determined that it's not a great solution (also it is not implemented in cucumber) to have the feature file load a separate examples file, because we want to have it all be contained. 
+
+While it may be argued that the approach taken here is overkill or not in the sprits of Behaviour Driven Testing, we would argue that it is our role to detect whatever defects we can and that the implications of defective code are very costly in our case, we have been asked to find the most defects using cucumber which is a BDD tool and we have taken the necessary approach that we believe achieves the objective. 

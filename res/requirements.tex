@@ -1,5 +1,10 @@
 \section{Review: System Requirements}
 
+
+% Requests for improvements on the requirements. 
+% TODO: would be great if we could write the requirements as we understood them.
+% TODO: Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
+
 % what type of requirements document is this, are they informal? 
 It is not evident at the outset what type of requirements document these requirements belong in. If they are meant to be informal, we would kindly ask for a formal requirements specification to guide our testing, as without one, there will be much room for vagueness and assumptions to be made. This could lead to testing being done on a false understanding of the requirements and this in turn would be costly both in terms of money and time. 	
 \par
@@ -31,7 +36,7 @@ The requirements are bulletized, a numbering scheme would be much more apt as it
 
 We will take it on ourselves to label the requirements for our own workflow, it is suggested that any additions or alterations needed on the requirements be done on the table (reference to table here).
 
-% -------------------------------------------------
+% --------------------------------------------------
 % Requirements doc lacks of coherence 
 % which lends to an overall lack of professionalism
 % --------------------------------------------------
@@ -57,11 +62,11 @@ The only non-functional requirement related to the application's robustness. Sho
 
 \subsection{Defects and Vagueness}
 
-In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix X) to improve readability and accessibility of the report. 
+In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{sec:labelled-requirements}) to improve readability and accessibility of the report. 
 
 % -----------------------------------------------------------------------------
 % [1]
-\subsubsection{ R1 - The application must enable the storage of client’s personal details including. }
+\subsubsection{R1 - The application must enable the storage of client’s personal details including. }
 
 There is a lack of specificity on what storage means here. Does it refer to persistent storage? In which, case a form of database on disk would be required, or is it sufficient for it to be stored in memory during application runtime? The latter would not offer persistent for if the application or machine crashed.  
 
@@ -69,7 +74,7 @@ If persistent storage is to be used, it would be useful for the requirements to 
 
 % -----------------------------------------------------------------------------
 % [2]
-\subsubsection{R2 - The software should issue each customer a numeric identifier which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
+\subsubsection{R2 - The software should issue each customer a numeric identifier [...]} % which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
 
 This requirement is relatively more detailed than some of the others, given it is accompanied by an example detailing a scenario and how the application should behave with respect to that scenario. 
 
@@ -88,7 +93,7 @@ Is it required that there be a separate menu command for updating each of the fo
 
 % -----------------------------------------------------------------------------
 % [4]
-\subsubsection{R4 - The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers.}
+\subsubsection{R4 - The application should be able to print lists of customer information [...] } % with users being able to select blocks of customers to be printed based on their unique identifiers.}
 
 This requirements weakness only becomes evident when the application is tested and it becomes apparent that the Unique Identifiers generated for the created customers are never presented to the the application user for them to take note of. 
 
@@ -97,13 +102,13 @@ Should it be possible to use a comma-separated list of blocks to print out? This
 
 % -----------------------------------------------------------------------------
 % [5]
-\subsubsection{ The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
+\subsubsection{R5 - The application will calculate the tax amount to be paid by each client [...]} % and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
 
 This requirement is reasonably understandable. It is not however clear why it was separeted from the tax rules, seems like they could have been structured to follow each other. 
 
 % -----------------------------------------------------------------------------
 % [6]
-\subsubsection{R6 -  The system must include a simple 'help' system that lists all commands}
+\subsubsection{R6 - The system must include a simple 'help' system that lists all commands}
 Assuming system refers to application, there's no ambiguity in the functionality requested in this requirement. 
 
 % -----------------------------------------------------------------------------
@@ -133,8 +138,10 @@ alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not
 
 We assume the intention is to say: 
 
-* People earning between [0-5000[ should pay 70\% tax rate 
-* People earning between [5000-12000] should pay 90\%
+\begin{itemize}
+	\item People earning between [0-5000[ should pay 70\% tax rate 
+	\item People earning between [5000-12000] should pay 90\%
+\end{itemize}
 
 The requirements are not as well expressed here. 
 
@@ -144,8 +151,10 @@ The requirements for taxing Married people do not cover those who earn exactly �
 % 8 - Single section 
 Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
 
-* People earning in bracket [11k-22k[ pay a rate of 125\%
-* People earning 22k and above pay rate 132\%
+\begin{itemize}
+	\item People earning in bracket [11k-22k[ pay a rate of 125\%
+	\item People earning 22k and above pay rate 132\%
+\end{itemize}
 
 If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
 
@@ -174,16 +183,14 @@ Requirement 4 points to the need to allow users to see customers based on their 
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
 
 % Edge case
-
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 
 
+% ----------------------------------------------------------------------------------------------
 % Adjustments and assumptions we make on the requirements. 
 \subsection{Assumptions}
 \begin{itemize}
 	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
 \end{itemize}
 
-
-% Requests for improvements on the requirements. 
-% TODO: would be great if we could write the requirements as we understood them.
-
+% END OF REQUIREMENTS
+% ----------------------------------------------------------------------------------------------

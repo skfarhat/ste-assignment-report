@@ -12,7 +12,7 @@
 % Packages
 
 \usepackage{titlesec} 				% to change the section font-size
-\usepackage[margin=0.8in]{geometry} 	% for Margins
+\usepackage[margin=0.8in]{geometry} % for Margins
 \usepackage{geometry}
 \usepackage{hyperref}				% for links
 \usepackage{multicol}				% for embedding lists in multiple-columns
@@ -25,54 +25,47 @@
 \usepackage{booktabs}				% http://ctan.org/pkg/booktabs
 \usepackage{etoolbox}
 \usepackage{float}
-\usepackage[table]{colortbl}			% http://ctan.org/pkg/xcolor
+\usepackage[table]{colortbl}		% http://ctan.org/pkg/xcolor
 \usepackage{tikz}					% for hierarchy structure
 \usepackage[export]{adjustbox}
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{tocloft}				% customize Table of Contents
+\usepackage{fancyhdr}				% for page numbering
+\usepackage{lastpage}				% for page numbering
 
-% \usepackage{longtable}
+% Table of Contents 
+% -----------------------------------
+% \cftsetindents{section}{0em}{2em}
+% \cftsetindents{subsection}{0em}{2em}
+% \renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
+% \renewcommand\cftaftertoctitle{\hfill\mbox{}}
 
-% \usepackage{textcomp}
-% \usetikzlibrary{shapes,arrows}
-% \usepackage{subcaption}
-% \usepackage[perpage, bottom]{footmisc}		% restart footnote count on per page basis
-% \usepackage{calc}	% for math computations
-% \usepackage[nomessages]{fp} % http://ctan.org/pkg/fp
-% \usepackage{enumitem,amssymb}
-% \usepackage[fleqn]{amsmath}
-% \usepackage{mathtools}
-% \usepackage{unicode-math}
-% \usepackage{xcolor,listings}
-% \usepackage{textcomp}
+% Font
+% -----------------------
 \setmainfont{Helvetica}
-
 
 % Items
 % -----------------------
+\def \tableitemsep {0pt}
+\def \tableleftsep {10pt}
 
 % Graphics
 % ---------------------
 \graphicspath{ {res/} }
 
+% Page numbers 
+% ------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\rfoot{Page \thepage \hspace{1pt} of \pageref{LastPage}}
+
 % Sections
 % ---------------------
 \setcounter{section}{0}
 % no numbering of sections 
-%\setcounter{secnumdepth}{0}
-
-
-\newcommand\subexercise{\@startsection{subsection}{2}{\z@}
-{3ex\@plus 0ex \@minus 0ex}%
-{0ex\@plus 0ex}%
-{\normalfont\normalsize\bfseries}
-}
-\newcommand{\qheader}[2]{{
-  \subexercise[#1]{#1 \hspace{1pt} #2\\}
-  \noindent\rule{\textwidth}{0.5pt}
-  \par
-}}
+% \setcounter{secnumdepth}{0}
 
 % Tables
 % ---------------------
@@ -172,212 +165,63 @@ United Kingdom\\
 \tableofcontents 
 \thispagestyle{empty} % remove page number
 \pagebreak
-
-% ============================================================================ 
-% CONTENT
-% ============================================================================ 
-
 \pagenumbering{arabic} % start numbering  
 
-
-
-% TODO 
-% ----
-%
-% Place the requirements in a table and number them to allow for clear referencing. 
-
-
+% =================================================================================
 % REQUIREMENTS 
 \include{res/requirements}
-
-% Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
+% =================================================================================
 
 \section{Code Review}
 
-\subsection{Code Read}
-% Detail what notes were taken when reading the code and what was noticed from afar
-% We should say that reading the code is not great in that it usually focuses our testing on some things and push us not to test, things that 
-% we expect to be correct (given we know the implementation). As such, it is always better to try and make no assumptions about the contents 
-% of the code when writing the tests. 
+% =================================================================================
+% CODE READ
+\include{code-read}
+% =================================================================================
 
-% DEFECT: There's somewhat of an assumption being made that a users salary always fits in Integer. What if they earned more than 2^31 - 1 ? 
+% =================================================================================
+% CODE REFACTORING
+\include{code-refactor}
+% =================================================================================
 
-\subsection{Code Refactoring}
+% =================================================================================
+% UNIT TESTING 
+\include{unit-testing}
+% =================================================================================
 
-% say that in our changes we aim not to impact the behaviour of existing applications that depend on the current implementation, so older apps still have to work. 
+% =================================================================================
+% CUCUMBER TESTING 
+\include{cucumber-testing}
+% =================================================================================
 
-% md5_refactor_check
-% ------------------
-% Talk about how we want to prevent our code refactoring from actually fixing hidden bugs. Of course we cannot practically be sure that it does not, but we have done is write a script that compares the stdout from certain sequences of commands from both the original code and the modified-refactored code. The script generates the md5 hash from each of the outputs. They should match. If they don't this points to us having modified the current output. This script has been added as a post-commit hook, which means that on commit made a Jenkins build runs.  
+% =================================================================================
+% STYLE CHECKS
+\include{style-checks}
+% =================================================================================
 
+% =================================================================================
+% CONTINOUS INTEGRATION
+\include{continuous-integration}
+% =================================================================================
 
-\subsubsection{Changes in TaxEngine.java}
+% =================================================================================
+% DEFECTS LIST
+\include{defects-list}
+% =================================================================================
 
-% [1] create the exception type TaxEngineException
-[1] First off, we are displeased with the error reporting of this class, it does not make testing for error conditions any easier. We create an "exceptions" package and add TaxEngineException which extends RuntimeException in this package. We will expect this exception object to be thrown in TaxEngine methods where errors occur. 
-
-% why choose RuntimeException
-We chose RuntimeException as it then does not require all methods to add the "throws TaxEngineException" which will be added to a lot of sections of the code causing many other changes. We opted for the most gains for the least upsets to the code here. 
-
-% [2] split out the different branches in taxAmount() to smaller more testable methods
-% [2] The contents of every block similar to `if (strTaxCode.indexOf(Constants.MARRIED_CODE) >0 ) {` were moved to private methods, making for 8 in total (see below). As these methods are private, they cannot be tested without the usage of reflection or other Java dark arts. As such, we further create 3 public methods (see below).
-
-In taxAmount(String, int), the changes involve replacing the contents of the different if blocks with the right method calls to taxBasedOnMaritalStatus(), taxBAsedOnChildren() and taxBasedOnEducationalStatus() each time passing the proper enum. 
-
-% Just trying to explain that separating the big method into smaller ones that are individually testable is better, as it allows us to more quickly/easily locate bugs when the different tests fail. 
-From a testing point of view, we still want to write tests on taxAmount with the different combinations of TaxCodes and input parameters, checking each time if the return is as expected. Doing  
-
-But in addition to the above, we also write different tests for each of the [taxBasedOn...] method. With simpler methods in TaxEngine, and tests targeting those simple methods, we can more quickly identify the source of bugs when tests fail. The alternative 
-
-Basically if there was something wrong with how we compute salaries for Married people, then I'd expect this to manifest in the test for taxAmount() and
-in taxBasedOnMarriage(), these two methods failing together should indicate to the tester or developer checking the tests that it is likely that the logic
-in Marriage taxing is causing that in taxAmount to fail. Having both higher level and lower level tests is useful in that way. 
-
-% -----------------------------
-% Methods added: 
-% -----------------------------
-* taxBasedOnMaritalStatus
-* taxBasedOnChildren
-* taxBasedOnEducationStatus  
-% -----------------------------
-* taxMarriedCode
-* taxSingleCode
-* taxDivorcedCode
-* taxOneChildCode
-* taxTwoChildrenCode
-* taxMultipleChildrenCode
-* taxFullTimeStudentUnder24
-* taxFullTimeStudentOver24
-% -----------------------------
-
-\subsection{Changes in Main}
-
-% this is not a change that we've made, just a note that we have redirected stdin and stdout of the application 
-% in order to capture and analyse its output and to control its input. 
-* Allow for the selection of PrintStream and UserInputStream to Main. If not set then System.in and System.out are used. 
-We could have also just used System.setOut() and System.setIn(), but our approach should be even more flexible as it doesn't affect our usage of System.out in the testing framework. 
-
-% * Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
-
-* Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
- -	In a normal running App,   when the method returns, the app will reach the end of Main and exit naturally (and gracefully), when run under a test suite, the framework will continue to run after the method has returned which is what we wanted in the first place. 
-  - Add method `stop()` and member field `running` which when set to false causes the User Input loop to exit, leading to stop of the program.
-
-% print the ID of the created Customer otherwise there is no way to know how to list that specific customer. (see newCustomer, has the 'id' of the new customer printed.)
-
-% add method getCustomer in Main to aid with testing. As we would prefer getting the customer object from main directly rather than going through the route of listing customers with that ID, and serializing a customer object from the printed fields to use in our tests. e.g. adding "Sami Farhat TB1000 10000", then the ID is output, the we would have to, use 'l' <id>, and get the output from the program and serialise a Customer object from the output. Also, a bug in the listing would cause all tests depending on getting a customer from the database to fail. To separate the tests better, we create a method in Main that returns a customer object directly from the data structure in AllCustomers given a CustomerID. 
-
-
-% Change in AllCustomers.java
-
-Pass PrintStream 'out' via DI injection too. If none provided, then System.out is used (default). This is needed since the AllCustomers class is responsible for printing lists of customers.  
-
-
-\section{Test implementation}
-
-\subsection{Exploratory Testing}
-
-* we notice the table is not very well formatted, the last line's '|' is not properly aligned with the rest. This is very difficult to detect in testing, and one would have to be looking for it to find it, really. 
-
-* it prints out "Customer deleted when doing an update, or something similar". 
-
-
-% TODO:  use surefire report
-\subsection{Unit testing}
-
-* we use display names to give more readable output for tests
-* we use parametrized tests to allow for high flexibility in generating the testCases. --> Explain the alternative where we would have to write an explicit test case for every input type. And further explains, why running a loop with asserts() in there is not equivalent to our current approach. (Basically the answer to the question, why did we use Paramterized testing). 
-* we acknowledge that some regex guru may come up with a regex that replaces the 3 we currently use right now. That's not a problem, we opted for readability anyway ;) 
-* we've made some effort to make the tests generalised in that. If some of the requirements change (change the letter used for a symbol) or if more letters are added, then we wouldn't have to overhaul the whole Test class but merely make some select changes. Of course, some tests take @ValueSource which are hardcoded strings to test. In case of change in requirements, those especially should be carefully reviewed (one by one). 
-
-
-\subsection{Cucumber testing}
-
-% not A LOT OF REFACTORING was done 
-Explain that, we questioned how much refactoring we should be doing before starting the testing and opted on the conservative end of the spectrum deciding not to do too much and fix the existing code. Our role is to test it, and it may even be that we have been hired to highlight how many defects existed so that administration takes action on the developers (oops), in which case we must stick to our defined role and do testing the best we can given what we are given. 
-
-Other changes and refactoring could have been done to Main, such as setting up an event communication loop that would allow the thread in which Main ran to synchronize with the cucumber thread that is doing the testing. We opted against making major changes. 
-
-Method getCustomer was added to main, this was needed for testing. It acts as a proxy to allCustomers. An alternative approach could have been to return a getter to the allCustomers private field, or to simply make that field public. But as only one feature of allCustomers is needed for testing (at the time of writing at least), we went ahead an exposed the single method we care for from allCustomers. 
-
-Many of our Scenarios (if not all) depend on applicationHasStarted(). This step starts the "Main" application. By design "Main" waits for user input to proceed and will block the execution thread until exits. To stop this, we make applicationHasStarted start "Main.run()" in a separate thread. 
-
-This introduces some timing challenges. Subsequent steps in our framework need to work with Main by injecting user input and monitoring the output, but the steps need to know if "Main" is currently accepting of user input and if it has printed the output it requires. 
-
-One solution to this is to add a boolean field member `waitingForCommand` in "Main" which indicates that the app is currently waiting for the next command to execute. The framework can then know for certain if it can safely inject new input to System.in and whether it can assume that Main has printed all it needed to already. This latter is ensured by the fact that Main will not have anything more to print() when it is blocked waiting for a new command from user input. 
-
-% note on checking uniqueness
-It's near impossible to fully confirm that the application is indeed returning unique identifier without incurring high computational costs. For example, the application may be coded to return a Random int ID in the range [1-100] for each customer. A test that creates 5 customers would still only have 10\% chance of hitting a uniqueness case: 
-$1 - P(100,5) = 0.10$. This is known as the Birthday problem % https://en.wikipedia.org/wiki/Birthday_problem]. 
-An application returning a random Integer. 
-
-% The concurrency issues observed 
-Whilst doing cucumber testing we noted, that the Cucumber suite ran tests in parallel and while this is desired to reduce the time it takes to run tests, it introduced multiple threading issues. With Main class being static, all threads effectively shared the same PrintStream  - as well. [ More to say ? ]
-
-We then decided to refactor both our test suite, which at the time comprised of one class containing all Step Definitions, and the Main class. Main was moved from being static based, to instance based; all static modifiers were removed, a method run() was created. Main constructors were introduced: a default one that would use the standard (default) stdin and stdout, and another that can have those provided as a dependency injection. This greatly increased flexibility and our ability to test the different Main instances independently. 
-
-% NOTE: refactoring Main to become non-static introduces an issue with the customer identifier index being static 
-
-% Refactoring of our Cucumber test suite. 
-We moved from having a single StepDefs.java class that contained all steps to creating a separated FeatureXStepDefs class for each feature undergoing acceptance testing. Those classes shared a lot in common in terms of the helper functions they would need to call, but also of the member variables they would use to test the app's behaviour. For this reason, we moved these common members and helper functions into their own class BaseStepDefs, which then became the inheritance parent of each FeatureXStepDefs. 
-
-% challenge with ApplicationHasStarted 
-As all features defined in .features rely on the Given "Application has started", we first thought it logical to move the corresponding step definition method into BaseStepDefs; alas, cucumber complained that a class defining a Step Definition cannot be inherited from, so this could not be done. Our workaround, was to defined applicationHasStarted() as a helper in BaseSteps and have a separate regex "application has started" for each feature:
-% * in 1_ClientAdd.feature, there's  Application has started1"
-% * in 2_UniqueID.feature, there's Application has started2"
-... 
-Each of those step definitions then calls the method applicationHasStarted() from BaseStepDefs, which avoids code redundancy. 
-
-This approach may not be perfect, but (1) it does the job, (2) it avoids code duplication, (3) it is not very confusing. 
-
-% there's a better way to test when adding customer and that is to get the Customer object back rather on relyin on the output of the command line to get the object back 
-\subsection{Testing calculated tax values}
-
-Time was taken to decide how to proceed with verifying correctness of tax values. JUnit offers @ParametrizedTest annotation that allows the calling of a test function multiple times with different parameters, each time checking the correctness of the output given the input parameters. This is not only useful but needed, it is far too costly time and effort wise to write a new tests for each combination of tax code and salary. (Provide calculation estimate here on how many there are approximately).
-If the tests were to be spelled out individually (one test for each taxcode-salary combination), then it would require even more testing time if a new taxcode 'letter', or a new salary bracket were to be added in the future. (e.g. adding a new taxcode letter for people with 3 children exactly, would require xxxx tests more). 
-
-For the above reason, we looked into parametrized tests using Cucumber and found this to be possible using the "Examples" keyword. 
-An "Examples" section placed just below a scenario definition determines the combinations of parameters to be used when running this Scenario, for our tax verification purposes we use the table below: 
-
-firstName	| lastName	| taxCode 	| Salary 	| expectedTax
-Tobias 		| Mann 		| TB1000 	| 10000 	| ....
-Sophie		| Caseby	| S2000 	| 20000		| ....
-
-This entails the test will be run with Tobias as firstName, Mann as lastName... for the first run of the scenario. Then for the second run "Sophie" will be used for the firstName and so on. 
-This approach allows us to define fewer scenarios that can take in more combinations increasing our scenarios' readability all the while reducing the time needed to test the large number of combinations we need to. 
-
-The changes needed for this to work on the Scenario's side of things is to use <firstname> and <lastname> in the steps in the feature file instead of hardcoding the values, and to add String parameters to the Java StepDefinitions.
-
-% ExamplesTableGenerator 
-% 
-Explain how the tool is provided to help generate the Examples table that can be plugged into the .feature file. And how after some careful reading, it was determined that it's not a great solution (also it is not implemented in cucumber) to have the feature file load a separate examples file, because we want to have it all be contained. 
-
-While it may be argued that the approach taken here is overkill or not in the sprits of Behaviour Driven Testing, we would argue that it is our role to detect whatever defects we can and that the implications of defective code are very costly in our case, we have been asked to find the most defects using cucumber which is a BDD tool and we have taken the necessary approach that we believe achieves the objective. 
-
-
-\subsection{List of defects}
-
-% Requirements defects 
-% Logic defects
-% User Interface defects
-% Code style defects
-
-
-% ============================================================================ 
+% =================================================================================
 % APPENDIX
-% ============================================================================ 
-
 \include{appendix}
+% =================================================================================
 
-% =============================================================================
+% =================================================================================
 % END DOCUMENT
-% =============================================================================
-
 \end{document}
+% =================================================================================
 
-% =============================================================================
+% =================================================================================
 % CHECKS
-% =============================================================================
+% =================================================================================
 
 % [  ] Check spelling
 % [  ] Check with "grammarly"

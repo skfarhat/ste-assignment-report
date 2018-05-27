@@ -1,0 +1,9 @@
+% TODO:  use surefire report
+\subsection{Unit testing}
+
+\begin{itemize}
+	\item we use display names to give more readable output for tests
+	\item we use parametrized tests to allow for high flexibility in generating the testCases. --> Explain the alternative where we would have to write an explicit test case for every input type. And further explains, why running a loop with asserts() in there is not equivalent to our current approach. (Basically the answer to the question, why did we use Paramterized testing). 
+	\item we acknowledge that some regex guru may come up with a regex that replaces the 3 we currently use right now. That's not a problem, we opted for readability anyway ;) 
+	\item we've made some effort to make the tests generalised in that. If some of the requirements change (change the letter used for a symbol) or if more letters are added, then we wouldn't have to overhaul the whole Test class but merely make some select changes. Of course, some tests take @ValueSource which are hardcoded strings to test. In case of change in requirements, those especially should be carefully reviewed (one by one). 
+\end{itemize}
