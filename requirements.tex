@@ -34,7 +34,7 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 \begin{itemize}
 	\item The 1st bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
 	\item The 7th bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
-	\item The bullet detailing the taxing of divorced people (R7.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
+	\item The bullet detailing the taxing of divorced people (R8.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 \end{itemize}
 
@@ -42,12 +42,17 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 % Non-Functional Requirements
 % ----------------------------------------------
 \subsection{Non-functional requirements}
-The only non-functional requirement related to the application's robustness. Should we assume there is no interest in security, performance? Surely this isn't the case for a Tax Calculation application. What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
+It is understood that performance testing, security and other non-functional requirements are not to be considered in the scope of testing this project; however, it would be careless for us not to mention them in a System Requirments review as they constitute an intrical part of the requirements development process. 
+We would normally expect requirements on security, performance, compatibility and robustness to be elicited clearly in a separate non-functional requirements section; but, it is understood that the scope of testing of this project is restricted to the functional aspects and this may explain their absence. 
 \par
-
+That said, we identify (R7: \textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
+%
+% Ignorable: 
+% ----------
+% What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
 % * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
-
 % * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates...
+\par
 
 % ----------------------------------------------
 % Key term definitions
@@ -61,10 +66,8 @@ The importance of this should not be understated seeing as it is quite likely th
 Further to this, we request explicitly defining the below key words which  appear to have been used interchangeably:  
 
 \begin{itemize} 
-	\item Client, customer and person. \\
-	Client is used in requirements (R1, R4), customer in (R2, R3, R4) and person in all (R7) requirements.  A single requirement (R4) mixes usage of customer and client. 
-	\item System and application.\\
-	System is used in (R2, R5, R6) while application is used in (R1, R3, R4).
+	\item Client, customer and person. Client is used in requirements (R1, R2, R5), customer in (R2, R3, R4, R5) and person in all (R8) requirements.  R5 interchangeably employs customer and client in the same sentence. 
+	\item System and application. System is used in (R2, R6, R7) while application is used in (R1, R4, R5).
 \end{itemize}
 
 We assume through contextual understanding that they refer to the same entity, however we do request this be confirmed to us in a "Definitions" section preferably in a more formal document.
@@ -134,63 +137,66 @@ Assuming system refers to the application, the requirement is clear. This requir
 
 % -----------------------------------------------------------------------------
 % [8]
-\subsubsection{R8 - Tax Rules}
-[ Thus, for clarity, both of the following tax codes are valid. ] 
-It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
+\input{requirements-r8}
 
-% The alphabetic portion of the code may consist of multiple letters drawn from the
-% following set, with their corresponding meanings:
-The requirement does not explicitly elicit the fact that the different letters pertaning to marital status are mutually exclusive. Similarly, it does not do this for education and number of children. 
+% \subsubsection{R8 - Tax Rules}
+% [ Thus, for clarity, both of the following tax codes are valid. ] 
+% It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
 
-The requirements do not specify there must be a letter from the marital status in the tax code. Intuitively, an individual must be in one of those sections hence the tax code MUST have a letter from the marital status. This is not specified in the requirement but was assumed during testing. 
+% % The alphabetic portion of the code may consist of multiple letters drawn from the following set, with their corresponding meanings:
+% The requirement does not explicitly elicit the fact that the different letters pertaning to marital status are mutually exclusive. Similarly, it does not do this for education and number of children. 
 
-The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
+% The requirements do not specify there must be a letter from the marital status in the tax code. Intuitively, an individual must be in one of those sections hence the tax code MUST have a letter from the marital status. This is not specified in the requirement but was assumed during testing. 
 
-% common to all next sections: 
+% The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
 
-The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount."
+% % common to all next sections: 
 
-alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
+% The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount."
 
-We assume the intention is to say: 
+% alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
 
-\begin{itemize}
-	\item People earning between [0-5000[ should pay 70\% tax rate 
-	\item People earning between [5000-12000] should pay 90\%
-\end{itemize}
+% We assume the intention is to say: 
 
-The requirements are not as well expressed here. 
+% \begin{itemize}
+% 	\item People earning between [0-5000[ should pay 70\% tax rate 
+% 	\item People earning between [5000-12000] should pay 90\%
+% \end{itemize}
 
-% 8 - Married section 
-The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
+% The requirements are not as well expressed here. 
 
-% 8 - Single section 
-Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
+% % 8 - Married section 
+% The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
 
-\begin{itemize}
-	\item People earning in bracket [11k-22k[ pay a rate of 125\%
-	\item People earning 22k and above pay rate 132\%
-\end{itemize}
+% % 8 - Single section 
+% Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
 
-If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
+% \begin{itemize}
+% 	\item People earning in bracket [11k-22k[ pay a rate of 125\%
+% 	\item People earning 22k and above pay rate 132\%
+% \end{itemize}
 
-% 8 - Divorced 
-Same as single section. 
+% If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
 
-The following salaries / tax codes are not covered by the requirements: 
-\begin{itemize}
-	\item Married and earning £27,000
-	\item Single and earning £22,000 (if other typo is fixed)* (see Single Section)
-	\item Divorced and earning £24,000 (if other typo is fixed) *(see Divorced Section)
-	\item Single Child and earning £10,400
-	\item Two children and earning £9900
-	\item More than 2 children and earning £9000
-	\item FT education below 24yo and earning £3000
-	\item FT education 24yo and above earning £3000
-\end{itemize}
+% % 8 - Divorced 
+% Same as single section. 
 
-% ----------------------------------------------------------------------------------------------
+% The following salaries / tax codes are not covered by the requirements: 
+% \begin{itemize}
+% 	\item Married and earning £27,000
+% 	\item Single and earning £22,000 (if other typo is fixed)* (see Single Section)
+% 	\item Divorced and earning £24,000 (if other typo is fixed) *(see Divorced Section)
+% 	\item Single Child and earning £10,400
+% 	\item Two children and earning £9900
+% 	\item More than 2 children and earning £9000
+% 	\item FT education below 24yo and earning £3000
+% 	\item FT education 24yo and above earning £3000
+% \end{itemize}
+
+% --------------------------------------
 % MISSING REQUIREMENTS ? 
+% --------------------------------------
+\subsection{Missing requirements}
 
 % showing the ID of created clients 
 Requirement 4 points to the need to allow users to see customers based on their IDs, but there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
@@ -201,8 +207,9 @@ There is no requirement about the user's ability to delete customers from storag
 % Edge case
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 
 
-% ----------------------------------------------------------------------------------------------
-% Adjustments and assumptions we make on the requirements. 
+% --------------------------------------
+% Assumptions
+% --------------------------------------
 \subsection{Assumptions}
 
 %TODO: say we will attempt to recap on some of the assumptions made in reading the requirements; then search for "assume" in the above and list all things in bullets. 
@@ -211,5 +218,6 @@ Is it implicity that negative salaries are not a thing? How does the code deal w
 	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
 \end{itemize}
 
+% --------------------------------------
 % END OF REQUIREMENTS
-% ----------------------------------------------------------------------------------------------
+% --------------------------------------

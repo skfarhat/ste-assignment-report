@@ -70,10 +70,9 @@ This sounds like something that would be great to test with regular expressions
 * if we've seen alphabetic then numeric, then we cannot see alphabetic again 
 * if we've seen numeric then alphabetic, then we cannot see numeric again
 
-##### A8.3
-
+<!-- ##### A8.3
 _Do not quite understand this yet_
-
+ -->
 ##### A8.4 Letters in the tax code
 
 * Only the outlined letters can be present in the alphabetic part of the tax code. 

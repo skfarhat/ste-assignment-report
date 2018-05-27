@@ -32,19 +32,21 @@
     \hline % ---------------------------------------------------------
     R2 &  The software should issue each customer a numeric identifier which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to ‘die’ with them). \\
 	\hline % ---------------------------------------------------------
-	R3 & The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers. \\
+	R3 & The PTMA should enable customer details to be updated. \\
 	\hline % ---------------------------------------------------------
-	R4 & The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their tax code and their current salary according to the rules below. \\
+	R4 & The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers. \\
 	\hline % ---------------------------------------------------------
-	R5 & The system must include a simple ‘help’ system that lists all commands \\
+	R5 & The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their tax code and their current salary according to the rules below. \\
 	\hline % ---------------------------------------------------------
-	R6 & The system must not crash if the user enters something that they are not meant to. \\
+	R6 & The system must include a simple ‘help’ system that lists all commands \\
+	\hline % ---------------------------------------------------------
+	R7 & The system must not crash if the user enters something that they are not meant to. \\
 	\hline % ---------------------------------------------------------
 	& The tax rules are as follows:\\
 	\hline % ---------------------------------------------------------
-	R7.1 & Tax amount can be calculated from a person’s tax code and their current salary. \\
+	R8.1 & Tax amount can be calculated from a person’s tax code and their current salary. \\
 	\hline % ---------------------------------------------------------
-	R7.2 & A tax code has a numerical part and an alphabetic part. For compatibility with legacy
+	R8.2 & A tax code has a numerical part and an alphabetic part. For compatibility with legacy
 	tax code policy, the numeric and alphabetic portion of the tax code may be presented in either order. Thus, for clarity, both of the following tax codes are valid:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 	\item 1080MT
@@ -52,9 +54,9 @@
 \end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.3 & The numeric part of the tax codes represents a ‘base’ tax amount that is then modified by the alphabetic portion of the tax code and depending on the person’s current salary. \\
+	R8.3 & The numeric part of the tax codes represents a ‘base’ tax amount that is then modified by the alphabetic portion of the tax code and depending on the person’s current salary. \\
 	\hline %  -----------   Header  ---------------------------------
-    R7.4 & The alphabetic portion of the code may consist of multiple letters drawn from the following set, with their corresponding meanings: 
+    R8.4 & The alphabetic portion of the code may consist of multiple letters drawn from the following set, with their corresponding meanings: 
     \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
     \item ‘M’ : Married
     \item ‘S’ : Single
@@ -81,7 +83,7 @@
     \hline %  -----------   Header  ---------------------------------
     \tblheader{Label} & \tblheader{Requirement} \\
 	\hline % ---------------------------------------------------------
-	R7.5 & Calculation of tax for Married people: one of the following four bands will apply:
+	R8.5 & Calculation of tax for Married people: one of the following four bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item Married people with a current salary of less than £5000 will pay a tax rate of
 		70\% of their base tax amount.
@@ -94,7 +96,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.6 & Calculation of tax for Single people: one of the following four bands will apply:
+	R8.6 & Calculation of tax for Single people: one of the following four bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item Single people with a current salary of less than £6500 will pay a tax rate of 75\% of their base tax amount.
 		\item Single people with a current salary less than £11,000 will pay a tax rate of 95\% of their base tax amount.
@@ -103,7 +105,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.7 & Calculation of tax for divorced people: one of the following four bands will apply:
+	R8.7 & Calculation of tax for divorced people: one of the following four bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item Divorced people with a current salary of less than £7200 will pay a tax rate
 		of 60\% of their base tax amount.
@@ -116,7 +118,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.8 & Calculation of tax for people with a single child. One of the following three bands will apply:
+	R8.8 & Calculation of tax for people with a single child. One of the following three bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item People with a single child and a current salary of less than £8000 will pay a tax rate of 80\% of their base tax amount after taking into consideration any
 		adjustments due to their marital status
@@ -139,7 +141,7 @@
 \centering
 \begin{tabularx}{\textwidth}{| c | X |}
 	\hline % ---------------------------------------------------------
-	R7.9 & Calculation of tax for people with two children. One of the following three bands will apply:
+	R8.9 & Calculation of tax for people with two children. One of the following three bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item People with a two children and a current salary of less than £7400 will pay a tax rate of 90\% of their base tax amount after taking into consideration any adjustments due to their marital status
 		\item People with a two children and a current salary of less than £9900 will pay a tax rate of 95\% of their base tax amount after taking into consideration any adjustments due to their marital status
@@ -147,7 +149,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.10 & Calculation of tax for people with more than two children. One of the following three bands will apply:
+	R8.10 & Calculation of tax for people with more than two children. One of the following three bands will apply:
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item People with more than two children and a current salary of less than £7000 will pay a tax rate of 120\% of their base tax amount after taking into consideration any adjustments due to their marital status
 		\item People with more than two children and a current salary of less than £9000 will pay a tax rate of 125\% of their base tax amount after taking into consideration any adjustments due to their marital status
@@ -155,7 +157,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.11 & Calculation for people who are in full time education who are below that age of 24 : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
+	R8.11 & Calculation for people who are in full time education who are below that age of 24 : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 		\item People in full-time education below the age of 24 and have a current salary less than £2000 will pay a tax rate of 107\%
 		\item People in full-time education below the age of 24 and have a current salary less than £3000 will pay a tax rate of 113\%
@@ -163,7 +165,7 @@
 	\end{itemize}
 	\\
 	\hline % ---------------------------------------------------------
-	R7.12 & Calculation for people who are in full time education who are 24 years of age and above : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
+	R8.12 & Calculation for people who are in full time education who are 24 years of age and above : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
 	\begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
 	\item People in full-time education, who are 24 and above and have a current salary less than £2000 will pay a tax rate of 109\%
 	\item People in full-time education, who are 24 and above and have a current salary less than £3000 will pay a tax rate of 115\%
