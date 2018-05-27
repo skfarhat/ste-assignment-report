@@ -1,32 +1,16 @@
-\section{Review: System Requirements}
-
-
 % Requests for improvements on the requirements. 
 % TODO: would be great if we could write the requirements as we understood them.
 % TODO: Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
+% ------------------------------------------------------------------------------------------------------------
+\section{Review: System Requirements}
 
-% what type of requirements document is this, are they informal? 
-It is not evident at the outset what type of requirements document these requirements belong in. If they are meant to be informal, we would kindly ask for a formal requirements specification to guide our testing, as without one, there will be much room for vagueness and assumptions to be made. This could lead to testing being done on a false understanding of the requirements and this in turn would be costly both in terms of money and time. 	
+In this section we shall review the provided requirements calling attention to mistakes and vaguenesses in the requirements, which we recognise as defects. As well as identifying them, we shall delineate any assumptions we are forced to make due to missing or imprecise requirements. 
+
+% Type of Req Document? Informal? 
+% -------------------------------
+It is not evident at the outset the type of specification document these requirements were extracted from; if a more complete document is available, such as an IEEE SRS, then we would kindly request access to it as it should help in filling the voids left by the current extact.  
+This step is critical before proceeding with the test process as testing based on false or incomplete understanding risks generating lots of false-positive or worse false-negatives, and would be costly both in terms of time and money. 
 \par
-
-% Requirements are missing "definitions" section 
-% ----------------------------------------------
-The requirements are missing key sections that provide the completeness required by an SRS document to properly define the requirements of the project. 	
-\par
-
-For instance, we note the absence of a definitions section which defines key terms used in the requirements. It would be useful to point out that terms "will", "should", "must", and "may" conform to a predefined standard definition (e.g. IEEE Std 610.12-1990) to highlight the priority of said requirements and avoid ambiguity in their interpretation.
-More significantly though, terms more specific to the application should be explicitly defined: 
-
-\begin{itemize} 
-	\item Client and customer are used interchangeably. We assume through contextual understanding that they refer to the same entity. However, it would be good to put that in writing. Again "Definitions" section before the requirements would be the place to have that (IEEE).
-	\item System and application are used interchangeably: the 2 requirements before last state "They system must [..]" while others refer to "the application". Again, we assume through contextual understanding that the terms refer to the software being tested, but request the requirements writers specify this. 
-\end{itemize}
-\par
-
-% vocabulary not defined before the requirements. 
-% The requirements seem to be missing a section that defines key terms used in the the different requirements such as "will", "should", "must", and "may". This is common practice in SRS documents are defined prior to the listing of the requirements in order to more precisely depict the requirement priorities.
-% It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
-% Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
 % -------------------------------------------------
 % Requirements organisation (bullets, no numbering)
@@ -34,20 +18,30 @@ More significantly though, terms more specific to the application should be expl
 \subsection{Requirements organisation}
 The requirements are bulletized, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
 
-We will take it on ourselves to label the requirements for our own workflow, it is suggested that any additions or alterations needed on the requirements be done on the table (reference to table here).
+We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{appendix:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
+
+% TODO: Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
 % --------------------------------------------------
 % Requirements doc lacks of coherence 
 % which lends to an overall lack of professionalism
 % --------------------------------------------------
 \subsection{Requirements coherence}
+At first read, a lack of coherence in the structure and wording of the requirements is clear, depicting an overall lack of formality and professionalism in the software engineering process. 
+A positive consequence of this, perhaps surprisingly, is that it puts the tester on the alert for what to expect of the quality of the software to be tested, making them question the meticulousness of the project managers and in turn the developers.
+\par
+Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
+\begin{itemize}
+	\item The 1st bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
+	\item The 7th bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+	\item The bullet detailing the taxing of divorced people (R7.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
+	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
+\end{itemize}
 
-The first bullet in the list is not an explicit requirement, but an introductory sentence. This is misleading to the reader. 
-
-Seventh bullet "The system must include a simple ‘help’ [...]" does not terminate with a full stop while the rest do. 
-When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
-
-% non-functional requirements. 
+% ----------------------------------------------
+% Non-Functional Requirements
+% ----------------------------------------------
+\subsection{Non-functional requirements}
 The only non-functional requirement related to the application's robustness. Should we assume there is no interest in security, performance? Surely this isn't the case for a Tax Calculation application. What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
 \par
 
@@ -55,14 +49,36 @@ The only non-functional requirement related to the application's robustness. Sho
 
 % * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates...
 
+% ----------------------------------------------
+% Key term definitions
+% ----------------------------------------------
+\subsection{Key term definitions}
+The requirements are missing some of the key sections required by an SRS document.
+For instance, we note the absence of a "Definitions" section outlining the meaning to be understood from the key terms used in the requirements.
+It would be useful to point out that terms "will", "should", "must", and "may" conform to a predefined standard definition (e.g. IEEE Std 610.12-1990) in order to ascertain their priorities relative to each other and avoid confusion in their interpretation. 
+The importance of this should not be understated seeing as it is quite likely the audience span of this document will include non-native english speakers. 
+
+Further to this, we request explicitly defining the below key words which  appear to have been used interchangeably:  
+
+\begin{itemize} 
+	\item Client, customer and person. \\
+	Client is used in requirements (R1, R4), customer in (R2, R3, R4) and person in all (R7) requirements.  A single requirement (R4) mixes usage of customer and client. 
+	\item System and application.\\
+	System is used in (R2, R5, R6) while application is used in (R1, R3, R4).
+\end{itemize}
+
+We assume through contextual understanding that they refer to the same entity, however we do request this be confirmed to us in a "Definitions" section preferably in a more formal document.
+
+\par
+
+% It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
 
 % --------------------------------------
 % DEFECTS and VAGUENESS in requirements 
 % --------------------------------------
+\subsection{Defects and Vaguenesses}
 
-\subsection{Defects and Vagueness}
-
-In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{sec:labelled-requirements}) to improve readability and accessibility of the report. 
+In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{appendix:labelled-requirements}) to improve readability and accessibility of the report. 
 
 % -----------------------------------------------------------------------------
 % [1]
@@ -78,7 +94,7 @@ If persistent storage is to be used, it would be useful for the requirements to 
 
 This requirement is relatively more detailed than some of the others, given it is accompanied by an example detailing a scenario and how the application should behave with respect to that scenario. 
 
-While 'die' is quoted, it is still an aggressive term to use in a requirement. 'Expire' is a reasonable alternative term, but we won't pedantize on this as there are more serious defects and vaguenesses in the requirements.
+While 'die' is quoted, it is still an aggressive term to use in a requirement. 'Expire' is a reasonable alternative term, but we won't pedantize on this as there are more critical defects and ambiguities in the requirements to address.
 
 % -----------------------------------------------------------------------------
 % [3]
@@ -93,7 +109,7 @@ Is it required that there be a separate menu command for updating each of the fo
 
 % -----------------------------------------------------------------------------
 % [4]
-\subsubsection{R4 - The application should be able to print lists of customer information [...] } % with users being able to select blocks of customers to be printed based on their unique identifiers.}
+\subsubsection{R4 - The application should be able to print lists of customer information [...]} % with users being able to select blocks of customers to be printed based on their unique identifiers.}
 
 This requirements weakness only becomes evident when the application is tested and it becomes apparent that the Unique Identifiers generated for the created customers are never presented to the the application user for them to take note of. 
 
@@ -108,7 +124,7 @@ This requirement is reasonably understandable. It is not however clear why it wa
 
 % -----------------------------------------------------------------------------
 % [6]
-\subsubsection{R6 - The system must include a simple 'help' system that lists all commands}
+\subsubsection{R6 - The system must include a simple 'help' system that lists all commands.}
 Assuming system refers to application, there's no ambiguity in the functionality requested in this requirement. 
 
 % -----------------------------------------------------------------------------
@@ -118,7 +134,7 @@ Assuming system refers to the application, the requirement is clear. This requir
 
 % -----------------------------------------------------------------------------
 % [8]
-\subsubsection{R8 - TaxRules}
+\subsubsection{R8 - Tax Rules}
 [ Thus, for clarity, both of the following tax codes are valid. ] 
 It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
 
@@ -132,7 +148,7 @@ The requirement does not specify the application's behaviour for the case when d
 
 % common to all next sections: 
 
-The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount.""
+The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount."
 
 alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
 
@@ -188,6 +204,9 @@ Is it implicity that negative salaries are not a thing? How does the code deal w
 % ----------------------------------------------------------------------------------------------
 % Adjustments and assumptions we make on the requirements. 
 \subsection{Assumptions}
+
+%TODO: say we will attempt to recap on some of the assumptions made in reading the requirements; then search for "assume" in the above and list all things in bullets. 
+
 \begin{itemize}
 	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
 \end{itemize}
