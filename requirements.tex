@@ -16,7 +16,7 @@ This step is critical before proceeding with the test process as testing based o
 % Requirements organisation (bullets, no numbering)
 % -------------------------------------------------
 \subsection{Requirements organisation}
-The requirements are bulletized, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
+The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
 
 We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{appendix:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
 
@@ -43,6 +43,7 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 % Non-Functional Requirements
 % ----------------------------------------------
 \subsection{Non-functional requirements}
+\label{sec:non-functional-requirements}
 It is understood that performance testing, security and other non-functional requirements are not to be considered in the scope of testing this project; however, it would be careless for us not to mention them in a System Requirments review as they constitute an intrical part of the requirements development process. 
 We would normally expect requirements on security, performance, compatibility and robustness to be elicited clearly in a separate non-functional requirements section; but, it is understood that the scope of testing of this project is restricted to the functional aspects and this may explain their absence. 
 \par
@@ -59,11 +60,12 @@ That said, we identify (R7: \textit{"The system must not crash if the user enter
 % Key term definitions
 % ----------------------------------------------
 \subsection{Key term definitions}
+\label{sec:key-term-definitions}
 The requirements are missing some of the key sections required by an SRS document.
 For instance, we note the absence of a "Definitions" section outlining the meaning to be understood from the key terms used in the requirements.
 It would be useful to point out that terms "will", "should", "must", and "may" conform to a predefined standard definition (e.g. IEEE Std 610.12-1990) in order to ascertain their priorities relative to each other and avoid confusion in their interpretation. 
 The importance of this should not be understated seeing as it is quite likely the audience span of this document will include non-native english speakers. 
-
+\par
 Further to this, we request explicitly defining the below key words which  appear to have been used interchangeably:  
 
 \begin{itemize} 
@@ -72,7 +74,6 @@ Further to this, we request explicitly defining the below key words which  appea
 \end{itemize}
 
 We assume through contextual understanding that they refer to the same entity, however we do request this be confirmed to us in a "Definitions" section preferably in a more formal document.
-
 \par
 
 % It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
@@ -88,56 +89,61 @@ In this section we address imprecise requirements and what we believe to be defe
 % [1]
 \subsubsection{R1 - The application must enable the storage of client’s personal details including. }
 
-There is a lack of specificity on what storage means here. Does it refer to persistent storage? In which, case a form of database on disk would be required, or is it sufficient for it to be stored in memory during application runtime? The latter would not offer persistent for if the application or machine crashed.  
-
-If persistent storage is to be used, it would be useful for the requirements to ouline the requirements on such database, are there non-function requirements such as performance metrics that the database should respect? 
+The term storage is vague in that it does not specify what type of storage the details are meant to be stored in. The storage could be permanent (e.g. database, file on system) or in-memory surviving only until the next application launch. 
+\par
+If persistent storage is to be used, then some more details on the how this storage should behave, how robust, portable, responsive it should be would be needed. 
+\par
+For our testing purposes, it has been assumed that the storage of the details need only be in-memory while the application is running; as such, no testing has been done on permanent-storage.
 
 % -----------------------------------------------------------------------------
 % [2]
 \subsubsection{R2 - The software should issue each customer a numeric identifier [...]} 
-% which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
 
-This requirement is relatively more detailed than some of the others, given it is accompanied by an example detailing a scenario and how the application should behave with respect to that scenario. 
-
-While 'die' is quoted, it is still an aggressive term to use in a requirement. 'Expire' is a reasonable alternative term, but we won't pedantize on this as there are more critical defects and ambiguities in the requirements to address.
+This requirement was found to be clear and unambiguous. 
+\par
+Minor: the usage of the word 'die' did not seem entirely appropriate, even if quoted; however, software does tend to use questionable wordage (think of the POSIX function kill), so this is a non-issue.  
 
 % -----------------------------------------------------------------------------
 % [3]
 \subsubsection{R3 - The PTMA should enable customer details to be updated.}
 
-This requirement can be further expanded on, especially considering that it relates to significant chunks of the code. 
-What details can a user update? Should it be allowed to update a customer's account number (ID)?
-Is it required that there be a separate menu command for updating each of the following: first name, last name, tax code ? What about salary? Was this a desirable or required feature?    
-
-% requiremrents lacking more explanation (e.g. 3)
-% no expanding on how the update process should be. It seems that we want to allow the flexibility to update either of the customer's fields directly with its own command, but this does not link back to an evident requirement from the bulletised list. 
+This requirement was found to be clear and unambiguous at first read. 
+\par
+However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definiton), we - as testers - wonder if this is a lack of specificity from the requirements perspective or going over the requirements from the developers. 
+\par
+Either case, it is curious why it isn't made possible to update the salary field with one command as is the case for first-name, last-name and tax-code.  
+\par
+Also, this requirement can be improved by specifying that customer IDs should not be updatable to avoid any possible confusion during implementation. 
 
 % -----------------------------------------------------------------------------
 % [4]
 \subsubsection{R4 - The application should be able to print lists of customer information [...]} 
 % with users being able to select blocks of customers to be printed based on their unique identifiers.}
+This requirement was found to be clear and unambiguous. 
 
-This requirements weakness only becomes evident when the application is tested and it becomes apparent that the Unique Identifiers generated for the created customers are never presented to the the application user for them to take note of. 
-
-This requirement can further do with specificity to what type of block can be selected in the list to print. 
-Should it be possible to use a comma-separated list of blocks to print out? This approach is not uncommon in other computer applications (e.g. specifying the list of pages to print on modern OSes is possible with "2-10,15-35"). This requirement could do with more specificity to the pages format. 
+It appears to allow developers flexibility in implementing how different blocks of IDs can be input by the user. This flexibility in the requirement is needed seeing as (R4) has strong dependency on the choice of identifiers used in (R2). If non-integer identifiers were used in R2 then printing blocks of users may have to be done using comma-separated input from the user. 
 
 % -----------------------------------------------------------------------------
 % [5]
 \subsubsection{R5 - The application will calculate the tax amount to be paid by each client [...]} 
 % and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
-
-This requirement is reasonably understandable. It is not however clear why it was separeted from the tax rules, seems like they could have been structured to follow each other. 
+This requirement was found to be clear and unambiguous. 
+\par
+However, it remains unclear why it was separated from (R8.x) the tax rules, seems like they could have been structured to follow each other. 
 
 % -----------------------------------------------------------------------------
 % [6]
 \subsubsection{R6 - The system must include a simple 'help' system that lists all commands.}
-Assuming system refers to application, there's no ambiguity in the functionality requested in this requirement. 
+
+This requirement was found to be clear and unambiguous, assuming system \& application refer to the same thing (see section \ref{sec:key-term-definitions}). 
 
 % -----------------------------------------------------------------------------
 % [7]
 \subsubsection{R7 - The system must not crash if the user enters something that they are not meant to.}
-Assuming system refers to the application, the requirement is clear. This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security. 
+
+Assuming system refers to the application, the requirement is clear. 
+\par
+This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see section \ref{sec:non-functional-requirements}).
 
 % -----------------------------------------------------------------------------
 % [8]
@@ -150,13 +156,13 @@ Assuming system refers to the application, the requirement is clear. This requir
 
 % Delete clients. 
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
-
+\par
 % Show ID of clients. 
 Requirement R4 points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
-
+\par
 % Edge case: Negative salaries. 
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 
-
+\par
 % Edge case: taxcode with duplicate tax letters
 The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
 
