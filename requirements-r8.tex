@@ -1,7 +1,8 @@
 \subsubsection{R8 - Tax Rules}
 
 In this sub-section we will comment on defects found in requirements (R8.x) without necessarily delving into each requirement individually since many of them share the same defects. 
-
+\par
+% ----------------------------------
 % Mutual exclusivity of tax brackets 
 % ----------------------------------
 \textbf{Mutual exclusivity of tax brackets \\}
@@ -12,36 +13,28 @@ Requirement (R8.4) does not cite the existence of any mutual exclusivity between
 	\item 'C', 'E', and 'F'
 	\item 'T' and 'U'
 \end{itemize}
-
 This will be assumed considering a person cannot have both "2 children" and "1 child" at the same time, and so cannot be in both groups. Similarly, one's martial status cannot be both single and divorced, hence the mutual exclusivity.  
 
+% --------------------------------------
 % Marital Status is required in tax code
 % --------------------------------------
 \textbf{Marital status is required in tax code \\}
 \\
 Requirement (R8.4) does not specify that the tax code MUST contain a martial status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
 \begin{enumerate}
-	\item Requirements (R8.8) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This implies that some tax due to Marital status must have been applied before. 
-	\item If a Martial status is not required, then it would be possible for a client not to have any letters in their tax code, conflicting with requirement (R8.2). This can happen if they have no Marital status, no children and are not in education. 
+	\item Requirements (R8.8) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This suggests that some tax due to Marital status must have been applied before. 
+	\item If it were possible for the Martial status to be absent from the tax code, then it would become possible for a tax code to not have any letters at all. This would conflict with requirement (R8.2). % This can happen if they have no Marital status, no children and are not in education. 
 	% \item The reader is not aware of a marital status that does not belong outside of married, divroced, single. Common sense employed here. 
 \end{enumerate}
 
-% EDGE CASES
-% -----------
-\textbf{Edge cases}
-\begin{itemize}
-	\item The requirements do not specify how to handle tax codes that have duplicate letters in them (e.g. MM1000), is the 'Married' tax applied twice then? 
-	\item The requirements do not specify that salaries and base amounts cannot be negative. Intuitively, there is no concept of negative salary; but in Failovia, it is apparently possible for one to pay their entire salary in taxes and still owe more taxes to the government, [TODO: complete here]. 
-	\item The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
-\end{itemize}
-
+% -----------------
 % Unusual tax rates
 % -----------------
 \textbf{Unusual tax rates \& negative salaries \\}
 \\
-The unusual tax rates were brought to the attention of the reader in the assignment notes, hence there is no call for pointing them out as a defect. However, in light of the possiblity of the tax payer earning a salary and paying all of it and more to the government (when tax rate > 100\%), one must ask whether negative salaries as a concept exist in Failovia. 
-
-It is not clear from the requirements how the application should respond to the user inputing negative salaries or negative base amounts. As testers, we forsee two valid application responses to negative salaries: 
+The unusual tax rates were brought to the attention of the reader in the assignment notes, hence there is no call for pointing them out as a defect. However, in light of the possiblity of a tax payer earning a salary and paying all of it and more to the government (when tax rate > 100\%), one must ask whether negative salaries as a concept exist in Failovia. 
+\par
+It is not clear from the requirements how the application should respond to a user-provided negative salary or base amount. As testers, we would expect two valid application responses to negative salaries: 
 
 \begin{enumerate}
 	\item Calculate the tax from the negative salary leading to a negative tax. In practical terms, this means the tax authorities owe the client some money.
@@ -50,51 +43,66 @@ It is not clear from the requirements how the application should respond to the 
 
 Which approach the application should undertake should be laid out in the requirements.
 
-% Wrong wording for description of tax brackets. 
-% common to all next sections: 
-% ------------------------------------------------
-\subsection{Incorrect wording and typos}
-The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount." alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
+% --------------------------
+% Contradictory requirements
+% --------------------------
+\textbf{Contradictory requirements\\}
+\\
+The below requirement (R8.5) does not correctly  is incorrectly worded and would could have been interpreted  can justifiably be interpreted differently than it has been by the developers who we believe overlooked the issues inherent in the requirement. 
+\par
+{\it
+	\small
+Calculation of tax for Married people: one of the following four bands will apply:
+\begin{itemize}[noitemsep]
+	\item Married people with a current salary of less than £5000 will pay a tax rate of
+	70\% of their base tax amount.
+	\item Married people with a current salary less than £12,000 will pay a tax rate of
+	90\% of their base tax amount.
+	\item Married people with a current salary less than £27,000 will pay a tax rate of
+	120\% of their base tax amount
+	\item Married people with a current salary above than £27,000 will pay a tax rate
+	of 130\% of their base tax amount
+\end{itemize}	
+}
 
-We assume the intention is to say: 
-\begin{itemize}
-	\item People earning between $[0-5000[$ should pay 70\% tax rate 
-	\item People earning between $[5000-12000]$ should pay 90\%
+We note from the above that each bullet after the first one contradicts the bullets before it: for someone earning £3000 in salary, the first bullet implies they should pay a tax rate of 70\%, the second overrides the first bullet and implies they should pay 90\%, the third one 120\% and the fourth one 130\%. It is believed that the intention behind the bullets is to establish tax brackets as below: 
+\begin{itemize}[noitemsep]
+	\item People earning between £0 - £5,000 should pay 70\% tax rate 
+	\item People earning between £5,000 - £12,000 should pay 90\%
+	\item People earning between £12,000 - £27,000 should pay 120\%
+	\item People earning over £27,000 should pay 130\%
+\end{itemize}
+The same applies for all subsequent requirements R8.6 to R8.12. 
+
+% Different tax rates for the same bracket
+Requirements (R8.6 and R8.7) have contradictory 3rd and 4th bullets which state different tax rates for the same tax brackets. Looking at the rest of the requirements we infer that this defect is due to a typo in the 3rd bullet of R8.6 and R8.7. 
+
+We assume the intention is below: 
+\begin{itemize}[noitemsep]
+	\item People earning in bracket £11,000 - £22,000 pay a rate of 125\%
+	\item People earning £22,000 and above pay rate 132\%
 \end{itemize}
 
-The requirements are not as well expressed here. 
-
+% -------------
+% EDGE SALARIES 
+% -------------
+\textbf{Edge salaries\\}
+\\
 % 8 - Married section 
 The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
-
-% 8 - Single section 
-Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
-
-\begin{itemize}
-	\item People earning in bracket [11k-22k[ pay a rate of 125\%
-	\item People earning 22k and above pay rate 132\%
-\end{itemize}
-
-If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
-
-% 8 - Divorced 
-Same as single section. 
-
-The following salaries / tax codes are not covered by the requirements: 
-\begin{itemize}
+\par
+We summarise below salaries that are not covered by the requirements:  
+\begin{itemize}[noitemsep]
 	\item Married and earning £27,000
-	\item Single and earning £22,000 (if other typo is fixed)* (see Single Section)
-	\item Divorced and earning £24,000 (if other typo is fixed) *(see Divorced Section)
+	\item Single and earning £22,000
+	\item Divorced and earning £24,000
 	\item Single Child and earning £10,400
-	\item Two children and earning £9900
-	\item More than 2 children and earning £9000
-	\item FT education below 24yo and earning £3000
-	\item FT education 24yo and above earning £3000
+	\item Two children and earning £9,900
+	\item More than 2 children and earning £9,000
+	\item FT education below 24 and earning £3,000
+	\item FT education 24 and above earning £3,000
 \end{itemize}
-
-
-
 
 % Would be helpful 
-[ Thus, for clarity, both of the following tax codes are valid. ] 
-It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
+% [ Thus, for clarity, both of the following tax codes are valid. ] 
+% It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.

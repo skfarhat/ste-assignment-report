@@ -34,6 +34,7 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 \begin{itemize}
 	\item The 1st bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
 	\item The 7th bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+	\item Requirements (R8.5-R8.10) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (R8.11-R8.12) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
 	\item The bullet detailing the taxing of divorced people (R8.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 \end{itemize}
@@ -93,7 +94,8 @@ If persistent storage is to be used, it would be useful for the requirements to 
 
 % -----------------------------------------------------------------------------
 % [2]
-\subsubsection{R2 - The software should issue each customer a numeric identifier [...]} % which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
+\subsubsection{R2 - The software should issue each customer a numeric identifier [...]} 
+% which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to die with them). }
 
 This requirement is relatively more detailed than some of the others, given it is accompanied by an example detailing a scenario and how the application should behave with respect to that scenario. 
 
@@ -112,7 +114,8 @@ Is it required that there be a separate menu command for updating each of the fo
 
 % -----------------------------------------------------------------------------
 % [4]
-\subsubsection{R4 - The application should be able to print lists of customer information [...]} % with users being able to select blocks of customers to be printed based on their unique identifiers.}
+\subsubsection{R4 - The application should be able to print lists of customer information [...]} 
+% with users being able to select blocks of customers to be printed based on their unique identifiers.}
 
 This requirements weakness only becomes evident when the application is tested and it becomes apparent that the Unique Identifiers generated for the created customers are never presented to the the application user for them to take note of. 
 
@@ -121,7 +124,8 @@ Should it be possible to use a comma-separated list of blocks to print out? This
 
 % -----------------------------------------------------------------------------
 % [5]
-\subsubsection{R5 - The application will calculate the tax amount to be paid by each client [...]} % and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
+\subsubsection{R5 - The application will calculate the tax amount to be paid by each client [...]} 
+% and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
 
 This requirement is reasonably understandable. It is not however clear why it was separeted from the tax rules, seems like they could have been structured to follow each other. 
 
@@ -139,73 +143,22 @@ Assuming system refers to the application, the requirement is clear. This requir
 % [8]
 \input{requirements-r8}
 
-% \subsubsection{R8 - Tax Rules}
-% [ Thus, for clarity, both of the following tax codes are valid. ] 
-% It would be extra helpful to provide a tax code that should not be accepted (e.g. 1080MT90). In fairness the provided examples were appreciated as they helped clarify the requriement.
-
-% % The alphabetic portion of the code may consist of multiple letters drawn from the following set, with their corresponding meanings:
-% The requirement does not explicitly elicit the fact that the different letters pertaning to marital status are mutually exclusive. Similarly, it does not do this for education and number of children. 
-
-% The requirements do not specify there must be a letter from the marital status in the tax code. Intuitively, an individual must be in one of those sections hence the tax code MUST have a letter from the marital status. This is not specified in the requirement but was assumed during testing. 
-
-% The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
-
-% % common to all next sections: 
-
-% The statement: "Married people with a current salary less than £12,000 will pay a tax rate of 90\% of their base tax amount."
-
-% alone, implies that someone earning £4,000 must pay a rate of 90\%. This is not true, in the case of this application given the other statement: "Married people with a current salary of less than £5000 will pay a tax rate of 70\% of their base tax amount.". 
-
-% We assume the intention is to say: 
-
-% \begin{itemize}
-% 	\item People earning between [0-5000[ should pay 70\% tax rate 
-% 	\item People earning between [5000-12000] should pay 90\%
-% \end{itemize}
-
-% The requirements are not as well expressed here. 
-
-% % 8 - Married section 
-% The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
-
-% % 8 - Single section 
-% Third bullet possibly mistyped. If it is not, then the third and fourth bullets are contradictory. We assume the intention was to say:  
-
-% \begin{itemize}
-% 	\item People earning in bracket [11k-22k[ pay a rate of 125\%
-% 	\item People earning 22k and above pay rate 132\%
-% \end{itemize}
-
-% If third bullet is adjusted to say "less than" instead of above, then this fixes the contradiction, but still leaves this requirement not covering the case where the taxee earns £22,000 exactly (same as Married section). 
-
-% % 8 - Divorced 
-% Same as single section. 
-
-% The following salaries / tax codes are not covered by the requirements: 
-% \begin{itemize}
-% 	\item Married and earning £27,000
-% 	\item Single and earning £22,000 (if other typo is fixed)* (see Single Section)
-% 	\item Divorced and earning £24,000 (if other typo is fixed) *(see Divorced Section)
-% 	\item Single Child and earning £10,400
-% 	\item Two children and earning £9900
-% 	\item More than 2 children and earning £9000
-% 	\item FT education below 24yo and earning £3000
-% 	\item FT education 24yo and above earning £3000
-% \end{itemize}
-
 % --------------------------------------
 % MISSING REQUIREMENTS ? 
 % --------------------------------------
 \subsection{Missing requirements}
 
-% showing the ID of created clients 
-Requirement 4 points to the need to allow users to see customers based on their IDs, but there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
-
-% no requirement to delete clients. 
+% Delete clients. 
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
 
-% Edge case
+% Show ID of clients. 
+Requirement R4 points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
+
+% Edge case: Negative salaries. 
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 
+
+% Edge case: taxcode with duplicate tax letters
+The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
 
 % --------------------------------------
 % Assumptions
