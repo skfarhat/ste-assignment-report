@@ -33,17 +33,46 @@ To validate the output of the application, the tester needs to redirect stdout s
 \par
 The problem with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
 \par 
-\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce PrintStream and InputStream members to the Main class, which can then be instantiated by the creator of Main. 
+\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams. 
+This allows us to provide specific streams for Main to work with, when running the instance in a test environment where we would like to control and read the streams. 
+\par 
+Following our changes, creators of Main can either choose to provide their own streams or stick to the default stdin and stdout by calling Main's default constructor. 
+\par
+Another class in the application uses System.out to print and that is AllCustomers. It was debated whether we should dependency inject the streams to print to as well, but as there exists only one method concerned with printing in AllCustomers: `printCustomers`, it was decided that adding another `printCustomers' method taking in a PrintStream would be a better alternative.
+% TODO: can we justify why this is better, more? 
+\par
+\begin{figure}
+\begin{lstlisting}
+	    /**
+		 * Stream to write application's output to, defaults to System.out.
+		 */
+		private final PrintStream out;
 
+		/**
+		 * InputStream to be used for reading user input, defaults to System.in
+		 */
+		private final InputStream in;
 
-% Provide code snippet that shows the members as well as the constructors of Main. 
+		/**
+		 * default constructor
+		 */
+		public Main() {
+			this(System.in, System.out);
+		}
 
-% Explain how our approach does not entail changes to applications that do not care about specifying the PrintStream and the INputStream since they can just call the default constructor. 
-% Pass PrintStream 'out' via DI injection too. If none provided, then System.out is used (default). This is needed since the AllCustomers class is responsible for printing lists of customers.  
+		/**
+		 * constructor taking in the InputStream and PrintStream to be used
+		 * @param in InputStream to read from
+		 * @param out PrintStream to write to
+		 */
+		public Main(InputStream in, PrintStream out) {
+			this.in = in;
+			this.out = out;
+		}
+\end{lstlisting} 
+\ref{code:snippet-1}
+\end{figure}
 
-	% this is not a change that we've made, just a note that we have redirected stdin and stdout of the application in order to capture and analyse its output and to control its input. 
-
-	% Also AllCustomers is affected since it calls System.out.println(): 
 \subsubsection{Main methods are static}
 	% Main methods are static. Find an issue with this and talk about it. 
 	% * Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
