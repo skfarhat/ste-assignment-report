@@ -33,7 +33,8 @@ To validate the output of the application, the tester needs to redirect stdout s
 \par
 The problem with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
 \par 
-To isolate the standard input and output of each Main instance and facilitate testing, we can introduce PrintStream and InputStream members to the Main class, which can then be instantiated by the creator of Main. 
+\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce PrintStream and InputStream members to the Main class, which can then be instantiated by the creator of Main. 
+
 
 % Provide code snippet that shows the members as well as the constructors of Main. 
 
