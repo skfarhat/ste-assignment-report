@@ -389,4 +389,3 @@ public class Constants {
 
 * string handling can be improved by using stringbuffer (improvement)
 * Code enforces a 100 client limit. The requirements make no mention of this. 
-* 

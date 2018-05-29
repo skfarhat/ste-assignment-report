@@ -7,7 +7,6 @@
 % ------------------
 % Talk about how we want to prevent our code refactoring from actually fixing hidden bugs. Of course we cannot practically be sure that it does not, but we have done is write a script that compares the stdout from certain sequences of commands from both the original code and the modified-refactored code. The script generates the md5 hash from each of the outputs. They should match. If they don't this points to us having modified the current output. This script has been added as a post-commit hook, which means that on commit made a Jenkins build runs.  
 
-
 \subsubsection{Changes in TaxEngine.java}
 
 % [1] create the exception type TaxEngineException
@@ -51,22 +50,22 @@ in Marriage taxing is causing that in taxAmount to fail. Having both higher leve
 
 \subsubsection{Changes in Main}
 
-% this is not a change that we've made, just a note that we have redirected stdin and stdout of the application 
-% in order to capture and analyse its output and to control its input. 
-* Allow for the selection of PrintStream and UserInputStream to Main. If not set then System.in and System.out are used. 
-We could have also just used System.setOut() and System.setIn(), but our approach should be even more flexible as it doesn't affect our usage of System.out in the testing framework. 
+% ----------------------------------
+% Moved to code.tex
 
+% * Allow for the selection of PrintStream and UserInputStream to Main. If not set then System.in and System.out are used. 
+% We could have also just used System.setOut() and System.setIn(), but our approach should be even more flexible as it doesn't affect our usage of System.out in the testing framework. 
 % * Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
-
-* Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
- -	In a normal running App,   when the method returns, the app will reach the end of Main and exit naturally (and gracefully), when run under a test suite, the framework will continue to run after the method has returned which is what we wanted in the first place. 
-  - Add method `stop()` and member field `running` which when set to false causes the User Input loop to exit, leading to stop of the program.
+% * Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
+%  -	In a normal running App,   when the method returns, the app will reach the end of Main and exit naturally (and gracefully), when run under a test suite, the framework will continue to run after the method has returned which is what we wanted in the first place. 
+%   - Add method `stop()` and member field `running` which when set to false causes the User Input loop to exit, leading to stop of the program.
+% Pass PrintStream 'out' via DI injection too. If none provided, then System.out is used (default). This is needed since the AllCustomers class is responsible for printing lists of customers.  
 
 % print the ID of the created Customer otherwise there is no way to know how to list that specific customer. (see newCustomer, has the 'id' of the new customer printed.)
 
-% add method getCustomer in Main to aid with testing. As we would prefer getting the customer object from main directly rather than going through the route of listing customers with that ID, and serializing a customer object from the printed fields to use in our tests. e.g. adding "Sami Farhat TB1000 10000", then the ID is output, the we would have to, use 'l' <id>, and get the output from the program and serialise a Customer object from the output. Also, a bug in the listing would cause all tests depending on getting a customer from the database to fail. To separate the tests better, we create a method in Main that returns a customer object directly from the data structure in AllCustomers given a CustomerID. 
+% ---------------------------------
+
 
 
 % Change in AllCustomers.java
 
-Pass PrintStream 'out' via DI injection too. If none provided, then System.out is used (default). This is needed since the AllCustomers class is responsible for printing lists of customers.  
