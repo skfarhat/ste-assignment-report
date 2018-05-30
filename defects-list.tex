@@ -7,6 +7,9 @@
 * Updating customer for all of the fields (firstname, lastname, salary, ettc) does not update the amount of tax they need to be paying. This is done only if the "salary" alone is updated but not when all the fields are. 
 
 * The printing of customers is based on the indices pertinent to the array in AllCustomers, which is not exposed to the user. 
+
+There's somewhat of an assumption being made that a users salary always fits in Integer. What if they earned more than $2^31 - 1$ ? 
+
 % User Interface defects
 % Code style defects
 

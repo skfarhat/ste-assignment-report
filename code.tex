@@ -26,56 +26,85 @@ Below, we shall focus on the code's structure and testability. Critique of the c
 
 The below items have been identified as hindrances to our testing. Each item will be described and suggestions to improve the structure provided. 
 
+\subsubsection{Thread-safety}
+The design of Main does not accomodate many threads running simultaneous versions of the application, not least because AllCustomers and Scanner are static, making them shared resources. AllCustomers houses most - if not all - of the Customer data structures, which also becomes shared by all Threads. This will inevitably lead to race conditions. 
+\par 
+To overcome this and allow for many Main instances to be spawned simulatenously without conflicting with each other's state, we 
+\begin{itemize}[noitemsep]
+	\item remove static modifiers from the class's members and methods.  
+	\item add a default constructor.
+	\item update the \lstinline{main} method to instantiate Main, via \lstinline{Main main = new Main();}.
+	\item switch to making method calls on the instance rather than static methods. 
+\end{itemize}
+The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads, below we describe how we get around these being shared. 
+
+% -------------------------------------------------------
+\begin{minipage}[b]{0.5\textwidth}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{res/STE-Page-1-original.png}
+\caption{Before changes: one static Main}
+\end{figure}
+\end{minipage}
+% -------------------------------------------------------
+\begin{minipage}[b]{0.5\textwidth}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{res/STE-Page-2-original.png}	
+\caption{After changes: different instances of Main}
+\end{figure}
+\end{minipage}
+% -------------------------------------------------------
+
 \subsubsection{Main: Standard I/O}
+\label{sec:main-stdio}
 The application, being command-line driven, relies on stdin for user input and stdout for output. Testing the software in a behaviour driven methodology necessitates injecting input to stdin to simulate user input and inspecting the output from stdout to verify correctness. 
 \par
-To validate the output of the application, the tester needs to redirect stdout somewhere where they can grab the string outuput from it and inspect it. A quick solution to this, and one that does not require any code changes on behalf of the application under test, is to call `System.setOut(printStream)` prior to the start of the tests; this effectively redirects all output which would have otherwise gone to stdout into the printStream; which can then be used by the tester for checking. 
+To validate the output of the application, the tester needs to redirect stdout somewhere where they can get a the string of the output and inspect it. A quick solution to this, and one that does not require any code changes on behalf of the application under test, is to call \lstinline{System.setOut(printStream)} prior to the start of the tests; this effectively redirects all output which would have otherwise gone to stdout into the printStream; which can then be used by the tester for checking. 
 \par
 The problem with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
 \par 
-\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams. 
-This allows us to provide specific streams for Main to work with, when running the instance in a test environment where we would like to control and read the streams. 
+\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams.
+\par
+This allows us to provide specific streams for Main to work with when running the instance in a test environment where we would like to exert control and inspect the streams. 
 \par 
 Following our changes, creators of Main can either choose to provide their own streams or stick to the default stdin and stdout by calling Main's default constructor. 
 \par
-Another class in the application uses System.out to print and that is AllCustomers. It was debated whether we should dependency inject the streams to print to as well, but as there exists only one method concerned with printing in AllCustomers: `printCustomers`, it was decided that adding another `printCustomers' method taking in a PrintStream would be a better alternative.
-% TODO: can we justify why this is better, more? 
+Another class in the application uses System.out to print and that is AllCustomers. It was debated whether we should dependency inject the streams to print to as well, but as there exists only one method concerned with printing in AllCustomers: `printCustomers`, it was decided that adding another \lstinline{printCustomers} method taking in a PrintStream would suffice.
+% We would encourage considering a software redesign, limiting the span of objects that may write to stdout or read from stdin. [ Can expand on this more? ]
 \par
 \begin{figure}
 \begin{lstlisting}
-	    /**
-		 * Stream to write application's output to, defaults to System.out.
-		 */
-		private final PrintStream out;
+/**
+ * Stream to write application's output to, defaults to System.out.
+ */
+private final PrintStream out;
 
-		/**
-		 * InputStream to be used for reading user input, defaults to System.in
-		 */
-		private final InputStream in;
+/**
+ * InputStream to be used for reading user input, defaults to System.in
+ */
+private final InputStream in;
 
-		/**
-		 * default constructor
-		 */
-		public Main() {
-			this(System.in, System.out);
-		}
+/**
+ * default constructor
+ */
+public Main() {
+    this(System.in, System.out);
+}
 
-		/**
-		 * constructor taking in the InputStream and PrintStream to be used
-		 * @param in InputStream to read from
-		 * @param out PrintStream to write to
-		 */
-		public Main(InputStream in, PrintStream out) {
-			this.in = in;
-			this.out = out;
-		}
+/**
+ * constructor taking in the InputStream and PrintStream to be used
+ * @param in InputStream to read from
+ * @param out PrintStream to write to
+ */
+public Main(InputStream in, PrintStream out) {
+    this.in = in;
+    this.out = out;
+}
 \end{lstlisting} 
 \ref{code:snippet-1}
 \end{figure}
 
-\subsubsection{Main methods are static}
-	% Main methods are static. Find an issue with this and talk about it. 
-	% * Make methods non-static. The reason for them being static is unclear at present; it could be that a behaviour similar to the one provided by a Singleton pattern design is the sought one. We decide - aginast our natural tendency - not to change the static types of the methods since we can still work with them being static. 
 \subsubsection{Stopping Main more gracefully}
 (1) method call 
 (2) do not invoke System.exit(2) 
@@ -123,36 +152,35 @@ AllCustomers
 
 * updateCustomerXXXXX: all of these methods start off finding the customer, we should create a private method that returns the customer for a given ID. Also, discussing the current implementation of finding that customer; the below: 
 
-\begin{lstlisting}
+\begin{lstlisting}	
+	int i = 0;
+	int intCustomerIndex = 0;
 	
-		int i = 0;
-		int intCustomerIndex = 0;
-		
-		boolean blFound = false;
+	boolean blFound = false;
 
-		for (i=0; i< intCurrentCustomerIndex; i++) {
-			if (customers[i].getAccountNum() == intCustomerID) {
-				blFound = true;
-				intCustomerIndex = i;
-				break;
-			}
+	for (i=0; i< intCurrentCustomerIndex; i++) {
+		if (customers[i].getAccountNum() == intCustomerID) {
+			blFound = true;
+			intCustomerIndex = i;
+			break;
 		}
-		if (blFound == true) {
-			customers[intCustomerIndex].setfirstName( strFirstName);
-		}
+	}
+	if (blFound == true) {
+		customers[intCustomerIndex].setfirstName( strFirstName);
+	}
 \end{lstlisting}
 can be written as below: 
 \begin{lstlisting}
-		int intCustomerIndex = -1;
-		for (int i=0; i< intCurrentCustomerIndex; i++) {
-			if (customers[i].getAccountNum() == intCustomerID) {
-				intCustomerIndex = i;
-				break;
-			}
-		}
-		if (intCustomerIndex != -1) {
-			customers[intCustomerIndex].setfirstName( strFirstName);
-		}
+int intCustomerIndex = -1;
+for (int i=0; i< intCurrentCustomerIndex; i++) {
+	if (customers[i].getAccountNum() == intCustomerID) {
+		intCustomerIndex = i;
+		break;
+	}
+}
+if (intCustomerIndex != -1) {
+	customers[intCustomerIndex].setfirstName( strFirstName);
+}
 \end{lstlisting}
 
 * method deleteCustomer() 
