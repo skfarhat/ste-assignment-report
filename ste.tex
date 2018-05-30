@@ -1,4 +1,5 @@
 % TODO: make all requirements navigateable (press on one and it scrolls the document to the bottom). 
+% TODO: can 
 
 % =============================================================================
 % =============================================================================
@@ -33,6 +34,7 @@
 \usepackage{wrapfig}
 \usepackage{graphicx}
 \usepackage{listings}
+\usepackage{minted}					% better than listings for code highlight
 \usepackage{tocloft}				% customize Table of Contents
 \usepackage{fancyhdr}				% for page numbering
 \usepackage{lastpage}				% for page numbering
@@ -106,6 +108,7 @@
 
 % Code 
 % ----
+\newmintinline{java}{}
 \lstset{
 language=Java,
 upquote=true, 
@@ -191,6 +194,12 @@ United Kingdom\\
 % TESTING 
 \pagebreak
 \section{Test implementation}
+
+% ============================================================================
+% CUCUMBER TESTING 
+\include{cucumber-testing}
+% ============================================================================
+
 % ============================================================================
 % EXPLORATORY TESTING
 \input{exploratory-testing}
@@ -199,11 +208,6 @@ United Kingdom\\
 % ============================================================================
 % UNIT TESTING 
 \include{unit-testing}
-% ============================================================================
-
-% ============================================================================
-% CUCUMBER TESTING 
-\include{cucumber-testing}
 % ============================================================================
 
 % ============================================================================
