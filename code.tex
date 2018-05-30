@@ -105,7 +105,26 @@ public Main(InputStream in, PrintStream out) {
 \ref{code:snippet-1}
 \end{figure}
 
-\subsubsection{Stopping Main more gracefully}
+\subsubsection{Start/Stop Main}
+
+The code in its given state 
+* starts the Main loop inside of the \lstinline{main()} function.
+* stops the application when the user inputs 'q' which then calls `System.exit(2)`. This then kills the entire running process. W
+To stop the 
+Another issue that was noticed during the initial phases of testing, was the inability to either start or stop Main with a method call. 
+
+Starting the loop from a method call proved trivial and merely involved moving most of the contents of \lstinline{main()} into a new defined method called \lstinline{run()}, as below: 
+
+\begin{lstset}
+Include the code here
+\end{lstset} 
+
+
+
+
+to shut down the application gracefully. As mentioned in the previous section, while the code does abide by many of the set-out requirements, it was not written with testability in mind. 
+\par 
+For instance, there are not method calls that allow the termination of the infinite loop within either of \lstinline{main()} or \lstinline{InterpretCommand()}. A test framework that instantiates a \lstinline{Main} object and calls run() 
 (1) method call 
 (2) do not invoke System.exit(2) 
 % * Allow for Main's start/stop execution to be controlled via methods. Currently, to stop main, the user must press 'q' which then leads to System.exit(). If running a test suite, this will cause the whole test suite to exit. We replace System.exit() with logic that causes the method to return. 
@@ -153,21 +172,21 @@ AllCustomers
 * updateCustomerXXXXX: all of these methods start off finding the customer, we should create a private method that returns the customer for a given ID. Also, discussing the current implementation of finding that customer; the below: 
 
 \begin{lstlisting}	
-	int i = 0;
-	int intCustomerIndex = 0;
-	
-	boolean blFound = false;
+int i = 0;
+int intCustomerIndex = 0;
 
-	for (i=0; i< intCurrentCustomerIndex; i++) {
-		if (customers[i].getAccountNum() == intCustomerID) {
-			blFound = true;
-			intCustomerIndex = i;
-			break;
-		}
+boolean blFound = false;
+
+for (i=0; i< intCurrentCustomerIndex; i++) {
+	if (customers[i].getAccountNum() == intCustomerID) {
+		blFound = true;
+		intCustomerIndex = i;
+		break;
 	}
-	if (blFound == true) {
-		customers[intCustomerIndex].setfirstName( strFirstName);
-	}
+}
+if (blFound == true) {
+	customers[intCustomerIndex].setfirstName( strFirstName);
+}
 \end{lstlisting}
 can be written as below: 
 \begin{lstlisting}
