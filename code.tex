@@ -71,6 +71,11 @@ This allows us to provide specific streams for Main to work with when running th
 Following our changes, creators of Main can either choose to provide their own streams or stick to the default stdin and stdout by calling Main's default constructor. 
 \par
 Another class in the application uses System.out to print and that is AllCustomers. It was debated whether we should dependency inject the streams to print to as well, but as there exists only one method concerned with printing in AllCustomers: `printCustomers`, it was decided that adding another \lstinline{printCustomers} method taking in a PrintStream would suffice.
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.4]{res/STE-Page-3-original.png}
+	\caption{After addition of PrintStream \& InputStream to Main class}
+\end{figure}
 % We would encourage considering a software redesign, limiting the span of objects that may write to stdout or read from stdin. [ Can expand on this more? ]
 \par
 \begin{figure}
@@ -124,16 +129,12 @@ To get around these implementation imperfections, we
 \label{sec:}
 Requirement (R7) cites the application must not crash if the user provides input that does not match the application's expectation. Abiding by this, the developers have surrounded most of the implemetation of InterpretCommand() with a try/catch block which prints the exception and re-runs the loop. 
 \par 
-While good for application robustness, this design is not well-suited for testing purposes since testers want to be made aware of exceptions thrown in the application. Accordingly, we create two methods that respond differently to exceptions thrown by application: 
+While good for application robustness, this design is not well-suited for testing purposes since testers would prefer the exceptions to be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
 
 \begin{itemize}
-	\item \javainline{runProd()} provides behaviour similar to the one exhibited by the original application.
-	\item \javainline{runDebug()} runs the app's inner-loop without catching exceptions.
+	\item \javainline{runProd()} provides behaviour similar to the one exhibited by the original application; it is meant to be used in the \javainline{void main(String []args)} method by the main application. 
+	\item \javainline{runDebug()} runs the app's inner-loop without catching exceptions allowing them to propagate upwards the call-stack eventually reaching the runDebug() caller, which can handle the exception accordingly. It is used in CommonStepDefs.java \javainline{void applicationHasStarted()}. 
 \end{itemize}
-
-% RUN PROD vs RUN DEBUG
-% ---------------------
-% added runProd() and runDebug(), to allow us to catch in the test environment when exceptions are thrown rather than having them all be swallowed by the application. With this in place, users of Main that wish for the application to continue running even after user input errors or other exceptions can call runProd() or simply run(), which does as the application used to prior to the changes. If the developer or tester utilising the \lstinline{Main} object wished to catch exceptions thrown they can instead call \lstinline{main.runDebug()}, which is what is used in our Cucumber testing. 
 
 % WAIT FOR USER INPUT
 % -------------------
@@ -158,67 +159,3 @@ While good for application robustness, this design is not well-suited for testin
 
 
  % ============================================================================
-
-* There is a very clear lack of documentation accross the source code. Methods do not have javadoc, most method implementations do no supply them either excepting for a few inline comments. 
-
-* there's no code style consistency: 
-	- some methods put spaces between open bracket and first param and closing bracket and last parameter. Other methods do not obey this. 
-	- some methods use canonical camel case while others break this (newcustomer vs. addCustomer)
-	- Implementation oddities, as if the developer is not familiar with Java programming: 
-		* `String name = new String()` is not often seen as it is sufficient to use `String name = "";' which is equivalent
-		* int i = 0; then using for(i=0; i < n; i++). As i is not used outside of the loop, it does not need to be defined outside. 
-	- AllCustomers is a badly named class, CustomerManagement is a better alternative. 
-	- 
-
-AccountNumbers
---------------
-Is not a well implemented Singleton pattern because the constructor is made protected and not private, meaning other classes in the same package can still instantiate it.
-
-
-AllCustomers
-------------
-* method getCustomer() returns a Customer object that has an "INVALID\_ID" when no such customer is present. This is unusual in that most common implementations would either throw an exception or return null. This implementation would be fine and accepted were it to be more documented. 
-
-
-* updateCustomerXXXXX: all of these methods start off finding the customer, we should create a private method that returns the customer for a given ID. Also, discussing the current implementation of finding that customer; the below: 
-
-\begin{lstlisting}	
-int i = 0;
-int intCustomerIndex = 0;
-
-boolean blFound = false;
-
-for (i=0; i< intCurrentCustomerIndex; i++) {
-	if (customers[i].getAccountNum() == intCustomerID) {
-		blFound = true;
-		intCustomerIndex = i;
-		break;
-	}
-}
-if (blFound == true) {
-	customers[intCustomerIndex].setfirstName( strFirstName);
-}
-\end{lstlisting}
-can be written as below: 
-\begin{lstlisting}
-int intCustomerIndex = -1;
-for (int i=0; i< intCurrentCustomerIndex; i++) {
-	if (customers[i].getAccountNum() == intCustomerID) {
-		intCustomerIndex = i;
-		break;
-	}
-}
-if (intCustomerIndex != -1) {
-	customers[intCustomerIndex].setfirstName( strFirstName);
-}
-\end{lstlisting}
-
-* method deleteCustomer() 
-why not just place `customers[i] = customers[i+1];` in the first if? 
-
-Main
------
-
-* A new instance of AllCustomers is created every time IntepretCommand is run(), which happens everytime some form of exception is thrown, because that's the only way to break out of the `while(true)` loop in InterpretCommand. 
-
-* String lineSeparator is useless. Totally useless.
