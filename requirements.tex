@@ -18,7 +18,7 @@ This step is critical before proceeding with the test process as testing based o
 \subsection{Requirements organisation}
 The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
 
-We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{appendix:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
+We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
 
 % TODO: Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
@@ -47,7 +47,7 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 It is understood that performance testing, security and other non-functional requirements are not to be considered in the scope of testing this project; however, it would be careless for us not to mention them in a System Requirments review as they constitute an intrical part of the requirements development process. 
 We would normally expect requirements on security, performance, compatibility and robustness to be elicited clearly in a separate non-functional requirements section; but, it is understood that the scope of testing of this project is restricted to the functional aspects and this may explain their absence. 
 \par
-That said, we identify (R7: \textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
+That said, we identify (\RSeven: \textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
 %
 % Ignorable: 
 % ----------
@@ -69,8 +69,8 @@ The importance of this should not be understated seeing as it is quite likely th
 Further to this, we request explicitly defining the below key words which  appear to have been used interchangeably:  
 
 \begin{itemize} 
-	\item Client, customer and person. Client is used in requirements (R1, R2, R5), customer in (R2, R3, R4, R5) and person in all (R8) requirements.  R5 interchangeably employs customer and client in the same sentence. 
-	\item System and application. System is used in (R2, R6, R7) while application is used in (R1, R4, R5).
+	\item Client, customer and person. Client is used in requirements (\ROne, \RTwo, \RFive), customer in (\RTwo, \RThree, \RFour, \RFive) and person in all (R8) requirements.  RFive interchangeably employs customer and client in the same sentence. 
+	\item System and application. System is used in (\RTwo, \RSix, \RSeven) while application is used in (\ROne, \RFour, \RFive).
 \end{itemize}
 
 We assume through contextual understanding that they refer to the same entity, however we do request this be confirmed to us in a "Definitions" section preferably in a more formal document.
@@ -83,7 +83,7 @@ We assume through contextual understanding that they refer to the same entity, h
 % --------------------------------------
 \subsection{Defects and Vaguenesses}
 
-In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{appendix:labelled-requirements}) to improve readability and accessibility of the report. 
+In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{app:labelled-requirements}) to improve readability and accessibility of the report. 
 
 % -----------------------------------------------------------------------------
 % [1]
@@ -158,7 +158,7 @@ This requirement relates to the application's robustness and should, in a more f
 There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
 \par
 % Show ID of clients. 
-Requirement R4 points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
+Requirement RFour points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
 \par
 % Edge case: Negative salaries. 
 Is it implicity that negative salaries are not a thing? How does the code deal with that? 

@@ -50,6 +50,8 @@
 
 % Items
 % -----------------------
+
+\setlist[itemize]{leftmargin=15pt}
 \def \tableitemsep {0pt}
 \def \tableleftsep {10pt}
 
@@ -107,26 +109,42 @@
 % \renewcommand\cfttoctitlefont{\hfill\Large\bfseries}
 % \renewcommand\cftaftertoctitle{\hfill\mbox{}}
 
+% References 
+% ----------
+\newcommand{\ROne}{\hyperref[req:r1]{R1}}
+\newcommand{\RTwo}{\hyperref[req:r2]{R2}}
+\newcommand{\RThree}{\hyperref[req:r3]{R3}}
+\newcommand{\RFour}{\hyperref[req:r4]{R4}}
+\newcommand{\RFive}{\hyperref[req:r5]{R5}}
+\newcommand{\RSix}{\hyperref[req:r6]{R6}}
+\newcommand{\RSeven}{\hyperref[req:r7]{R7}}
+\newcommand{\REight}{\hyperref[req:r8]{R8}}
+
 % Code 
 % ----
 \newmintinline{java}{}
-\lstset{
-language=Java,
-upquote=true, 
-breaklines=true,  % sets automatic line breaking
-%breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
-showspaces=false,
-showstringspaces=false,
-% basicstyle=\ttfamily, % change this for different font-sizes
-basicstyle=\small,
-%numbers=left,
-%numberstyle=\tiny,
-frame=single,
-%commentstyle=\color{gray}
-keywordstyle=\color[rgb]{0,0,1},
-commentstyle=\color[rgb]{0.133,0.545,0.133},
-stringstyle=\color[rgb]{0.627,0.126,0.941}
+\newminted{java}{
+frame=single, 
+showtabs=false, 
+showspaces=false
 }
+% \lstset{
+% language=Java,
+% upquote=true, 
+% breaklines=true,  % sets automatic line breaking
+% %breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
+% showspaces=false,
+% showstringspaces=false,
+% % basicstyle=\ttfamily, % change this for different font-sizes
+% basicstyle=\small,
+% %numbers=left,
+% %numberstyle=\tiny,
+% frame=single,
+% %commentstyle=\color{gray}
+% keywordstyle=\color[rgb]{0,0,1},
+% commentstyle=\color[rgb]{0.133,0.545,0.133},
+% stringstyle=\color[rgb]{0.627,0.126,0.941}
+% }
 
 % =============================================================================
 % =============================================================================
@@ -178,6 +196,14 @@ United Kingdom\\
 \thispagestyle{empty} % remove page number
 \pagebreak
 \pagenumbering{arabic} % start numbering  
+
+% ============================================================================ 
+% FIGURES & TABLES
+% ============================================================================ 
+
+\thispagestyle{empty}
+\listoffigures
+\listoftables 
 
 % ============================================================================
 % REQUIREMENTS 

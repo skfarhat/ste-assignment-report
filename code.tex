@@ -11,7 +11,7 @@
 \subsection{Code Structure} 
 Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
 
-Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Appendix \ref{appendix:code-read} [and in \ref{sec:code-style}]. 
+Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Appendix \ref{app:code-read} [and in \ref{sec:code-style}]. 
 
 \begin{itemize}
 	\item We note that error reporting in the application is weak: no exceptions thrown anywhere, none of the implemented methods return booleans or integers that could report errors (like returning -1 to indicate an error). There are no means by which  to valid errors occurrences in methods, such as when the ID provided in the delete method is not owned by any customer. 
@@ -78,37 +78,6 @@ Another class in the application uses System.out to print and that is AllCustome
 \end{figure}
 % We would encourage considering a software redesign, limiting the span of objects that may write to stdout or read from stdin. [ Can expand on this more? ]
 \par
-\begin{figure}
-\begin{minted}{java}
-/**
- * Stream to write application's output to, defaults to System.out.
- */
-private final PrintStream out;
-
-/**
- * InputStream to be used for reading user input, defaults to System.in
- */
-private final InputStream in;
-
-/**
- * default constructor
- */
-public Main() {
-    this(System.in, System.out);
-}
-
-/**
- * constructor taking in the InputStream and PrintStream to be used
- * @param in InputStream to read from
- * @param out PrintStream to write to
- */
-public Main(InputStream in, PrintStream out) {
-    this.in = in;
-    this.out = out;
-}
-\end{minted}
-\ref{code:snippet-1}
-\end{figure}
 
 \subsubsection{Start/Stop Main}
 \label{sec:start-stop-main}
