@@ -9,6 +9,13 @@ Such steps may include but are not limited to: building the different executable
 For this project, we setup several Jenkins pipelines which are triggered upon each commit of the code. There are many ways to trigger builds in Jenkins, one such way is to continuously poll the repository for changes. 
 Another is to trigger the build manually using HTTP POST. In our test implementation we have written a script to trigger the build manually using curl, a linux tool. The script is run after every commit made. 
 \begin{itemize}
-	\item STE-proj-acceptance
-	\item STE-proj-test
+    \item TaxCalc-build
+	\item TaxCalc-test-acceptance
+	\item TaxCalc-test-unit
 \end{itemize}
+
+\begin{figure}[H]
+\includegraphics[scale=0.4]{res/jenkins.png}
+\label{fig:jenkins-screenshot}
+\caption{Screenshot: Jenkins Project}
+\end{figure}

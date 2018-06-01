@@ -47,11 +47,11 @@ If the tests were to be spelled out individually (one test for each taxcode-sala
 
 For the above reason, we looked into parametrized tests using Cucumber and found this to be possible using the "Examples" keyword. 
 An "Examples" section placed just below a scenario definition determines the combinations of parameters to be used when running this Scenario, for our tax verification purposes we use the table below: 
-\begin{lstlisting}
+\begin{javacode}
 firstName	| lastName	| taxCode 	| Salary 	| expectedTax
 Tobias 		| Mann 		| TB1000 	| 10000 	| ....
 Sophie		| Caseby	| S2000 	| 20000		| ....
-\end{lstlisting}
+\end{javacode}
 This entails the test will be run with Tobias as firstName, Mann as lastName... for the first run of the scenario. Then for the second run "Sophie" will be used for the firstName and so on. 
 This approach allows us to define fewer scenarios that can take in more combinations increasing our scenarios' readability all the while reducing the time needed to test the large number of combinations we need to. 
 
