@@ -1,26 +1,47 @@
 \subsection{List of defects}
 
-% Requirements defects 
-% Logic defects
+% =====================================================================================================================
+% REQUIREMENTS 
+% =====================================================================================================================
 
-% \begin{table}[H]
-% 	\small
-% 	\centering
-% 	\begin{tabularx}{\textwidth}{| c | X |}
-%     \hline %  -----------   Header  ---------------------------------
-%     \tblheader{Label} & \tblheader{Requirement} \\
-%     \hline %  -----------   Header  ---------------------------------
-%     ROne & The application must enable the storage of client’s personal details including:
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{| c | X | c | c | X |}
+    \hline %  -----------   Header  -----------------------------------
+    \tblheader{ID} & \tblheader{Description} & \tblheader{Severity} & \tblheader{Component} & \tblheader{Resolution}\\
+    \hline %  -----------   Header  -----------------------------------
+\end{tabularx}
+\caption{Requirements defects}
+\end{table}
 
-* Updating customer for all of the fields (firstname, lastname, salary, ettc) does not update the amount of tax they need to be paying. This is done only if the "salary" alone is updated but not when all the fields are. 
+% =====================================================================================================================
+% CODE DEFECTS
+% =====================================================================================================================
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{| c | X | c | c | X |}
+    \hline %  -----------   Header  -----------------------------------
+    \tblheader{ID} & \tblheader{Description} & \tblheader{Severity} & \tblheader{Test Component} & \tblheader{Suggestion}\\
+    \hline %  -----------   Header  -----------------------------------
+    D001 & Updating customer salary using 'y' does not update the amount of tax they pay & High & Acceptance & Invoke engine.taxAmount() in updateSalary() \\ 
+    \hline %  ---------------------------------------------------------
+    D002 & Updating customer tax code using 'u' menu command does not update the amount of tax they pay & High & Acceptance &  \\ 
+    \hline %  ---------------------------------------------------------
+    D003 & Salary is restricted to $2^{31} - 1$ & Medium & Code review & Change salary type in Customer to Long or BigInteger\\
+    \hline %  ---------------------------------------------------------
+    D004 & Printing customers relies on internal array indices, which are not exposed to user & High & Exploratory & Allow printing blocks using ID ranges. Since the entries are contiguous in the array, this should be similarly straightforward.\\ 
+    \hline %  ---------------------------------------------------------
+    D005 & Maximum number of customers allowed is 100 & High & Code review & Increase the value of MAX\_CUSTOMERS in Constants \\
+    \hline %  ---------------------------------------------------------
+    D006 & Menu does not expose command 'y' & Medium & Exploratory & Add line in PrintMenu()\\
+    \hline %  ---------------------------------------------------------
+    D007 & Last line of Menu is missing a space to properly align vertical line & Medium & Exploratory & Add one more space after "QUIT PROGRAM" in PrintMenu()\\
+    \hline %  ---------------------------------------------------------
+    \hline %  ---------------------------------------------------------
+\end{tabularx}
+\caption{Functional \& Code defects}
+\end{table}
 
-* The printing of customers is based on the indices pertinent to the array in AllCustomers, which is not exposed to the user. 
-
-There's somewhat of an assumption being made that a users salary always fits in Integer. What if they earned more than $2^31 - 1$ ? 
 
 % DEFECT
-% Does updating the customer detail, such as salary, effectively change his tax bracket?
-
 % User Interface defects
 % Code style defects
 
