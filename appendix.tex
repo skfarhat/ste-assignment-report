@@ -15,248 +15,13 @@
 
 % =============================================================================
 % LABELLED REQUIREMENTS
-\section{Labelled Requirements}
-\label{app:labelled-requirements}
-% =============================================================================
-    \begin{table}[H]
-    \small
-    \centering
-    \begin{tabularx}{\textwidth}{| c | X |}
-    \hline %  -----------   Header  ---------------------------------
-    \tblheader{Label} & \tblheader{Requirement} \\
-    \hline %  -----------   Header  ---------------------------------
-    \label{req:r1}
-    R1 & The application must enable the storage of client’s personal details including: 
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item First Name
-        \item Last (family) name
-        \item Current salary (as a whole number in GB pounds. No ‘pence’ required)
-        \item Tax code 
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    \label{req:r2}
-    R2 &  The software should issue each customer a numeric identifier which must be unique to that client and never be used by a different client (that is, if a client is deleted from the system then their ID should not be used again but has to ‘die’ with them). \\
-    \hline % ---------------------------------------------------------
-    \label{req:r3}
-    R3 & The PTMA should enable customer details to be updated. \\
-    \hline % ---------------------------------------------------------
-    \label{req:r4}
-    R4 & The application should be able to print lists of customer information with users being able to select blocks of customers to be printed based on their unique identifiers. \\
-    \hline % ---------------------------------------------------------
-    \label{req:r5}
-    R5 & The application will calculate the tax amount to be paid by each client and display this amount along with the other customer details. The amount of the tax is based on their tax code and their current salary according to the rules below. \\
-    \hline % ---------------------------------------------------------
-    \label{req:r6}
-    R6 & The system must include a simple ‘help’ system that lists all commands \\
-    \hline % ---------------------------------------------------------
-    \label{req:r7}
-    R7 & The system must not crash if the user enters something that they are not meant to. \\
-    \hline % ---------------------------------------------------------
-    & The tax rules are as follows:\\
-    \hline % ---------------------------------------------------------
-    \label{req:r8-1}
-    R8.1 & Tax amount can be calculated from a person’s tax code and their current salary. \\
-    \hline % ---------------------------------------------------------
-    R8.2 & A tax code has a numerical part and an alphabetic part. For compatibility with legacy
-    tax code policy, the numeric and alphabetic portion of the tax code may be presented in either order. Thus, for clarity, both of the following tax codes are valid:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-    \item 1080MT
-    \item SF980
-\end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.3 & The numeric part of the tax codes represents a ‘base’ tax amount that is then modified by the alphabetic portion of the tax code and depending on the person’s current salary. \\
-    \hline %  -----------   Header  ---------------------------------
-    R8.4 & The alphabetic portion of the code may consist of multiple letters drawn from the following set, with their corresponding meanings: 
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-    \item ‘M’ : Married
-    \item ‘S’ : Single
-    \item ‘D’ : Divorced
-    \item ‘C’ : Has a single child
-    \item ‘E’ : Has two children
-    \item ‘F’ : Has multiple (more than two) children 
-    \item ‘T’ : Full-time student below the age of 24 
-    \item ‘U’ : Full time student 24 years and older
-\end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    \end{tabularx}
-    \end{table}
 
-    % ----------------------------> 
-    % Split the table to two pages 
-    % ----------------------------> 
-
-    \begin{table}[H]
-    \small
-    \centering
-    \begin{tabularx}{\textwidth}{| c | X |}
-    \hline %  -----------   Header  ---------------------------------
-    \tblheader{Label} & \tblheader{Requirement} \\
-    \hline % ---------------------------------------------------------
-    R8.5 & Calculation of tax for Married people: one of the following four bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item Married people with a current salary of less than £5000 will pay a tax rate of
-        70\% of their base tax amount.
-        \item Married people with a current salary less than £12,000 will pay a tax rate of
-        90\% of their base tax amount.
-        \item Married people with a current salary less than £27,000 will pay a tax rate of
-        120\% of their base tax amount
-        \item Married people with a current salary above than £27,000 will pay a tax rate
-        of 130\% of their base tax amount
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.6 & Calculation of tax for Single people: one of the following four bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item Single people with a current salary of less than £6500 will pay a tax rate of 75\% of their base tax amount.
-        \item Single people with a current salary less than £11,000 will pay a tax rate of 95\% of their base tax amount.
-        \item Single people with a current salary above £22,000 will pay a tax rate of 125\% of their base tax amount
-        \item Single people with a current salary above than £22,000 will pay a tax rate of 132\% of their base tax amount
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.7 & Calculation of tax for divorced people: one of the following four bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item Divorced people with a current salary of less than £7200 will pay a tax rate
-        of 60\% of their base tax amount.
-        \item Divorced people with a current salary less than £13,000 will pay a tax rate of
-        80\% of their base tax amount.
-        \item Divorced people with a current salary above £24,000 will pay a tax rate of
-        95\% of their base tax amount
-        \item Divorced people with a current salary above than £24,000 will pay a tax rate
-        of 110\% of their base tax amount
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.8 & Calculation of tax for people with a single child. One of the following three bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item People with a single child and a current salary of less than £8000 will pay a tax rate of 80\% of their base tax amount after taking into consideration any
-        adjustments due to their marital status
-        \item People with a single child and a current salary of less than £10400 will pay a
-        tax rate of 85\% of their base tax amount after taking into consideration any
-        adjustments due to their marital status
-        \item People with a single child and a current salary greater than £10400 will pay a
-        tax rate of 95\% of their base tax amount after taking into consideration any adjustments due to their marital status
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-\end{tabularx}
-\end{table}
-    % ----------------------------> 
-    % Split the table to two pages 
-    % ----------------------------> 
-
-\begin{table}[H]
-\small
-\centering
-\begin{tabularx}{\textwidth}{| c | X |}
-    \hline % ---------------------------------------------------------
-    R8.9 & Calculation of tax for people with two children. One of the following three bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item People with a two children and a current salary of less than £7400 will pay a tax rate of 90\% of their base tax amount after taking into consideration any adjustments due to their marital status
-        \item People with a two children and a current salary of less than £9900 will pay a tax rate of 95\% of their base tax amount after taking into consideration any adjustments due to their marital status
-        \item People with a two children and a current salary greater than £9900 will pay a tax rate of 101\% of their base tax amount after taking into consideration any adjustments due to their marital status
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.10 & Calculation of tax for people with more than two children. One of the following three bands will apply:
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item People with more than two children and a current salary of less than £7000 will pay a tax rate of 120\% of their base tax amount after taking into consideration any adjustments due to their marital status
-        \item People with more than two children and a current salary of less than £9000 will pay a tax rate of 125\% of their base tax amount after taking into consideration any adjustments due to their marital status
-        \item People with more two children and a current salary greater than £9000 will pay a tax rate of 130\% of their base tax amount after taking into consideration any adjustments due to their marital status
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.11 & Calculation for people who are in full time education who are below that age of 24 : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-        \item People in full-time education below the age of 24 and have a current salary less than £2000 will pay a tax rate of 107\%
-        \item People in full-time education below the age of 24 and have a current salary less than £3000 will pay a tax rate of 113\%
-        \item People in full-time education below the age of 24 and have a current salary more than £3000 will pay a tax rate of 123\%
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-    R8.12 & Calculation for people who are in full time education who are 24 years of age and above : One of the following three bands will apply (adjustments to be made after taking into account marital status and number of children):
-    \begin{itemize}[itemsep=\tableitemsep, leftmargin=\tableleftsep]
-    \item People in full-time education, who are 24 and above and have a current salary less than £2000 will pay a tax rate of 109\%
-    \item People in full-time education, who are 24 and above and have a current salary less than £3000 will pay a tax rate of 115\%
-    \item People in full-time education , who are 24 and above and have a current salary more than £3000 will pay a tax rate of 125\%
-    \end{itemize}
-    \\
-    \hline % ---------------------------------------------------------
-\end{tabularx}
-\caption{Requirements table}
-\end{table}
+\input{appendix-requirements}
 
 % =============================================================================
 % CODE CRITIQUE
-\pagebreak
-\section{Code critique}
-% =============================================================================
-\label{app:code-critique}
-This section provides a critique of the code implementation found in the application. Issues pointed here do not reference functional defects of the code, but rather flaws in code style, design and good coding practice. 
 
-\subsection{Documentation}
-There is a very clear lack of documentation accross the source code. Methods do not have javadoc, most method implementations do no supply them either excepting for a few inline comments. 
-
-\subsection{Code Style}
-There's no code style consistency: 
-\begin{itemize}
-    \item some methods put spaces between open bracket and first param and closing bracket and last parameter. Other methods do not obey this. 
-    \item some methods use canonical camel case while others break this (newcustomer vs. addCustomer)
-    \item Implementation oddities, as if the developer is not familiar with Java programming: 
-        * `String name = new String()` is not often seen as it is sufficient to use `String name = "";' which is equivalent
-        * int i = 0; then using for(i=0; i < n; i++). As i is not used outside of the loop, it does not need to be defined outside. 
-    \item AllCustomers is a badly named class, CustomerManagement is a better alternative. 
-\end{itemize}
-% -------------------
-\textbf{AccountNumbers\\}
-Is not a well implemented Singleton pattern because the constructor is made protected and not private, meaning other classes in the same package can still instantiate it.
-% -------------------
-\textbf{AllCustomers}
-\begin{itemize}
-    \item method getCustomer() returns a Customer object that has an "INVALID\_ID" when no such customer is present. This is unusual in that most common implementations would either throw an exception or return null. This implementation would be fine and accepted were it to be more documented. 
-
-    \item method deleteCustomer(). why not just place `customers[i] = customers[i+1];` in the first if? 
-
-    \item updateCustomerXXXXX: all of these methods start off finding the customer, we should create a private method that returns the customer for a given ID. Also, discussing the current implementation of finding that customer; the below: 
-\end{itemize}
-
-\begin{javacode}
-int i = 0;
-int intCustomerIndex = 0;
-boolean blFound = false;
-for (i=0; i< intCurrentCustomerIndex; i++) {
-    if (customers[i].getAccountNum() == intCustomerID) {
-        blFound = true;
-        intCustomerIndex = i;
-        break;
-    }
-}
-if (blFound == true) {
-    customers[intCustomerIndex].setfirstName( strFirstName);
-}
-\end{javacode}
-can be written as below: 
-\begin{javacode}
-int intCustomerIndex = -1;
-for (int i=0; i< intCurrentCustomerIndex; i++) {
-    if (customers[i].getAccountNum() == intCustomerID) {
-        intCustomerIndex = i;
-        break;
-    }
-}
-if (intCustomerIndex != -1) {
-    customers[intCustomerIndex].setfirstName( strFirstName);
-}
-\end{javacode}
-
-\textbf{Main}
-\begin{itemize}
-    \item A new instance of AllCustomers is created every time IntepretCommand is run(), which happens everytime some form of exception is thrown, because that's the only way to break out of the `while(true)` loop in InterpretCommand. 
-    \item String lineSeparator is useless. Totally useless.
-\end{itemize}
+\input{appendix-code-critique}
 
 % =============================================================================
 % CODE SNIPPETS
@@ -300,3 +65,27 @@ public Main(InputStream in, PrintStream out) {
 \label{code:snippet-1}
 \end{figure}
 % -----------------------------------------------------------------------------
+\pagebreak
+\section{Project setup \& organisation}
+
+\subsection{Using gradle}
+Gradle is a build automation and dependency management system often used for Java projects, and provides similar functionality to Apache's Maven and Ant. Gradle projects can be created by placing build.gradle file in the root of the project and defining the plugins and tasks to run. For our project, the most relevant tasks are build (which includes running the set of JUnit tests), packaging the project into a fat jar file, generating documentation, and coverage reports.\\
+\\
+gradlew is a wrapper script that is useful for downloading gradle for your OS type and your system architecture. Below, we list some of the useful commands that have been used in developing this system: \\ 
+
+\begin{tabularx}{\textwidth}{ | s | b |}
+\hline %  -----------   Header  ---------------------------------
+\tblheader{Gradle commands} & \tblheader{Notes} \\
+\hline %  ---------------------------------------------------------------------
+./gradlew build & Compile project and run tests -- fails if any compilation fails or any of the tests fail \\
+\hline %  ---------------------------------------------------------------------
+./gradlew test & Run all test suites (JUnit \& Cucumber) \\
+\hline %  ---------------------------------------------------------------------
+./gradlew cucumber & Run cucumber test suite \\
+\hline %  ---------------------------------------------------------------------
+./gradlew jacocoRootReport & Creates coverage report\\
+\hline %  ---------------------------------------------------------------------
+./gradlew clean & remove all executable and generated files \\
+\hline %  ---------------------------------------------------------------------
+\end{tabularx}
+

@@ -1,0 +1,66 @@
+\pagebreak
+\section{Code critique}
+% =============================================================================
+\label{app:code-critique}
+This section provides a critique of the code implementation found in the application. Issues pointed here do not reference functional defects of the code, but rather flaws in code style, design and good coding practice. 
+
+\subsection{Documentation}
+There is a very clear lack of documentation accross the source code. Methods do not have javadoc, most method implementations do no supply them either excepting for a few inline comments. 
+
+\subsection{Code Style}
+There's no code style consistency: 
+\begin{itemize}
+    \item some methods put spaces between open bracket and first param and closing bracket and last parameter. Other methods do not obey this. 
+    \item some methods use canonical camel case while others break this (newcustomer vs. addCustomer)
+    \item Implementation oddities, as if the developer is not familiar with Java programming: 
+        * `String name = new String()` is not often seen as it is sufficient to use `String name = "";' which is equivalent
+        * int i = 0; then using for(i=0; i < n; i++). As i is not used outside of the loop, it does not need to be defined outside. 
+    \item AllCustomers is a badly named class, CustomerManagement is a better alternative. 
+\end{itemize}
+% -------------------
+\textbf{AccountNumbers\\}
+Is not a well implemented Singleton pattern because the constructor is made protected and not private, meaning other classes in the same package can still instantiate it.
+% -------------------
+\textbf{AllCustomers}
+\begin{itemize}
+    \item method getCustomer() returns a Customer object that has an "INVALID\_ID" when no such customer is present. This is unusual in that most common implementations would either throw an exception or return null. This implementation would be fine and accepted were it to be more documented. 
+
+    \item method deleteCustomer(). why not just place `customers[i] = customers[i+1];` in the first if? 
+
+    \item updateCustomerXXXXX: all of these methods start off finding the customer, we should create a private method that returns the customer for a given ID. Also, discussing the current implementation of finding that customer; the below: 
+\end{itemize}
+
+\begin{javacode}
+int i = 0;
+int intCustomerIndex = 0;
+boolean blFound = false;
+for (i=0; i< intCurrentCustomerIndex; i++) {
+    if (customers[i].getAccountNum() == intCustomerID) {
+        blFound = true;
+        intCustomerIndex = i;
+        break;
+    }
+}
+if (blFound == true) {
+    customers[intCustomerIndex].setfirstName( strFirstName);
+}
+\end{javacode}
+can be written as below: 
+\begin{javacode}
+int intCustomerIndex = -1;
+for (int i=0; i< intCurrentCustomerIndex; i++) {
+    if (customers[i].getAccountNum() == intCustomerID) {
+        intCustomerIndex = i;
+        break;
+    }
+}
+if (intCustomerIndex != -1) {
+    customers[intCustomerIndex].setfirstName( strFirstName);
+}
+\end{javacode}
+
+\textbf{Main}
+\begin{itemize}
+    \item A new instance of AllCustomers is created every time IntepretCommand is run(), which happens everytime some form of exception is thrown, because that's the only way to break out of the `while(true)` loop in InterpretCommand. 
+    \item String lineSeparator is useless. Totally useless.
+\end{itemize}
