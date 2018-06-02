@@ -105,15 +105,20 @@ While good for application robustness, this design is not well-suited for testin
 	\item \javainline{runDebug()} runs the app's inner-loop without catching exceptions allowing them to propagate upwards the call-stack eventually reaching the runDebug() caller, which can handle the exception accordingly. It is used in CommonStepDefs.java \javainline{void applicationHasStarted()}. 
 \end{itemize}
 
+% ------------------------------------------
+\subsubsection{Application exceptions}
+% discuss why TaxEngineException is needed 
+% 
+% ------------------------------------------
 
-% EXCEPTION: TaxEngineException 
-% -----------------------------
 
+% ----------------------------------------------------------------------------
+\subsubsection{Wait for user input}
 % WAIT FOR USER INPUT
-% -------------------
 % Just a flag that tells us the state of the application, is it currently blocked waiting for user input? If so we know it will not be printing anything, so this would be a good time to go ahead and read the PrintStream. Or if we needed to inject some user input, we also wait for the application to indicate it is waiting for input before we append strings to its input stream. 
 
 % The isWaitingForUserInput is marked as volatile as this boolean will be inspected by multiple threads, one of which will run a loop waiting for the boolean to be set to true. Without volatile, the JVM might optimise it and provide a cached value of the boolean to each thread, marking as volatile ensures that no compiler optimisations are used and the value is constantly checked in the loop.
+% ----------------------------------------------------------------------------
 
 \subsubsection{Other stuff}
 

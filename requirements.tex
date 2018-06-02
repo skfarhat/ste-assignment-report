@@ -32,8 +32,8 @@ A positive consequence of this, perhaps surprisingly, is that it puts the tester
 \par
 Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
 \begin{itemize}
-	\item The 1st bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
-	\item The 7th bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+	\item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
+	\item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
 	\item Requirements (R8.5-R8.10) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (R8.11-R8.12) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
 	\item The bullet detailing the taxing of divorced people (R8.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
@@ -176,15 +176,14 @@ Below, we list the assumptions made in our testing following persual of the requ
 
 \begin{itemize}
     \item We assume the requirements do not require persistent storage of customer details.
-    \item Tax letters in the same group are mututally exclusive 
-    \item Tax code MUST contain a Marital status letter
-    \item Tax for Married people. We assume "above than or equal to £27,000" pay 130\%
-    \item Tax for Single people. We assume "less than £22,000" pay 125\%
-    \item Tax for Single people. We assume "above than or equal £22,000" pay 132\%
-    \item Tax for Divorced people. We assume "less than £24,000" pay 95\%
-    \item Tax for Divorced people. We assume "above than or equal £24,000" pay 110\%
-
-	\item We assume that earning less than zero (Paying?) person, pays no tax. i.e. min range = 0. 
+    \item Tax letters in the same group are mututally exclusive. 
+    \item Tax code MUST contain a Marital status letter. 
+    \item Tax for Married people. We assume "above than or equal to £27,000" pay 130\%. 
+    \item Tax for Single people. We assume "less than £22,000" pay 125\%. 
+    \item Tax for Single people. We assume "above than or equal £22,000" pay 132\%. 
+    \item Tax for Divorced people. We assume "less than £24,000" pay 95\%.
+    \item Tax for Divorced people. We assume "above than or equal £24,000" pay 110\%.
+    \item We assume that negative salaries and base amounts are invalid.
 \end{itemize}
 
 % --------------------------------------
