@@ -7,7 +7,7 @@ In this sub-section we will comment on defects found in requirements (R8.x) with
 % ----------------------------------
 \textbf{Mutual exclusivity of tax brackets \\}
 \\
-Requirement (R8.4) does not cite the existence of any mutual exclusivity between tax letters in the same tax groups i.e. between: 
+Requirement (\REightFour) does not cite the existence of any mutual exclusivity between tax letters in the same tax groups i.e. between: 
 \begin{itemize}[noitemsep]
 	\item 'M', 'S', and 'D' 
 	\item 'C', 'E', and 'F'
@@ -20,10 +20,10 @@ This will be assumed considering a person cannot have both "2 children" and "1 c
 % --------------------------------------
 \textbf{Marital status is required in tax code \\}
 \\
-Requirement (R8.4) does not specify that the tax code MUST contain a martial status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
+Requirement (\REightFour) does not specify that the tax code MUST contain a martial status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
 \begin{enumerate}
-	\item Requirements (R8.8) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This suggests that some tax due to Marital status must have been applied before. 
-	\item If it were possible for the Martial status to be absent from the tax code, then it would become possible for a tax code to not have any letters at all. This would conflict with requirement (R8.2). % This can happen if they have no Marital status, no children and are not in education. 
+	\item Requirements (\REightEight) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This suggests that some tax due to Marital status must have been applied before. 
+	\item If it were possible for the Martial status to be absent from the tax code, then it would become possible for a tax code to not have any letters at all. This would conflict with requirement (\REightTwo). % This can happen if they have no Marital status, no children and are not in education. 
 	% \item The reader is not aware of a marital status that does not belong outside of married, divroced, single. Common sense employed here. 
 \end{enumerate}
 
@@ -48,7 +48,7 @@ Which approach the application should undertake should be laid out in the requir
 % --------------------------
 \textbf{Contradictory requirements\\}
 \\
-The below requirement (R8.5) does not correctly  is incorrectly worded and would could have been interpreted  can justifiably be interpreted differently than it has been by the developers who we believe overlooked the issues inherent in the requirement. 
+The below requirement (\REightFive) does not correctly  is incorrectly worded and would could have been interpreted  can justifiably be interpreted differently than it has been by the developers who we believe overlooked the issues inherent in the requirement. 
 \par
 %TODO: format this differently from the rest of the text - but make it look good. 
 Calculation of tax for Married people: one of the following four bands will apply:
@@ -63,22 +63,22 @@ Calculation of tax for Married people: one of the following four bands will appl
 	of 130\% of their base tax amount
 \end{itemize}	
 
-We note from the above that each bullet after the first one contradicts the bullets before it: for someone earning £3000 in salary, the first bullet implies they should pay a tax rate of 70\%, the second overrides the first bullet and implies they should pay 90\%, the third one 120\% and the fourth one 130\%. It is believed that the intention behind the bullets is to establish tax brackets as below: 
+We note from the above that each bullet after the first one contradicts the bullets before it: for someone earning £3,000 in salary, the first bullet implies they should pay a tax rate of 70\%, the second overrides the first bullet and implies they should pay 90\%, the third one 120\% and the fourth one 130\%. It is believed that the intention behind the bullets is to establish tax brackets as below: 
 \begin{itemize}[noitemsep]
 	\item People earning between £0 - £5,000 should pay 70\% tax rate 
 	\item People earning between £5,000 - £12,000 should pay 90\%
 	\item People earning between £12,000 - £27,000 should pay 120\%
 	\item People earning over £27,000 should pay 130\%
 \end{itemize}
-The same applies for all subsequent requirements R8.6 to R8.12. 
+The same applies for all subsequent requirements \REightSix \space to \REightTwelve. 
 
 % Different tax rates for the same bracket
-Requirements (R8.6 and R8.7) have contradictory 3rd and 4th bullets which state different tax rates for the same tax brackets. Looking at the rest of the requirements we infer that this defect is due to a typo in the 3rd bullet of R8.6 and R8.7. 
+Requirements (\REightSix \space and \REightSeven) have contradictory 3rd and 4th bullets which state different tax rates for the same tax brackets. Looking at the rest of the requirements we infer that this defect is due to a typo in the 3rd bullet of \REightSix \space and \REightSeven. 
 
 We assume the intention is below: 
 \begin{itemize}[noitemsep]
-	\item People earning in bracket £11,000 - £22,000 pay a rate of 125\%
-	\item People earning £22,000 and above pay rate 132\%
+	\item People earning in bracket £11,000 - £22,000 pay a rate of 125\%.
+	\item People earning £22,000 and above pay rate 132\%.
 \end{itemize}
 
 % -------------

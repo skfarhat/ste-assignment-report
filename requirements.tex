@@ -32,10 +32,10 @@ A positive consequence of this, perhaps surprisingly, is that it puts the tester
 \par
 Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
 \begin{itemize}
-	\item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
+    \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
 	\item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
-	\item Requirements (R8.5-R8.10) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (R8.11-R8.12) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
-	\item The bullet detailing the taxing of divorced people (R8.7) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
+	\item Requirements (\REightFive to \REightTen) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
+	\item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 \end{itemize}
 
@@ -47,7 +47,7 @@ Below we outline some of the observed incoherences. They are not catastrophic by
 It is understood that performance testing, security and other non-functional requirements are not to be considered in the scope of testing this project; however, it would be careless for us not to mention them in a System Requirments review as they constitute an intrical part of the requirements development process. 
 We would normally expect requirements on security, performance, compatibility and robustness to be elicited clearly in a separate non-functional requirements section; but, it is understood that the scope of testing of this project is restricted to the functional aspects and this may explain their absence. 
 \par
-That said, we identify (\RSeven: \textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
+That said, we identify (\RSeven:\textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
 %
 % Ignorable: 
 % ----------
@@ -70,7 +70,7 @@ Further to this, we request explicitly defining the below key words which  appea
 
 %TODO: fix the R5 collated with interchangeably - is there another way? 
 \begin{itemize} 
-	\item Client, customer and person. Client is used in requirements (\ROne, \RTwo, \RFive), customer in (\RTwo, \RThree, \RFour, \RFive) and person in all (\REight) requirements.\RFive \space interchangeably employs customer and client in the same sentence. 
+	\item Client, customer and person. Client is used in requirements (\ROne, \RTwo, \RFive), customer in (\RTwo, \RThree, \RFour, \RFive) and person in all \REight \space requirements. \RFive \space interchangeably employs customer and client in the same sentence. 
 	\item System and application. System is used in (\RTwo, \RSix, \RSeven) while application is used in (\ROne, \RFour, \RFive).
 \end{itemize}
 
@@ -122,7 +122,7 @@ Also, this requirement can be improved by specifying that customer IDs should no
 % with users being able to select blocks of customers to be printed based on their unique identifiers.}
 This requirement was found to be clear and unambiguous. 
 
-It appears to allow developers flexibility in implementing how different blocks of IDs can be input by the user. This flexibility in the requirement is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo then printing blocks of users may have to be done using comma-separated input from the user. 
+It appears to allow developers flexibility in implementing how different blocks of IDs can be input by the user. This flexibility in the requirement is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo \space then printing blocks of users may have to be done using comma-separated input from the user. 
 
 % -----------------------------------------------------------------------------
 % [5]
@@ -136,7 +136,7 @@ However, it remains unclear why it was separated from (R8.x) the tax rules, seem
 % [6]
 \subsubsection{R6 - The system must include a simple 'help' system that lists all commands.}
 
-This requirement was found to be clear and unambiguous, assuming system \& application refer to the same thing (see section \ref{sec:key-term-definitions}). 
+This requirement was found to be clear and unambiguous, assuming system \& application refer to the same thing (see Section \ref{sec:key-term-definitions}). 
 
 % -----------------------------------------------------------------------------
 % [7]
@@ -144,7 +144,7 @@ This requirement was found to be clear and unambiguous, assuming system \& appli
 
 Assuming system refers to the application, the requirement is clear. 
 \par
-This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see section \ref{sec:non-functional-requirements}).
+This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see Section \ref{sec:non-functional-requirements}).
 
 % -----------------------------------------------------------------------------
 % [8]

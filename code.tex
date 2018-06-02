@@ -11,7 +11,7 @@
 \subsection{Code Structure} 
 Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
 
-Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Appendix \ref{app:code-read} [and in \ref{sec:code-style}]. 
+Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Section \ref{sec:code-style} and Appendix \ref{app:code-critique}. 
 
 \begin{itemize}
 	\item We note that error reporting in the application is weak: no exceptions thrown anywhere, none of the implemented methods return booleans or integers that could report errors (like returning -1 to indicate an error). There are no means by which  to valid errors occurrences in methods, such as when the ID provided in the delete method is not owned by any customer. 
