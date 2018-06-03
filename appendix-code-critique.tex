@@ -65,3 +65,68 @@ if (intCustomerIndex != -1) {
     \item A new instance of AllCustomers is created every time IntepretCommand is run(), which happens everytime some form of exception is thrown, because that's the only way to break out of the `while(true)` loop in InterpretCommand. 
     \item String lineSeparator is useless. Totally useless.
 \end{itemize}
+
+% developers should learn about non-capturing groups in regex.
+
+% * string handling can be improved by using stringbuffer (improvement)
+% * Singleton pattern is useless and doesn't add anything in the system. 
+% * Class is meant to be a Singleton. 
+% * We start account numbers at 1.
+% * We can have `newAccountNum()` called without an instance. Then why do we need the AccountNumbers class in the first place?
+
+% ## AllCustomers
+
+% Very badly named class. 
+
+% 1. We create an array of customers with size = MAX_CUSTOMERS = 100. 
+%   * Do we check that number when adding? Is it possible to overflow this array?
+%   * some stuff is not specified as private, protected, public (bad practice). 
+
+% 2. We never return the Customer object, which is fair maybe we don't want to expose it? But anyway, we should be returning something about its ID. --> we have added getIntCurrentCustomerIndex
+  
+% ### addCustomer()
+
+% Visibility: public
+% Input: firstName, lastName, taxCode, salary
+% Output: void 
+
+% Details: 
+%     * if we have not exceeded max number of customers, create a new customer passing in all the params.
+%     * no checks whatsoever are done on the input params
+%     * increment currentCustomerIndex
+%     * if we have exceeded print error. Return.
+    
+% ### getCustomer(int customerID)
+
+% Visibility: public 
+
+% Output: a Customer() instance. Always, even if not found. If not found, we return a default Customer() which has an INVALID_ACCOUNT=-1.
+% Details: 
+
+% * i=0 is redundant, we could just define it in the for loop 
+% * we're not looping correctly. We traverse in the loop n+1 elements (see `i<= intCurrentCustomerIndex`). 
+% This probably does not manifest now because we either find the guy we're looking for before reaching the end, or we don't find him 
+% and reach the last empty entry. 
+
+
+% ### deleteCustomer(int customerID)
+
+% Visibility: public 
+
+% ### updateCustomerAll
+
+% Quite surprising that this method does not call on the other update methods. This would make sure there is no code duplication, 
+% plus if we later find a bug somewhere, either in updateCustomerAll() or in updateCustomerFirstName() for example, then one change 
+% in code will fix both. 
+
+% **TODO to be continued** 
+
+% -- 
+
+
+% ## Customer
+
+% * there are no getters for field names first name, last name, tax code. 
+% * not using camel case in the name of setter methods setlasname and setfirstname 
+% * field parameters have a different name from the setter method. This is justifiable sometimes, but this is just a cock up. 
+% * the overall desgin of the class is poor and poses some headaches for testers. Creating a customer with default constructor gives them an INVALID_ACCOUNT number. Is this in the requirements? Should we test for it? 

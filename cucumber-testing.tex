@@ -3,7 +3,6 @@
 \input{cucumber-testing1}
 
 
-
 \subsubsection{Implementation details}
 
 % Briefly go through what is needed to get this setup. 
@@ -48,6 +47,10 @@ $1 - P(100,5) = 0.10$. This is known as the Birthday problem % https://en.wikipe
 An application returning a random Integer. 
 
 
+\subsubsection{We try to write a test for every defect, so that we can catch it in the future if it reoccurs.}
+It is impossible to test against all possible scenarios. During the testing process, testers employ their rationale and experience when choosing what inputs to test for and cases to verify; this still leaves many cases untested.
+\par
+A common approach when a defect is detected one way or another, is to write a test that would catch the error if it were to reoccur in the future. Some of the defects found in the application were detected through code inspection, exploratory testing or unit testing. In all cases, we attempt to write a behavioural test that would reproduce the defect and catch it were to be introduced again in the future. 
 
 % ======================================================================
 % More related to refactoring than here 

@@ -10,6 +10,8 @@ To translate those into actual code, Java methods with annotations (@Given, @And
     \item \javainline{src/test/resources/*.feature}: feature files defining features under test. 
 \end{itemize}
 
+Each of the feature files in resources has their own FeatureXStepDefs which defines their methods. Except for Feature7. As Feature7 is not actually a feature but more of a non-functional requirement, it consists of scenarios which span all previous features. 
+
 \subsubsection{Splitting the code into many classes - and CommonStepDefs}
 As the number of feature scenarios grew, so did the number of methods implementing each step in those scenarios. 
 We moved from having a single StepDefs.java class that defined all steps to separate FeatureXStepDefs classes each of which defined the steps particular to a single feature that is under test.

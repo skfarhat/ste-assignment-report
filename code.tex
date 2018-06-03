@@ -26,6 +26,26 @@ Below, we shall focus on the code's structure and testability. Critique of the c
 
 The below items have been identified as hindrances to our testing. Each item will be described and suggestions to improve the structure provided. 
 
+
+% Why switching away from static. 
+% -------------------------------
+% TODO: Say that we needed to make Main non static because we will be using several instances of main in our tests, it is cleaner doing this with instances rather than static classes that maintain their state. 
+% and also we would like to Dependency inject into Main certain objects to give us more control of the scenarios we are trying to create 
+% to detect some defects or reproduce some weird behaviours that we are trying to catch. 
+
+% ---- 
+% Say that we will explain further below the need for injecting our own stdin and stdout. 
+
+% AllCustomers injected into Main 
+% * this is useful in that it grants us confidence when testing and more control over the customer used by the application,
+%      *
+%      * the alternative being needing to add customers, delete and update customers through the user interface
+%      * adding more layers of where it can go wrong. 
+% 
+% In making the changes in Main, we have had to fix a defect. Ideally we would prefer to avoid doing those as it is not our job, 
+% but seeing as this code refactor is well needed for the rest of the tests, we fix the bug. 
+
+
 \subsubsection{Thread-safety}
 The design of Main does not accomodate many threads running simultaneous versions of the application, not least because AllCustomers and Scanner are static, making them shared resources. AllCustomers houses most - if not all - of the Customer data structures, which also becomes shared by all Threads. This will inevitably lead to race conditions. 
 \par 
@@ -119,6 +139,17 @@ While good for application robustness, this design is not well-suited for testin
 
 % The isWaitingForUserInput is marked as volatile as this boolean will be inspected by multiple threads, one of which will run a loop waiting for the boolean to be set to true. Without volatile, the JVM might optimise it and provide a cached value of the boolean to each thread, marking as volatile ensures that no compiler optimisations are used and the value is constantly checked in the loop.
 % ----------------------------------------------------------------------------
+
+% ------------------------------------------
+\subsubsection{newcustomer returns the Customer object created}
+% This makes it much easier for us to make some of the checks we would like to in our tests such as checking that a newly created customer indeed has a numeric identifier
+% we also make it public so that it is callable from the outside 
+% the alternative approach to doing this is to addCustomer() using the normal method, parse the command line for the id of the added customer and then get a reference to the customer object using this method. Unfortunately, this method adds lots of steps for where things can go wrong, if either the printing of customer id is faulty, or the method getCustomer(id) is defective, then our own test is at risk. 
+% ideally we would like each test we make to be as lightly depedent on other components in the application as possible, for this reason we proceed to make newcustomer return the Customer object it creates. The code change is very simple which makes it even more worthwhile doing. 
+
+
+
+% ------------------------------------------
 
 \subsubsection{Other stuff}
 

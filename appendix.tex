@@ -79,9 +79,11 @@ gradlew is a wrapper script that is useful for downloading gradle for your OS ty
 \hline %  ---------------------------------------------------------------------
 ./gradlew build & Compile project and run tests -- fails if any compilation fails or any of the tests fail \\
 \hline %  ---------------------------------------------------------------------
-./gradlew test & Run all test suites (JUnit \& Cucumber) \\
+./gradlew test & Run all JUnit test suite\\
 \hline %  ---------------------------------------------------------------------
 ./gradlew cucumber & Run cucumber test suite \\
+\hline %  ---------------------------------------------------------------------
+./gradlew check & Run JUnit test suite \& static checkers (JDepend, FindBugs..) \\
 \hline %  ---------------------------------------------------------------------
 ./gradlew jacocoRootReport & Creates coverage report\\
 \hline %  ---------------------------------------------------------------------
