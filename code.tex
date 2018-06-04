@@ -9,6 +9,7 @@
 % --------------
 % 1 - Assess the structure of the code.
 \subsection{Code Structure} 
+\label{sec:code-structure}
 Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
 
 Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Section \ref{sec:code-style} and Appendix \ref{app:code-critique}. 
@@ -23,9 +24,21 @@ Below, we shall focus on the code's structure and testability. Critique of the c
 % -----------------------------------
 % 2 - Comment on its testability 
 \subsection{Code testability \& Recommendations}
-
 The below items have been identified as hindrances to our testing. Each item will be described and suggestions to improve the structure provided. 
 
+% ----------------------------------------------------------------------------
+\subsubsection{Error reporting}
+\label{sec:error-reporting}
+The provided application exhibits weak and badly structured error reporting. We would normally expect methods in underlying classes to throw exceptions on invalid inputs and report their results to methods higher up the stack via booleans or return objects. The methods higher up would then evaluate the return code or try/catch exceptions outputting a readable user output when appropriate.
+\par
+Such a design would allow for good testabilty of the underlying methods while also protecting the user from confusing and verbose error messages. 
+\par 
+Part of our refactoring involved throwing exceptions where appropriate in the code allowing us to catch those exceptions in our test suites and evaluate whether they should or should not have been thrown. 
+This is especially relevant to testing \javainline{TaxEngine} whose input tax code may be invalid, in which case we would hope and expect an exception to be thrown. 
+\par 
+We create \javainline{TaxCalcException} as a child of RuntimeException; the reason for it inheriting from RuntimeException and not Exception is that it allows us to avoid needing to add snippets \javainline{throws TaxCalcException} after every method definition hence polluting the code base. 
+Our approach was deemed less intrusive. 
+% ----------------------------------------------------------------------------
 
 % Why switching away from static. 
 % -------------------------------
@@ -45,7 +58,7 @@ The below items have been identified as hindrances to our testing. Each item wil
 % In making the changes in Main, we have had to fix a defect. Ideally we would prefer to avoid doing those as it is not our job, 
 % but seeing as this code refactor is well needed for the rest of the tests, we fix the bug. 
 
-
+% ----------------------------------------------------------------------------
 \subsubsection{Thread-safety}
 The design of Main does not accomodate many threads running simultaneous versions of the application, not least because AllCustomers and Scanner are static, making them shared resources. AllCustomers houses most - if not all - of the Customer data structures, which also becomes shared by all Threads. This will inevitably lead to race conditions. 
 \par 
@@ -74,8 +87,9 @@ The above steps improve encapsulation of state within Main instances and reduce 
 \caption{After changes: different instances of Main}
 \end{figure}
 \end{minipage}
-% -------------------------------------------------------
+% ----------------------------------------------------------------------------
 
+% -------------------------------------------------------
 \subsubsection{Main: Standard I/O}
 \label{sec:main-stdio}
 The application, being command-line driven, relies on stdin for user input and stdout for output. Testing the software in a behaviour driven methodology necessitates injecting input to stdin to simulate user input and inspecting the output from stdout to verify correctness. 
@@ -98,7 +112,9 @@ Another class in the application uses System.out to print and that is AllCustome
 \end{figure}
 % We would encourage considering a software redesign, limiting the span of objects that may write to stdout or read from stdin. [ Can expand on this more? ]
 \par
+% ----------------------------------------------------------------------------
 
+% ----------------------------------------------------------------------------
 \subsubsection{Start/Stop Main}
 \label{sec:start-stop-main}
 The procedure for starting and stopping Main is the given application is not flexible enough to allow for effective testing. The reasons are outlined below.
@@ -113,9 +129,11 @@ To get around these implementation imperfections, we
 	\item replace infinite loops in Main with ones that monitor the value of a boolean member \javainline{running}. 
 	\item create a method \javainline{stop()} that sets \javainline{running = false} in order to break out of the loops and return from \javainline{run()}.
 \end{itemize}
+% ----------------------------------------------------------------------------
 
+% ----------------------------------------------------------------------------
 \subsubsection{Production run vs. debug run}
-\label{sec:}
+\label{sec:production-vs-debug}
 Requirement (\RSeven) cites the application must not crash if the user provides input that does not match the application's expectation. Abiding by this, the developers have surrounded most of the implemetation of InterpretCommand() with a try/catch block which prints the exception and re-runs the loop. 
 \par 
 While good for application robustness, this design is not well-suited for testing purposes since testers would prefer the exceptions to be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
@@ -124,38 +142,38 @@ While good for application robustness, this design is not well-suited for testin
 	\item \javainline{runProd()} provides behaviour similar to the one exhibited by the original application; it is meant to be used in the \javainline{void main(String []args)} method by the main application. 
 	\item \javainline{runDebug()} runs the app's inner-loop without catching exceptions allowing them to propagate upwards the call-stack eventually reaching the runDebug() caller, which can handle the exception accordingly. It is used in CommonStepDefs.java \javainline{void applicationHasStarted()}. 
 \end{itemize}
-
-% ADDED getAllCustomers() to main - this was needed to implement Feature7:Scneario1 showcasing the defect[xxx]
-
-% ------------------------------------------
-\subsubsection{Application exceptions}
-% discuss why TaxEngineException is needed 
-% 
-% ------------------------------------------
-
+% ----------------------------------------------------------------------------
 
 % ----------------------------------------------------------------------------
 \subsubsection{Wait for user input}
-% WAIT FOR USER INPUT
-% Just a flag that tells us the state of the application, is it currently blocked waiting for user input? If so we know it will not be printing anything, so this would be a good time to go ahead and read the PrintStream. Or if we needed to inject some user input, we also wait for the application to indicate it is waiting for input before we append strings to its input stream. 
+Our cucumber testing aims to simulate a user interacting with the application.  Unlike a regular user who is typically slow to react to the software, the test suite can be quick to enter new input; often too quick. 
+For instance, step definitions were often found to be providing new inputbefore the thread running Main had finished processing previous input. This lead to lots of inconsistent behaviour that lead to our test setup failing. 
+\par 
+For this reason, a new mechanism for communicating state between the two threads was required and many approaches were debated; some going as far as establishing ConcurrentQueues on which the two threads could communicate.
+However, as testers, we opted for lesser intrusive ways of accomlishing our needs. 
+\par 
+We added a \javainline{volatile boolean isWaitingForStdin} in Main that would be set to true just before Main was ready to be call readLine() or readInt() from the Scanner. The testing thread could then monitor the value of the boolean before deciding if it was appropriate to inject additional string input. The boolean had to be made volatile to avoid compiler optimisations which could lead to the threads monitoring their local view of the boolean rather than the actual one. 
+\par 
+\javainline{CommonStepDefs} defines a method \javainline{void waitForMainToBeReady()} which continuously loops on the boolean until it is set to true, and is used by almost all step definitions that need to inject user input. 
 
-% The isWaitingForUserInput is marked as volatile as this boolean will be inspected by multiple threads, one of which will run a loop waiting for the boolean to be set to true. Without volatile, the JVM might optimise it and provide a cached value of the boolean to each thread, marking as volatile ensures that no compiler optimisations are used and the value is constantly checked in the loop.
 % ----------------------------------------------------------------------------
 
-% ------------------------------------------
+% ----------------------------------------------------------------------------
 \subsubsection{newcustomer returns the Customer object created}
 % This makes it much easier for us to make some of the checks we would like to in our tests such as checking that a newly created customer indeed has a numeric identifier
 % we also make it public so that it is callable from the outside 
 % the alternative approach to doing this is to addCustomer() using the normal method, parse the command line for the id of the added customer and then get a reference to the customer object using this method. Unfortunately, this method adds lots of steps for where things can go wrong, if either the printing of customer id is faulty, or the method getCustomer(id) is defective, then our own test is at risk. 
 % ideally we would like each test we make to be as lightly depedent on other components in the application as possible, for this reason we proceed to make newcustomer return the Customer object it creates. The code change is very simple which makes it even more worthwhile doing. 
+% ----------------------------------------------------------------------------
 
 
-
-% ------------------------------------------
-
+% -----------------------------------------
 \subsubsection{Other stuff}
 
 \begin{itemize}
+
+	\item ADDED getAllCustomers() to main - this was needed to implement Feature7:Scneario1 showcasing the defect[xxx]
+
 	 \item Customer ID on creation, also expose getCustomer() 
 	 % print the ID of the created Customer otherwise there is no way to know how to list that specific customer. (see newCustomer, has the 'id' of the new customer printed.)
 	 % add method getCustomer in Main to aid with testing. As we would prefer getting the customer object from main directly rather than going through the route of listing customers with that ID, and serializing a customer object from the printed fields to use in our tests. e.g. adding "Sami Farhat TB1000 10000", then the ID is output, the we would have to, use 'l' <id>, and get the output from the program and serialise a Customer object from the output. Also, a bug in the listing would cause all tests depending on getting a customer from the database to fail. To separate the tests better, we create a method in Main that returns a customer object directly from the data structure in AllCustomers given a CustomerID. 
