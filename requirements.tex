@@ -99,51 +99,53 @@ It is assumed through contextual understanding that these refer to the same enti
 % --------------------------------------
 \subsection{Defects and Vaguenesses}
 
-In this section we address imprecise requirements and what we believe to be defects in the requirements. The provided requirements have been labelled (see Appendix \ref{app:labelled-requirements}) to improve readability and accessibility of the report. 
+In this section we address imprecise or 'loose' requirements, which are believed to truly form defects in requirements.
+These have been labelled (see Appendix \ref{app:labelled-requirements}) to improve readability and accessibility of the report.
 
 % [1] -----------------------------------------------------------------------------
 \subsubsection{The application must enable the storage of client’s personal details including [R1]}
-The term storage is vague in that it does not specify what type of storage the details are meant to be stored in. The storage could be permanent (e.g. database, file on system) or in-memory surviving only until the next application launch. 
+The term storage is not clear in that it does not specify where details are to be stored. 
+Storage may be permanent (e.g. database, file on system, etc.) or in-memory surviving only until the next launch or boot up. 
 \par
 If persistent storage is to be used, then some more details on the how this storage should behave, how robust, portable, responsive it should be would be needed. 
 \par
-For our testing purposes, it has been assumed that the storage of the details need only be in-memory while the application is running; as such, no testing has been done on permanent-storage.
+For testing purposes within this work, it is assumed that the storage of details need only be in-memory when the application is running, as such, no testing has been done on permanent-storage.
 
 % [2] -----------------------------------------------------------------------------
 \subsubsection{The software should issue each customer a numeric identifier [R2]}
 This requirement was found to be clear and unambiguous. 
-Minor: the usage of the word 'die' did not seem entirely appropriate, even if quoted; however, software does tend to use questionable wordage (think of the POSIX function kill), so this is a non-issue.  
+Minor comment: the usage of the word 'die' did not seem entirely appropriate, even if quoted; however, software does tend to use questionable wordage (think of the POSIX function kill), so this is a non-issue.  
 
 % [3] -----------------------------------------------------------------------------
 \subsubsection{The PTMA should enable customer details to be updated [R3]}
 This requirement was found to be clear and unambiguous at first read. 
-However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definiton), we - as testers - wonder if this is a lack of specificity from the requirements perspective or going over the requirements from the developers. 
+However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definiton), testers would question whether there is a lack of specificity from the requirements perspective, or going over the requirements by the developers. 
 \par
-Either case, it is curious why it isn't made possible to update the salary field with one command as is the case for first-name, last-name and tax-code.  
+In both cases, it is not clear and surprising why for example the 'salary' field cannot be updated with one command, as the case for 'first-name', 'last-name' and 'tax-code'.  
 \par
-Also, this requirement can be improved by specifying that customer IDs should not be updatable to avoid any possible confusion during implementation. 
+Moreover, this requirement may be improved by specifying that customer IDs should not be possible to update in order to avoid any possible confusion during implementation. 
 
 % [4] -----------------------------------------------------------------------------
 \subsubsection{The application should be able to print lists of customer information [R4]}
 % with users being able to select blocks of customers to be printed based on their unique identifiers.}
-This requirement was found to be clear and unambiguous. 
-It appears to allow developers flexibility in implementing how different blocks of IDs can be input by the user. This flexibility in the requirement is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo \space then printing blocks of users may have to be done using comma-separated input from the user. 
+This requirement is clear and unambiguous. 
+By being less specific on how the user is expected to specify the blocks to print, the requirement provides developers the flexibility, which is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo \space then printing blocks of users may have to be done using comma-separated input from the user. 
 
 % [5] -----------------------------------------------------------------------------
 \subsubsection{The application will calculate the tax amount to be paid by each client [R5]} 
 % and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
-This requirement was found to be clear and unambiguous. 
+This requirement is clear and unambiguous. 
 However, it remains unclear why it was separated from (R8.x) the tax rules, seems like they could have been structured to follow each other. 
 
 % [6] -----------------------------------------------------------------------------
 \subsubsection{The system must include a simple 'help' system that lists all commands [R6]}
 
-This requirement was found to be clear and unambiguous, assuming system \& application refer to the same thing (see Section \ref{sec:key-term-definitions}). 
+This requirement was found to be clear and unambiguous, assuming 'system' and 'application' refer to the same thing (see Section \ref{sec:key-term-definitions}). 
 
 % [7] -----------------------------------------------------------------------------
 \subsubsection{The system must not crash if the user enters something that they are not meant to [R7]}
-Assuming system refers to the application, the requirement is clear. 
-This requirement relates to the application's robustness and should, in a more formal document, be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see Section \ref{sec:non-functional-requirements}).
+Assuming 'system' refers to the application, the requirement is clear. 
+This requirement relates to the application's robustness and should, in a more formal document  be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see section \ref{sec:non-functional-requirements}).
 
 % [8] -----------------------------------------------------------------------------
 \input{requirements-r8}
@@ -154,13 +156,13 @@ This requirement relates to the application's robustness and should, in a more f
 \subsection{Missing requirements}
 
 % Delete clients. 
-There is no requirement about the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. We believe it is then an oversight on the requirements writers. 
+There are no requirements for the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. It is believed that it is then an oversight on the requirements writers. 
 \par
 % Show ID of clients. 
-Requirement \RFour \space points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
+Requirement (\RFour) points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
 \par
 % Edge case: Negative salaries. 
-Is it implicity that negative salaries are not a thing? How does the code deal with that? 
+Is it implicity that negative salaries are not a thing? How could the code deal with that? 
 \par
 % Edge case: taxcode with duplicate tax letters
 The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
