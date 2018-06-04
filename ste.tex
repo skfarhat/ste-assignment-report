@@ -22,25 +22,27 @@
 \usepackage{enumitem}				% customize lists
 \usepackage{fontspec}				% customise font used
 \usepackage{tabularx}
-\usepackage{soul}
+\usepackage{soul}                   % hyphenation, letter-spacing.. 
 \usepackage{color} 					% colouring text
 \usepackage{array}					% bold table column
 \usepackage{booktabs}				% http://ctan.org/pkg/booktabs
 \usepackage{etoolbox}
 \usepackage{float}
 \usepackage[table]{colortbl}		% http://ctan.org/pkg/xcolor
-\usepackage{tikz}					% for hierarchy structure
-\usepackage[export]{adjustbox}
+
+% \usepackage[export]{adjustbox}
 \usepackage{wrapfig}
 \usepackage{graphicx}
-% Code - use minted instead of listings
-% \usepackage{listings}
 \usepackage{minted}					% better than listings for code highlight
 \usepackage{tocloft}				% customize Table of Contents
 \usepackage{fancyhdr}				% for page numbering
 \usepackage{lastpage}				% for page numbering
 \usepackage[autostyle, english = american]{csquotes} % makes quotes sane 
 \usepackage[super]{nth}             % formats 1st, 2nd, 3rd automatically 
+
+% Code - use minted instead of listings
+% \usepackage{listings}
+% \usepackage{tikz}                 % for hierarchy structure
 
 % General 
 % -----------------------
@@ -219,10 +221,16 @@ United Kingdom\\
 \thispagestyle{empty}
 \listoffigures
 \listoftables 
+\pagebreak
+
+% ============================================================================
+% INTRODUCTION 
+\input{intro}
+% ============================================================================
 
 % ============================================================================
 % REQUIREMENTS 
-\include{requirements}
+\input{requirements}
 % ============================================================================
 
 % ============================================================================
