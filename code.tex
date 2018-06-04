@@ -108,13 +108,13 @@ Another class in the application uses System.out to print and that is AllCustome
 % ----------------------------------------------------------------------------
 \subsubsection{Start/Stop Main}
 \label{sec:start-stop-main}
-The procedure for starting and stopping Main is the given application is not flexible enough to allow for effective testing. The reasons are outlined below.
+The mechanism by which Main's loop is started and stopped is not sufficiently flexible to favor our testing; the reasons for this are outlined below.
 \begin{itemize}
-	\item Calling \javainline{Main.main(null)} starts the application and runs the loop, but calling it does not expose the \javainline{Main main} reference created in \javainline{void main()}. 
-	\item Stopping the application can only be done through the user inputting 'q' which leads to \javainline{System.exit(2)} being called. This exit call exits the running process (the entire Java JVM) and would kill any test framework that was invoking \javainline{main}.
+	\item Calling \javainline{Main.main(null)} starts the application and runs the loop, but does not expose the \javainline{Main main} reference created in \javainline{void main()}. 
+	\item Stopping the application can only be done through the user inputting 'q' which leads to \javainline{System.exit(2)} being called. This exit call exits the running process (the entire Java JVM) and would kill any running test framework.
 \end{itemize}
 
-To get around these implementation imperfections, we 
+To get around these frailities, we
 \begin{itemize}
 	\item create a method \javainline{run()} in \javainline{Main} to separate starting the application from the creation of the \javainline{Main} object instance. 
 	\item replace infinite loops in Main with ones that monitor the value of a boolean member \javainline{running}. 
@@ -125,9 +125,9 @@ To get around these implementation imperfections, we
 % ----------------------------------------------------------------------------
 \subsubsection{Production run vs. debug run}
 \label{sec:production-vs-debug}
-Requirement (\RSeven) cites the application must not crash if the user provides input that does not match the application's expectation. Abiding by this, the developers have surrounded most of the implemetation of InterpretCommand() with a try/catch block which prints the exception and re-runs the loop. 
+Requirement (\RSeven) cites that the application must not crash upon wrong user input. To follow this requirements, the application developers seem to have surrounded most of the implemetation of InterpretCommand() with a try/catch block to catch the exceptions and avoid throwing them up the stack where they would cause a crash.
 \par 
-While good for application robustness, this design is not well-suited for testing purposes since testers would prefer the exceptions to be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
+While good for application robustness, this design is not well-suited for our testing since testers would prefer the exceptions be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
 
 \begin{itemize}
 	\item \javainline{runProd()} provides behaviour similar to the one exhibited by the original application; it is meant to be used in the \javainline{void main(String []args)} method by the main application. 
