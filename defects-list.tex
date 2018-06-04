@@ -32,19 +32,19 @@ D022
 & TaxEngine 
 & The application checks for letters in the tax string starting from index 1, so any letters at the very beginning of the string are not invoked. 
 & change >0 to >=0 
-&  Feature8-Extensive \\% + Cannot be detected using 'MT1000' and 'TM1000' because the current implementation is faulty due to it only checking lower case characters. If we temporarily remove case sensitivty from the taxAmount() parser code, then we can see that this test fails on the original implementation\\
+&  Feature8 (Extensive) \\% + Cannot be detected using 'MT1000' and 'TM1000' because the current implementation is faulty due to it only checking lower case characters. If we temporarily remove case sensitivty from the taxAmount() parser code, then we can see that this test fails on the original implementation\\
 \hline % =================================================================================================
 D023 
 & TaxEngine 
 & Mutual exclusivity between letters in a same tax group is not enforced by the application 
 & Use a better regular expression (see CorrectTaxEngine.java) 
-& Feature 8, Scenario 2 \\
+& Feature 8 Scenario 2 \\
 \hline % =================================================================================================
 D026 
 & TaxEngine 
 & The application allows for tax code 100M100 which is not valid according to the requirements. 
 & Use a better regular expression (see CorrectTaxEngine.java) 
-& Feature 8, Scenario 3 \\
+& Feature 8 Scenario 3 \\
 \hline % =================================================================================================
 D024 
 & TaxEngine 
@@ -56,19 +56,19 @@ D001
 & AllCustomers 
 & Updating customer salary using ’y’ does not update the amount of tax they pay  and invoke engine.taxAmount() in updateSalary() 
 & Call taxEngine.taxAmount() in updateCustomerSalary()
-& Feature 3, Scenario 4 \\
+& Feature 3 Scenario 4 \\
 \hline % =================================================================================================
 D002 
 & AllCustomers 
 & Updating customer tax code using ’u’ menu command does not update the amount of tax they pay 
 & Call taxEngine.taxAmount() in updateCustomerAll()
-& Feature 3, Scenario 5\\
+& Feature 3 Scenario 5\\
 \hline % =================================================================================================
 D008 
 & Main, AllCustomers 
 & Main creates a new AllCustomers object upon an exception, so if the user inputs something wrong, then an exception is thrown and data about all customers previously is lost 
 & Restructure the run() code so that the exception is caught and handled without having to recall interpret command and reinstantiating AllCustomers 
-& Feature 7, Scenario 1 \\
+& Feature 7 Scenario 1 \\
 \hline % =================================================================================================
 D004 
 & Main 
@@ -82,7 +82,11 @@ D009
 & Change <= to < in the for loop of getCustomer() 
 & \\
 \hline % =================================================================================================
-% D018 & TaxEngine & Regex used for matching is wrong. Explain what it actually does. &  developers should learn about non=capturing groups in regex. & \\
+D018 
+& TaxEngine 
+& Regex used for matching is wrong. Explain what it actually does. 
+&  developers should learn about non-capturing groups in regex. 
+& \\
 \hline % =================================================================================================
 \end{tabularx}
 \caption{High severity functional defects}
