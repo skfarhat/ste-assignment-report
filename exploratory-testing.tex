@@ -1,11 +1,15 @@
 \subsection{Exploratory Testing}
-% TODO: detail the package / directory structure and the logic behind it. 
-% TODO: mention the TaxEngine exception we created. Why its runtime exception and why its useful. 
 
-Found that the application does not provide the IDs for the clients  it has created, so the user is left to guess or has to look at the source code to understand that the IDs generated are incremental starting from 1. 
+Exploratory testing can be understood as a less structured form of testing which involves the tester black-box testing the software in real time and attempting to discover defects in the software by trial. 
+This approach is often orders of magnitude more productive than structured testing, and can involve a lot more creativity on behalf of the tester leading to certain code paths being visited, that may not have been otherwise; it is hence more likely to find new defects than structured scripted tests are (\hl{reference slides}).
+\par
+In the earlier stages where testers are beginning to learn about the application itself before testing it, exploratory testing consists of merely using the application and trying to understand its behaviour in response to the different inputs. 
+\par
+Furthermore, exploratory testing is much better suited to detecting defects that are difficult to detect in regular testing, unless the tester was actively looking for them. 
+As an example, our early exploratory testing allowed us to detect many inconsistencies in the formatting of the output in the application that we would not have been necessarily tested for otherwise.  
 
-* we notice the table is not very well formatted, the last line's '|' is not properly aligned with the rest. This is very difficult to detect in testing, and one would have to be looking for it to find it, really. For a more flexible implementation we suggest using an existing library to print tables on the command line in java such as j-text-utils. 
-
-* it prints out "Customer deleted when doing an update, or something similar". 
-
-same tests won't find new errors. 
+\begin{itemize}
+    \item \textbf{D007}: missing whitespace from the printed Menu table
+    \item \textbf{D010}: wrong output 'customer deleted' when updating customer
+    \item \textbf{D006}: Missing 'y' command for customer salary update when printing menu
+\end{itemize}
