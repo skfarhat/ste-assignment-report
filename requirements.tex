@@ -2,23 +2,29 @@
 % TODO: would be great if we could write the requirements as we understood them.
 % TODO: Talk about our impression from reading the system requirements and all the vaguenesses found in there. 
 % ------------------------------------------------------------------------------------------------------------
-\section{Review: System Requirements}
+\section{System Requirements}
 
-In this section we shall review the provided requirements calling attention to mistakes and vaguenesses in the requirements, which we recognise as defects. As well as identifying them, we shall delineate any assumptions we are forced to make due to missing or imprecise requirements. 
-
-% Type of Req Document? Informal? 
-% -------------------------------
-It is not evident at the outset the type of specification document these requirements were extracted from; if a more complete document is available, such as an IEEE SRS, then we would kindly request access to it as it should help in filling the voids left by the current extact.  
-This step is critical before proceeding with the test process as testing based on false or incomplete understanding risks generating lots of false-positive or worse false-negatives, and would be costly both in terms of time and money. 
+This section presents a review of the set system requirements, identifying those that are considered ‘unclear’, vague, or requirements that may be classified as defects in the specifications.  Once identified, assumptions will be made to manage such requirements.
 \par
+The source or basis of such system specifications has not been made identified during the course of this work.  Hence, should a more comprehensive reference document be made available, such as IEEE SRS, which can be reviewed, then development would be greatly simplified, and the output would present a clearer guide, with less ambiguities. Testing of specification and the basis on which these were selected are critical to the work particularly in the test phase. Test trials based on false, incomplete, or unclear specifications, may generate many false-positive or even worse false-negatives, and may prove costly both in terms of development time and development cost.
+
+% In this section we shall review the provided requirements calling attention to mistakes and vaguenesses in the requirements, which we recognise as defects. As well as identifying them, we shall delineate any assumptions we are forced to make due to missing or imprecise requirements. 
+% % Type of Req Document? Informal? 
+% % -------------------------------
+% It is not evident at the outset the type of specification document these requirements were extracted from; if a more complete document is available, such as an IEEE SRS, then we would kindly request access to it as it should help in filling the voids left by the current extact.  
+% This step is critical before proceeding with the test process as testing based on false or incomplete understanding risks generating lots of false-positive or worse false-negatives, and would be costly both in terms of time and money. 
+% \par
 
 % -------------------------------------------------
 % Requirements organisation (bullets, no numbering)
 % -------------------------------------------------
-\subsection{Requirements organisation}
-The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
+\subsection{Organisation of Requirements}
+Requirements are presented in the form of bullets, whereas a numbering scheme would have provided a smoother workflow, since those testing or reviewing the test document would reference individual requirements using specific identifiers.  In some organisations, test methods or test classes are prefixed with the requirement reference being addressed.
+\par
+A part of the work involved labelling requirements for the workflow process presented in the form of a table, as shown in Appendix \ref{app:labelled-requirements}.  Therefore as a good practice, it is recommended that additions or alterations to be made to requirements are actually amended on the reference table.
 
-We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
+% The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
+% We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
 
 % TODO: Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
@@ -26,28 +32,42 @@ We will take it on ourselves to label the requirements for our own workflow (see
 % Requirements doc lacks of coherence 
 % which lends to an overall lack of professionalism
 % --------------------------------------------------
-\subsection{Requirements coherence}
-At first read, a lack of coherence in the structure and wording of the requirements is clear, depicting an overall lack of formality and professionalism in the software engineering process. 
-A positive consequence of this, perhaps surprisingly, is that it puts the tester on the alert for what to expect of the quality of the software to be tested, making them question the meticulousness of the project managers and in turn the developers.
+\subsection{Coherence of Requirements}
+
+At a first glance, it becomes apparent that there is a lack of coherence in the structure and wording of requirements, which indicates a lack of a formal and systematic approach in the software engineering process.  A positive spin-off of this surprisingly may be that it alerts the Tester on what he is to expect in the quality of software under test, hence may question project management procedures in place, and as a result the Developer’s approach and end-result.
 \par
-Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
+Below some of the non-coherences observed are listed. These are by no means critical, but may be flagged as defects.
 \begin{itemize}
-    \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
-	\item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
-	\item Requirements (\REightFive to \REightTen) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
-	\item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
-	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
+    \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which would better be presented without a bullet and is misleading to the reader. 
+    \item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+    \item Requirements (\REightFive to \REightTen) all commence with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) commence with \textit{Calculation for people}. It is not evident why different wording was opted for between these requirements. 
+    \item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". Readers should attempt their not to take this as a lack of respect for divorced individuals. 
+%   % in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 \end{itemize}
+
+% OLD
+% At first read, a lack of coherence in the structure and wording of the requirements is clear, depicting an overall lack of formality and professionalism in the software engineering process. 
+% A positive consequence of this, perhaps surprisingly, is that it puts the tester on the alert for what to expect of the quality of the software to be tested, making them question the meticulousness of the project managers and in turn the developers.
+% \par
+% Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
+% \begin{itemize}
+%     \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
+% 	\item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+% 	\item Requirements (\REightFive to \REightTen) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
+% 	\item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
+% 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
+% \end{itemize}
 
 % ----------------------------------------------
 % Non-Functional Requirements
 % ----------------------------------------------
 \subsection{Non-functional requirements}
 \label{sec:non-functional-requirements}
-It is understood that performance testing, security and other non-functional requirements are not to be considered in the scope of testing this project; however, it would be careless for us not to mention them in a System Requirments review as they constitute an intrical part of the requirements development process. 
-We would normally expect requirements on security, performance, compatibility and robustness to be elicited clearly in a separate non-functional requirements section; but, it is understood that the scope of testing of this project is restricted to the functional aspects and this may explain their absence. 
+It is understood that performance testing, security, and other non-functional requirements are not within the scope of testing for this project;
+However, including these in the system requirements review is essential as these constitute an integral part of the requirements development process. It is usually expected that requirements on security, performance, compatibility and robustness are elicited clearly in a separate non-functional requirements section.  However, it may well be that the scope of testing is restricted to functional aspects.
 \par
-That said, we identify (\RSeven:\textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement should be placed separately to functional ones.    
+Despite this, the following is identified (\RSeven:\textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement would be separated from functional requirements.
+
 %
 % Ignorable: 
 % ----------
@@ -61,20 +81,15 @@ That said, we identify (\RSeven:\textit{"The system must not crash if the user e
 % ----------------------------------------------
 \subsection{Key term definitions}
 \label{sec:key-term-definitions}
-The requirements are missing some of the key sections required by an SRS document.
-For instance, we note the absence of a "Definitions" section outlining the meaning to be understood from the key terms used in the requirements.
-It would be useful to point out that terms "will", "should", "must", and "may" conform to a predefined standard definition (e.g. IEEE Std 610.12-1990) in order to ascertain their priorities relative to each other and avoid confusion in their interpretation. 
-The importance of this should not be understated seeing as it is quite likely the audience span of this document will include non-native english speakers. 
+
+Some key sections required in a typical SRS document are missing from the requirements.  As an example, a "Definitions" section outlining the meaning of key terms used in the requirements is missing.  It is also important to note that terms such as "will", "should", "must", or "may", must conform to a predefined standard definition (e.g. IEEE Std 610.12-1990), in order to ascertain their priority over each other, hence avoiding confusion in the interpretation of each term. The importance of this is not to be under-estimated particularly that it is likely that the audience of the document will include non-native English speakers.
 \par
-Further to this, we request explicitly defining the below key words which  appear to have been used interchangeably:  
-
-%TODO: fix the R5 collated with interchangeably - is there another way? 
-\begin{itemize} 
-	\item Client, customer and person. Client is used in requirements (\ROne, \RTwo, \RFive), customer in (\RTwo, \RThree, \RFour, \RFive) and person in all \REight \space requirements. \RFive \space interchangeably employs customer and client in the same sentence. 
-	\item System and application. System is used in (\RTwo, \RSix, \RSeven) while application is used in (\ROne, \RFour, \RFive).
+Furthermore, the exact explicit definition of the below keywords is absolutely essential, in view of the fact that terms appear to be used interchangeably:
+\begin{itemize}
+    \item Client, Customer, and Person - Client is used in requirements (\ROne, \RTwo, \RFive), Customer is used in (\RTwo, \RThree, \RFour, \RFive), and Person is used in all (\REight) requirements. \RFive \space interchangeably uses Customer and Client within the same sentence. 
+    \item System and Application - System is used in (\RTwo, \RSix, \RSeven), while Application is used in (\ROne, \RFour, \RFive). 
 \end{itemize}
-
-We assume through contextual understanding that they refer to the same entity, however we do request this be confirmed to us in a "Definitions" section preferably in a more formal document.
+It is assumed through contextual understanding that these refer to the same entity.  However, confirmation and a more precise definition of the terms must presented in a formal document.
 \par
 
 % It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
