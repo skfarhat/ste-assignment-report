@@ -4,7 +4,7 @@ Briefly, cucumber testing works by first defining a feature under test in a feat
 \par
 To translate those into actual code, Java methods with annotations (@Given, @And, @Then, @When) and a regular expression the step definition are created. Each method implements translates the step definition into the equivalent executing code and makes the assertions and checks it needs to. 
 \par
-\textbf{File structure}
+\paragraph{File structure}
 \begin{itemize}
     \item \javainline{src/test/java/testing/accpetance/*.java}: java test implementation for step definitions 
     \item \javainline{src/test/resources/*.feature}: feature files defining features under test. 
@@ -32,7 +32,7 @@ In light of this, a single java class (CommonStepDefs) housing all common code n
 
 
 \par
-\textbf{Linking Common class with Feature classes\\}
+\paragraph{Linking Common class with Feature classes\\}
 Inheritance was considered as a means of linking Common to Feature classes, however, cucumber does not support classes defining stepdefs to be inherited from as this creates multiple instances of the stepdef method making it impossible for Cucumber to choose which one to call during scenario execution. 
 \par 
 Next, we considered composing the Common class in each Feature class, and this was made possible through a cucumber dependency titled PicoContainer. With this library, cucumber is able to create a CommonStepDefs object for every Feature class and injecting it into the Feature constructor so long as the constructor was implemented to take in a CommonStepDefs object. Figure \ref{code:cucumber-piccontainer-di} is an extract of all that is required for this to be achieved.

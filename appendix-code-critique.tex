@@ -19,10 +19,10 @@ There's no code style consistency:
     \item AllCustomers is a badly named class, CustomerManagement is a better alternative. 
 \end{itemize}
 % -------------------
-\textbf{AccountNumbers\\}
+\paragraph{AccountNumbers}
 Is not a well implemented Singleton pattern because the constructor is made protected and not private, meaning other classes in the same package can still instantiate it.
 % -------------------
-\textbf{AllCustomers}
+\paragraph{AllCustomers}
 \begin{itemize}
     \item method getCustomer() returns a Customer object that has an "INVALID\_ID" when no such customer is present. This is unusual in that most common implementations would either throw an exception or return null. This implementation would be fine and accepted were it to be more documented. 
 
@@ -60,7 +60,7 @@ if (intCustomerIndex != -1) {
 }
 \end{javacode}
 
-\textbf{Main}
+\paragraph{Main}
 \begin{itemize}
     \item A new instance of AllCustomers is created every time IntepretCommand is run(), which happens everytime some form of exception is thrown, because that's the only way to break out of the `while(true)` loop in InterpretCommand. 
     \item String lineSeparator is useless. Totally useless.

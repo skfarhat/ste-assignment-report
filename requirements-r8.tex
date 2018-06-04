@@ -1,12 +1,11 @@
-\subsubsection{R8 - Tax Rules}
+\subsubsection{Tax Rules [R8]}
 
 In this sub-section we will comment on defects found in requirements (R8.x) without necessarily delving into each requirement individually since many of them share the same defects. 
 \par
 % ----------------------------------
 % Mutual exclusivity of tax brackets 
 % ----------------------------------
-\textbf{Mutual exclusivity of tax brackets \\}
-\\
+\paragraph{Mutual exclusivity of tax brackets}
 Requirement (\REightFour) does not cite the existence of any mutual exclusivity between tax letters in the same tax groups i.e. between: 
 \begin{itemize}[noitemsep]
 	\item 'M', 'S', and 'D' 
@@ -18,8 +17,7 @@ This will be assumed considering a person cannot have both "2 children" and "1 c
 % --------------------------------------
 % Marital Status is required in tax code
 % --------------------------------------
-\textbf{Marital status is required in tax code \\}
-\\
+\paragraph{Marital status is required in tax code}
 Requirement (\REightFour) does not specify that the tax code MUST contain a martial status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
 \begin{enumerate}
 	\item Requirements (\REightEight) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This suggests that some tax due to Marital status must have been applied before. 
@@ -30,8 +28,7 @@ Requirement (\REightFour) does not specify that the tax code MUST contain a mart
 % -----------------
 % Unusual tax rates
 % -----------------
-\textbf{Unusual tax rates \& negative salaries \\}
-\\
+\paragraph{Unusual tax rates \& negative salaries}
 The unusual tax rates were brought to the attention of the reader in the assignment notes, hence there is no call for pointing them out as a defect. However, in light of the possiblity of a tax payer earning a salary and paying all of it and more to the government (when tax rate > 100\%), one must ask whether negative salaries as a concept exist in Failovia. 
 \par
 It is not clear from the requirements how the application should respond to a user-provided negative salary or base amount. As testers, we would expect two valid application responses to negative salaries: 
@@ -41,14 +38,13 @@ It is not clear from the requirements how the application should respond to a us
 	\item Provide a user error when a negative salary of negative tax amount is input. 
 \end{enumerate}
 
-Which approach the application should undertake should be laid out in the requirements.
+The requirements must properly lay out whichever approach is deemed appropriate.
 
 % --------------------------
 % Contradictory requirements
 % --------------------------
-\textbf{Contradictory requirements\\}
-\\
-The below requirement (\REightFive) does not correctly  is incorrectly worded and would could have been interpreted  can justifiably be interpreted differently than it has been by the developers who we believe overlooked the issues inherent in the requirement. 
+\paragraph{Contradictory requirements}
+Requirement (\REightFive) does not correctly  is incorrectly worded and would could have been interpreted  can justifiably be interpreted differently than it has been by the developers who we believe overlooked the issues inherent in the requirement. 
 \par
 %TODO: format this differently from the rest of the text - but make it look good. 
 Calculation of tax for Married people: one of the following four bands will apply:
@@ -84,8 +80,7 @@ We assume the intention is below:
 % -------------
 % EDGE SALARIES 
 % -------------
-\textbf{Edge salaries\\}
-\\
+\paragraph{Edge salaries}
 % 8 - Married section 
 The requirements for taxing Married people do not cover those who earn exactly £27,000. The third bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
 \par

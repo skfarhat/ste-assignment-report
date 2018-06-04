@@ -4,10 +4,12 @@
 % of the code when writing the tests. 
 % =========================================================================
 
-% --------------
+
+% =========================================================================
 % Code structure 
-% --------------
+% =========================================================================
 % 1 - Assess the structure of the code.
+
 \subsection{Code Structure} 
 \label{sec:code-structure}
 Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
@@ -19,10 +21,11 @@ Below, we shall focus on the code's structure and testability. Critique of the c
 	\item There are many instances of duplicated code that should have been separated in a private method to be called by others (deleteCustomer, updateCustomer) all attempt to find a customer with the given ID. 
 \end{itemize}
 
-% -----------------------------------
+% =========================================================================
 % Code testability & Recommendations  
-% -----------------------------------
+% =========================================================================
 % 2 - Comment on its testability 
+
 \subsection{Code testability \& Recommendations}
 The below items have been identified as hindrances to our testing. Each item will be described and suggestions to improve the structure provided. 
 
@@ -40,38 +43,22 @@ We create \javainline{TaxCalcException} as a child of RuntimeException; the reas
 Our approach was deemed less intrusive. 
 % ----------------------------------------------------------------------------
 
-% Why switching away from static. 
-% -------------------------------
-% TODO: Say that we needed to make Main non static because we will be using several instances of main in our tests, it is cleaner doing this with instances rather than static classes that maintain their state. 
-% and also we would like to Dependency inject into Main certain objects to give us more control of the scenarios we are trying to create 
-% to detect some defects or reproduce some weird behaviours that we are trying to catch. 
-
-% ---- 
-% Say that we will explain further below the need for injecting our own stdin and stdout. 
-
-% AllCustomers injected into Main 
-% * this is useful in that it grants us confidence when testing and more control over the customer used by the application,
-%      *
-%      * the alternative being needing to add customers, delete and update customers through the user interface
-%      * adding more layers of where it can go wrong. 
-% 
-% In making the changes in Main, we have had to fix a defect. Ideally we would prefer to avoid doing those as it is not our job, 
-% but seeing as this code refactor is well needed for the rest of the tests, we fix the bug. 
-
 % ----------------------------------------------------------------------------
-\subsubsection{Thread-safety}
-The design of Main does not accomodate many threads running simultaneous versions of the application, not least because AllCustomers and Scanner are static, making them shared resources. AllCustomers houses most - if not all - of the Customer data structures, which also becomes shared by all Threads. This will inevitably lead to race conditions. 
-\par 
-To overcome this and allow for many Main instances to be spawned simulatenously without conflicting with each other's state, we 
-\begin{itemize}[noitemsep]
+\subsubsection{Static Main}
+
+By design, the application's Main class is primarily static; meaning there are only one Scanner and one AllCustomers objects during the process' runtime. This is problematic for our testing which will seek to have all of its feature scenarios run independently and not be affected by one another. Not only this, but the tests may need to execute in parallel making race conditions a real threat to our test setup. 
+\par
+A solution to this is to remove static modifiers from the Main class forcing developers and testers to instantiate their own objects. This provides a much neater approach, one that is much less likely to lead to errors in testing. 
+\par
+Further to this, some of our tests will look to dependency-inject our own test objects into Main to be used (sections \ref{sec:main-stdio}, \ref{sec:allcustomers-inject}). An overview of the changes made can be seen below.
+\begin{itemize}
 	\item remove static modifiers from the class's members and methods.  
 	\item add a default constructor.
 	\item update the \javainline{main} method to instantiate Main, via \javainline{Main main = new Main();}.
 	\item switch to making method calls on the instance rather than static methods. 
 \end{itemize}
-The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads, below we describe how we get around these being shared. 
 
-% -------------------------------------------------------
+% -----------------------------------------------
 \begin{minipage}[b]{0.5\textwidth}
 \begin{figure}[H]
 \centering
@@ -79,7 +66,7 @@ The above steps improve encapsulation of state within Main instances and reduce 
 \caption{Before changes: one static Main}
 \end{figure}
 \end{minipage}
-% -------------------------------------------------------
+% -----------------------------------------------
 \begin{minipage}[b]{0.5\textwidth}
 \begin{figure}[H]
 \centering
@@ -87,18 +74,22 @@ The above steps improve encapsulation of state within Main instances and reduce 
 \caption{After changes: different instances of Main}
 \end{figure}
 \end{minipage}
-% ----------------------------------------------------------------------------
+% ------------------------------------------------
+
+The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads, below we describe how we get around these being shared. 
 
 % -------------------------------------------------------
 \subsubsection{Main: Standard I/O}
 \label{sec:main-stdio}
 The application, being command-line driven, relies on stdin for user input and stdout for output. Testing the software in a behaviour driven methodology necessitates injecting input to stdin to simulate user input and inspecting the output from stdout to verify correctness. 
 \par
-To validate the output of the application, the tester needs to redirect stdout somewhere where they can get a the string of the output and inspect it. A quick solution to this, and one that does not require any code changes on behalf of the application under test, is to call \javainline{System.setOut(printStream)} prior to the start of the tests; this effectively redirects all output which would have otherwise gone to stdout into the printStream; which can then be used by the tester for checking. 
+To validate the output of the application, the tester needs to redirect stdout to a stream from which the string can be extracted and inspected. A quick solution to this, and one that does not require any code changes on behalf of the application under test, is to call \javainline{System.setOut(printStream)} prior to the start of the tests; this effectively redirects all output which would have otherwise gone to stdout into the printStream; which can then be used by the tester for checking. 
 \par
-The problem with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
+An issue with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
 \par 
-\textbf{Recommendation}: To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams.
+
+\paragraph{Recommendation}
+To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams.
 \par
 This allows us to provide specific streams for Main to work with when running the instance in a test environment where we would like to exert control and inspect the streams. 
 \par 
@@ -147,7 +138,8 @@ While good for application robustness, this design is not well-suited for testin
 % ----------------------------------------------------------------------------
 \subsubsection{Wait for user input}
 Our cucumber testing aims to simulate a user interacting with the application.  Unlike a regular user who is typically slow to react to the software, the test suite can be quick to enter new input; often too quick. 
-For instance, step definitions were often found to be providing new inputbefore the thread running Main had finished processing previous input. This lead to lots of inconsistent behaviour that lead to our test setup failing. 
+\par
+For instance, step definitions were often found to be providing new input before the thread running Main had finished processing previous input. This lead to lots of inconsistent behaviour that lead to our test setup failing. 
 \par 
 For this reason, a new mechanism for communicating state between the two threads was required and many approaches were debated; some going as far as establishing ConcurrentQueues on which the two threads could communicate.
 However, as testers, we opted for lesser intrusive ways of accomlishing our needs. 
@@ -157,9 +149,36 @@ We added a \javainline{volatile boolean isWaitingForStdin} in Main that would be
 \javainline{CommonStepDefs} defines a method \javainline{void waitForMainToBeReady()} which continuously loops on the boolean until it is set to true, and is used by almost all step definitions that need to inject user input. 
 
 % ----------------------------------------------------------------------------
+\subsubsection{AllCustomers injection}
+\label{sec:allcustomers-inject}
+
+\paragraph{Exposing AllCustomers}
+Initially, feature tests that depended on customers being already resident in AllCustomers' array had to add the customers themselves by simulating user input (enter letter 'a', enter first name...), before testing the feature they were written to test in the first place.
+\par 
+This made many of those features reliant on the 'addCustomer' feature which meant that they spanned more code in the application, making it more difficult to determine the reason behind their failure. 
+%This is not in the spirit of test scenarios which should whenever possible be independent of other scenarios executing correctly. 
+\par 
+For this reason, we decided to avoid adding customers by injecting input through the command line and opted for exposing Main's AllCustomers object so as to allow the java step definitions that did not explicitly test adding customers to add customers directly through AllCustomers' API before proceeding with their own testing. 
+As an example, Feature3StepDefs which tests the updating of customers uses the step 'Given list of customer details' which adds the customers through AllCustomers' API avoiding the need to input through the command line. 
+
+\paragraph{Dependency injecting AllCustomers}
+Later on in the testing process, it was deemed useful to be able to decide the type of AllCustomers object that Main would use. Specifically, we wanted Main to use a version of AllCustomers that was correct so as to further isolate defects to Main only.
+\par 
+Before refactoring, Main instantiated allCustomers in its InterpretCommand() method which meant that we could not influence it's behaviour in our tests dynamically. Accordingly, we modified the way Main obtained its AllCustomers' reference allowing for the latter to be injected via the constructor. When not provided, Main would behave the same it would in the original code. 
+
+
+% AllCustomers injected into Main 
+% * this is useful in that it grants us confidence when testing and more control over the customer used by the application,
+%      *
+%      * the alternative being needing to add customers, delete and update customers through the user interface
+%      * adding more layers of where it can go wrong. 
+% 
+% In making the changes in Main, we have had to fix a defect. Ideally we would prefer to avoid doing those as it is not our job, 
+% but seeing as this code refactor is well needed for the rest of the tests, we fix the bug. 
+
 
 % ----------------------------------------------------------------------------
-\subsubsection{newcustomer returns the Customer object created}
+% \subsubsection{newcustomer returns the Customer object created}
 % This makes it much easier for us to make some of the checks we would like to in our tests such as checking that a newly created customer indeed has a numeric identifier
 % we also make it public so that it is callable from the outside 
 % the alternative approach to doing this is to addCustomer() using the normal method, parse the command line for the id of the added customer and then get a reference to the customer object using this method. Unfortunately, this method adds lots of steps for where things can go wrong, if either the printing of customer id is faulty, or the method getCustomer(id) is defective, then our own test is at risk. 
@@ -168,23 +187,23 @@ We added a \javainline{volatile boolean isWaitingForStdin} in Main that would be
 
 
 % -----------------------------------------
-\subsubsection{Other stuff}
+% \subsubsection{Other stuff}
 
-\begin{itemize}
+% \begin{itemize}
 
-	\item ADDED getAllCustomers() to main - this was needed to implement Feature7:Scneario1 showcasing the defect[xxx]
+% 	\item ADDED getAllCustomers() to main - this was needed to implement Feature7:Scneario1 showcasing the defect[xxx]
 
-	 \item Customer ID on creation, also expose getCustomer() 
-	 % print the ID of the created Customer otherwise there is no way to know how to list that specific customer. (see newCustomer, has the 'id' of the new customer printed.)
-	 % add method getCustomer in Main to aid with testing. As we would prefer getting the customer object from main directly rather than going through the route of listing customers with that ID, and serializing a customer object from the printed fields to use in our tests. e.g. adding "Sami Farhat TB1000 10000", then the ID is output, the we would have to, use 'l' <id>, and get the output from the program and serialise a Customer object from the output. Also, a bug in the listing would cause all tests depending on getting a customer from the database to fail. To separate the tests better, we create a method in Main that returns a customer object directly from the data structure in AllCustomers given a CustomerID. 
+% 	 \item Customer ID on creation, also expose getCustomer() 
+% 	 % print the ID of the created Customer otherwise there is no way to know how to list that specific customer. (see newCustomer, has the 'id' of the new customer printed.)
+% 	 % add method getCustomer in Main to aid with testing. As we would prefer getting the customer object from main directly rather than going through the route of listing customers with that ID, and serializing a customer object from the printed fields to use in our tests. e.g. adding "Sami Farhat TB1000 10000", then the ID is output, the we would have to, use 'l' <id>, and get the output from the program and serialise a Customer object from the output. Also, a bug in the listing would cause all tests depending on getting a customer from the database to fail. To separate the tests better, we create a method in Main that returns a customer object directly from the data structure in AllCustomers given a CustomerID. 
 
-	 % TODO: check what changes I've made to other classes????
-	 % TaxEngine mostly for unit testing. Were there any changes due to BDD
+% 	 % TODO: check what changes I've made to other classes????
+% 	 % TaxEngine mostly for unit testing. Were there any changes due to BDD
 
-	 \item TaxEngine contains one bulky method `taxAmount` that does all computations in a single method. 
-	 %This means that it would be difficult to write unit tests that could help narrow down where the error in tax computation occurs when / if they occur. 
-	 %For instance, it would be more apt to separate the parsing of the tax code from the calculation of the tax required. 
-\end{itemize}
+% 	 \item TaxEngine contains one bulky method `taxAmount` that does all computations in a single method. 
+% 	 %This means that it would be difficult to write unit tests that could help narrow down where the error in tax computation occurs when / if they occur. 
+% 	 %For instance, it would be more apt to separate the parsing of the tax code from the calculation of the tax required. 
+% \end{itemize}
 
 
  % ============================================================================
