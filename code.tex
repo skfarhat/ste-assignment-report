@@ -125,6 +125,8 @@ While good for application robustness, this design is not well-suited for testin
 	\item \javainline{runDebug()} runs the app's inner-loop without catching exceptions allowing them to propagate upwards the call-stack eventually reaching the runDebug() caller, which can handle the exception accordingly. It is used in CommonStepDefs.java \javainline{void applicationHasStarted()}. 
 \end{itemize}
 
+% ADDED getAllCustomers() to main - this was needed to implement Feature7:Scneario1 showcasing the defect[xxx]
+
 % ------------------------------------------
 \subsubsection{Application exceptions}
 % discuss why TaxEngineException is needed 
