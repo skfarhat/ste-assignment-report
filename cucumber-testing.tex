@@ -19,7 +19,7 @@ One solution to this is to add a boolean field member `waitingForCommand` in "Ma
 
 \subsubsection{Testing calculated tax values}
 
-Time was taken to decide how to proceed with verifying correctness of tax values. JUnit offers @ParametrizedTest annotation that allows the calling of a test function multiple times with different parameters, each time checking the correctness of the output given the input parameters. This is not only useful but needed, it is far too costly time and effort wise to write a new tests for each combination of tax code and salary. (Provide calculation estimate here on how many there are approximately).
+Time was taken to decide how to proceed with verifying correctness of tax values. JUnit offers a \linebreak @ParametrizedTest annotation that allows the calling of a test function multiple times with different parameters, each time checking the correctness of the output given the input parameters. This is not only useful but needed, it is far too costly time and effort wise to write a new tests for each combination of tax code and salary. (Provide calculation estimate here on how many there are approximately).
 If the tests were to be spelled out individually (one test for each taxcode-salary combination), then it would require even more testing time if a new taxcode 'letter', or a new salary bracket were to be added in the future. (e.g. adding a new taxcode letter for people with 3 children exactly, would require xxxx tests more). 
 
 For the above reason, we looked into parametrized tests using Cucumber and found this to be possible using the "Examples" keyword. 
