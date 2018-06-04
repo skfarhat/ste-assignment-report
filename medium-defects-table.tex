@@ -1,0 +1,69 @@
+\subsubsection{Medium severity defects}
+\begin{table}[H]
+\renewcommand{\thefootnote}{\roman{footnote}} 
+\footnotesize 
+\begin{minipage}{\textwidth}
+
+\begin{tabularx}{\textwidth}{| c | P | X | X | P |}
+% ========================================================================================================
+\hline % =================================    HEADER  ====================================================
+\tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
+\hline % =================================================================================================
+D010 
+& Main 
+& updating customer says customer 'deleted' instead of updated 
+& Fix the output message to say updated instead of deleted 
+& TODO: \\
+\hline % =================================================================================================
+D015 
+& Main 
+& Listing customers is not in the form of a table - so we can't quickly know what each field correspond to. This has to be inferred from context.  
+&  
+& \\
+\hline % =================================================================================================
+D006 
+& Main \linebreak PrintMenu()
+& Menu does not expose command ’y’ 
+& Add line in PrintMenu() 
+& Feature 9 Scenario 1 \\ % Caught in in step And the application should inform the user that the customer as deleted \\
+\hline % =================================================================================================
+D007 
+& Main \linebreak PrintMenu()
+& Last line of Menu is missing a space to properly align vertical line 
+& Add one more space after “QUIT PROGRAM” in PrintMenu() 
+& \\
+\hline % =================================================================================================
+D003 
+& Customer
+& Salary is restricted to $2^{31}−1$
+& Change salary type in Customer to Long or BigInteger 
+& \\
+\hline % =================================================================================================
+D019 
+& TaxEngine 
+& The application does not guard against negative salaries 
+& Throw an exception  
+& Feature 8 (Negative Salaries)\\
+\hline % =================================================================================================
+D020 
+& TaxEngine 
+& The application does not guard against negative base amounts 
+& Throw an exception  
+& \\
+\hline % =================================================================================================
+D025 \footnote{This was assessed as Medium, because the application did not double-tax when there were duplicates. The defect is just that it did not invalidate the tax code.}
+& TaxEngine 
+& The application does not invalidate the taxcode if there were duplicates of the same letter  
+&  
+& \\
+\hline % =================================================================================================
+D013 
+& TaxEngine 
+& User can see the output from regex matching; this shouldn't be user visible and is confusing  
+& Comment out those lines, or use a proper logging library  
+& \\
+\hline % =================================================================================================
+\end{tabularx}
+\caption{Medium severity functional defects}
+\end{minipage}
+\end{table}
