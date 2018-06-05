@@ -14,7 +14,7 @@
 \label{sec:code-structure}
 Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
 
-Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Section \ref{sec:code-style} and Appendix \ref{app:code-critique}. 
+Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Appendix \ref{app:code-critique}. 
 
 \begin{itemize}
 	\item We note that error reporting in the application is weak: no exceptions thrown anywhere, none of the implemented methods return booleans or integers that could report errors (like returning -1 to indicate an error). There are no means by which  to valid errors occurrences in methods, such as when the ID provided in the delete method is not owned by any customer. 
@@ -88,7 +88,7 @@ To validate the output of the application, the tester needs to redirect stdout t
 An issue with this approach is that System.in is shared by all components of the Java executable which in a test environment includes the test suite as well as all instances of the application being tested (Main in this case). Recall that test suites often run test methods in parallel; this can lead to multiple Main instances running simultaneously and appending output to the same stream. Even worse is that the Cucumber-JVM shares the same stdout and may choose to output its debug info or test results to it as well. 
 \par 
 
-\paragraph{Recommendation}
+\paragraph{Recommendation:}
 To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams.
 \par
 This allows us to provide specific streams for Main to work with when running the instance in a test environment where we would like to exert control and inspect the streams. 

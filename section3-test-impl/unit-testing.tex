@@ -1,9 +1,14 @@
-% TODO:  use surefire report
 \subsubsection{Unit testing}
+Complementing our set of behavioural tests are unit tests primarily focusing on TaxEngine's taxAmount calculation. 'taxAmount' was refactored to delegate the taxing of specific tax groups to disparate public helper methods. By creating tests that target both the encompassing taxAmount() as well as the other more specific (taxBasedOnMaritalStatus, taxBasedOnChildren, taxBasedOnEducationStatus), the test environment was able to zoom in on where the defects occurred more quickly. A failure in unit test targeting taxAmount's  tax calculation, would be accompanied by another failure that on one of the helper methods. Thus we were able to quickly locate the defect sources. 
 
-\begin{itemize}
-	\item we use display names to give more readable output for tests
-	\item we use parametrized tests to allow for high flexibility in generating the testCases. --> Explain the alternative where we would have to write an explicit test case for every input type. And further explains, why running a loop with asserts() in there is not equivalent to our current approach. (Basically the answer to the question, why did we use Paramterized testing). 
-	\item we acknowledge that some regex guru may come up with a regex that replaces the 3 we currently use right now. That's not a problem, we opted for readability anyway ;) 
-	\item we've made some effort to make the tests generalised in that. If some of the requirements change (change the letter used for a symbol) or if more letters are added, then we wouldn't have to overhaul the whole Test class but merely make some select changes. Of course, some tests take @ValueSource which are hardcoded strings to test. In case of change in requirements, those especially should be carefully reviewed (one by one). 
-\end{itemize}
+\par
+Similar to the behavioural tests, there were far too many combinations of tax code inputs and salaries to consider creating individual test cases for each. The better solution was to use JUnit's @ParameterizedTest annotation which allows a single test to be executed multiple times with different input arguments that can be provided through a method returning a Stream of Arguments (\javainline{Stream<Arguments>}). 
+
+\begin{figure}[H]
+\centering
+\begin{mdframed}
+\centering
+\includegraphics[scale=0.5]{res/unit-test.png}
+\caption{JUnit Test Report}    
+\end{mdframed}
+\end{figure}

@@ -6,7 +6,7 @@
 
 This section presents a review of the set system requirements, identifying those that are considered ‘unclear’, vague, or requirements that may be classified as defects in the specifications.  Once identified, assumptions will be made to manage such requirements.
 \par
-The source or basis of such system specifications has not been made identified during the course of this work.  Hence, should a more comprehensive reference document be made available, such as IEEE SRS, which can be reviewed, then development would be greatly simplified, and the output would present a clearer guide, with less ambiguities. Testing of specification and the basis on which these were selected are critical to the work particularly in the test phase. Test trials based on false, incomplete, or unclear specifications, may generate many false-positive or even worse false-negatives, and may prove costly both in terms of development time and development cost.
+The source or basis of such system specifications has not been made identified during the course of this work.  Hence, should a more comprehensive reference document be made available, such as IEEE SRS, which can be reviewed, then development would be greatly simplified, and the output would present a clearer guide, with fewer ambiguities. Testing of specification and the basis on which these were selected are critical to the work, particularly in the test phase. Test trials based on false, incomplete, or unclear specifications, may generate many false-positive or even worse false-negatives and may prove costly both in terms of development time and development cost.
 
 % In this section we shall review the provided requirements calling attention to mistakes and vaguenesses in the requirements, which we recognise as defects. As well as identifying them, we shall delineate any assumptions we are forced to make due to missing or imprecise requirements. 
 % % Type of Req Document? Informal? 
@@ -24,7 +24,7 @@ Requirements are presented in the form of bullets, whereas a numbering scheme wo
 A part of the work involved labelling requirements for the workflow process presented in the form of a table, as shown in Appendix \ref{app:labelled-requirements}.  Therefore as good practice, it is recommended that additions or alterations to be made to requirements are actually amended on the reference table.
 
 % The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
-% We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
+% We will take it on ourselves to label the requirements for our own workflow (see appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
 
 % TODO: Some SRS documents will capitalise SHOULD, MUST, MAY to leave no room for confusion. 
 
@@ -38,43 +38,23 @@ At a first glance, it becomes apparent that there is a lack of coherence in the 
 \par
 Below some of the non-coherences observed are listed. These are by no means critical, but may be flagged as defects.
 \begin{itemize}
-    \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which would better be presented without a bullet and is misleading to the reader. 
-    \item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
-    \item Requirements (\REightFive to \REightTen) all commence with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) commence with \textit{Calculation for people}. It is not evident why different wording was opted for between these requirements. 
+    \item The first bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which would better be presented without a bullet and is misleading to the reader. 
+    \item The seventh bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
+    \item Requirements (\REightFive \space to \REightTen) all commence with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven \space to \REightTwelve) commence with \textit{Calculation for people}. It is not evident why different wording was opted for between these requirements. 
     \item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". Readers should attempt their not to take this as a lack of respect for divorced individuals. 
 %   % in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
 \end{itemize}
 
-% OLD
-% At first read, a lack of coherence in the structure and wording of the requirements is clear, depicting an overall lack of formality and professionalism in the software engineering process. 
-% A positive consequence of this, perhaps surprisingly, is that it puts the tester on the alert for what to expect of the quality of the software to be tested, making them question the meticulousness of the project managers and in turn the developers.
-% \par
-% Below we outline some of the observed incoherences. They are not catastrophic by any means and need not be raised as defects, but are still worth raising:
-% \begin{itemize}
-%     \item The \nth{1} bullet in the list (\textit{"The PTMA must implement a Personal Tax Management System to meet the following requirements."}) is not an explicit requirement, but an introductory sentence which should not have been bulletised. This is misleading to the reader seein as most other bullets are requirements. 
-% 	\item The \nth{7} bullet in the list (\textit{"The system must include a simple ‘help’ system that lists all commands"}) does not terminate with a full stop while the rest do. 
-% 	\item Requirements (\REightFive to \REightTen) all begin with \textit{Calculation of tax for people}, whereas the last two requirements (\REightEleven to \REightTwelve) begin with \textit{Calculation for people}. It is not clear why there is a distinction in the wording of these requirements. 
-% 	\item The bullet detailing the taxing of divorced people (\REightSeven) does not capitalise the word "divorced", but does capitalise "Single" and "Married". The reader will attempt their best not to take this as a lack of respect for divorced individuals. 
-% 	% in the When outlining marital status taxing, we can see "Calculation of tax for Married people", "Calculation of tax for Single people", but the word 'divorced' is not capitalised, typo or lack of respect for divorced?  
-% \end{itemize}
 
 % ----------------------------------------------
 % Non-Functional Requirements
 % ----------------------------------------------
-\subsection{Non-functional requirements}
+\subsection{Non-functional Requirements}
 \label{sec:non-functional-requirements}
 It is understood that performance testing, security, and other non-functional requirements are not within the scope of testing for this project.
 However, including such items in the system requirements review is essential as they constitute an integral part of the requirements development process. It is usually expected that requirements on security, performance, compatibility and robustness are elicited clearly in a separate non-functional requirements section.  However, it may well be that the scope of testing is restricted to functional aspects.
 \par
-Despite this, the following is identified (\RSeven:\textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement would be separated from functional requirements.
-
-%
-% Ignorable: 
-% ----------
-% What platforms must the system run on? Must the language to be used be Java, or can developer preference overtake in the matter? 
-% * Non-functional requirements have not been detailed: do we expect the system to run on any platform? are there any speed / performance requirements that need to be catered for? For example, the requirements don't mention how many clients can be persisted on the app, which may imply (unlimited), but in such a case, it would be useful to reconsider the array design, as this does not provide enough flexibility going forward. 
-% * Are there no security requirements? Perhaps the ability to allow locking the app with an app is desirable? After all, the software does hold people's tax codes, rates...
-\par
+Despite this, the following is identified (\RSeven: \textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement would be separated from functional requirements.
 
 % ----------------------------------------------
 % Key term definitions
@@ -90,7 +70,6 @@ Furthermore, the exact explicit definition of the below keywords is absolutely e
     \item System and Application - System is used in (\RTwo, \RSix, \RSeven), while Application is used in (\ROne, \RFour, \RFive). 
 \end{itemize}
 It is assumed through contextual understanding that these refer to the same entity.  However, confirmation and a more precise definition of the terms must be presented in a formal document.
-\par
 
 % It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
 
@@ -100,52 +79,52 @@ It is assumed through contextual understanding that these refer to the same enti
 \subsection{Defects and Vaguenesses}
 \label{sec:defects-and-vaguenesses}
 In this section we address imprecise or 'loose' requirements, which are believed to truly form defects in requirements.
-These have been labelled (see Appendix \ref{app:labelled-requirements}) to improve readability and accessibility of the report.
+These have been labelled (see appendix \ref{app:labelled-requirements}) to improve readability and accessibility of the report.
 
 % [1] -----------------------------------------------------------------------------
 \subsubsection{The application must enable the storage of client’s personal details including [R1]}
 The term storage is not clear in that it does not specify where details are to be stored. 
-Storage may be permanent (e.g. database, file on system, etc.) or in-memory surviving only until the next launch or boot up. 
+Storage may be permanent (e.g. database, file on system...) or in-memory surviving only until the next launch or boot up. 
 \par
-If persistent storage is to be used, then some more details on the how this storage should behave, how robust, portable, responsive it should be would be needed. 
+If persistent storage is to be used, then more details on how thi storage should behave, its robustness, portability, responsiveness would be needed. 
 \par
 For testing purposes within this work, it is assumed that the storage of details need only be in-memory when the application is running, as such, no testing has been done on permanent-storage.
 
 % [2] -----------------------------------------------------------------------------
 \subsubsection{The software should issue each customer a numeric identifier [R2]}
 This requirement was found to be clear and unambiguous. 
-Minor comment: the usage of the word 'die' did not seem entirely appropriate, even if quoted; however, software does tend to use questionable wordage (think of the POSIX function kill), so this is a non-issue.  
+One minor comment is presented here, which is that usage of the word 'die' is not entirely appropriate, even if quoted. However, software does tend to use questionable wording (think of the POSIX function kill), so this may not be a major issue.  
 
 % [3] -----------------------------------------------------------------------------
 \subsubsection{The PTMA should enable customer details to be updated [R3]}
 This requirement was found to be clear and unambiguous at first read. 
 However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definition), testers would question whether there is a lack of specificity from the requirements perspective, or going over the requirements by the developers. 
 \par
-In both cases, it is not clear and surprising why for example the 'salary' field cannot be updated with one command, as the case for 'first-name', 'last-name' and 'tax-code'.  
+In both cases, it is not clear and is surprising why for example the 'salary' field cannot be updated with one command, as the case for 'first-name', 'last-name' and 'tax-code'.  
 \par
-Moreover, this requirement may be improved by specifying that customer IDs should not be possible to update in order to avoid any possible confusion during implementation. 
+Moreover, this requirement may be improved by specifying that customer IDs cannot be updated in order to avoid any possible confusion during implementation. 
 
 % [4] -----------------------------------------------------------------------------
 \subsubsection{The application should be able to print lists of customer information [R4]}
 % with users being able to select blocks of customers to be printed based on their unique identifiers.}
 This requirement is clear and unambiguous. 
-By being less specific on how the user is expected to specify the blocks to print, the requirement provides developers the flexibility, which is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo \space then printing blocks of users may have to be done using comma-separated input from the user. 
+By being less specific on how the user is expected to specify the blocks to print, the requirement provides developers with the flexibility, which is needed seeing as (\RFour) has strong dependency on the choice of identifiers used in (\RTwo). If non-integer identifiers were used in \RTwo \space then printing blocks of users may have to be done using comma-separated input from the user. 
 
 % [5] -----------------------------------------------------------------------------
 \subsubsection{The application will calculate the tax amount to be paid by each client [R5]} 
 % and display this amount along with the other customer details. The amount of the tax is based on their taxcode and their current salary according to the rules below.}
 This requirement is clear and unambiguous. 
-However, it remains unclear why it was separated from (R8.x) the tax rules, seems like they could have been structured to follow each other. 
+However, it remains unclear why it is separated from the tax rules (R8.x), reason may well be that these could have been structured to follow each other. 
 
 % [6] -----------------------------------------------------------------------------
 \subsubsection{The system must include a simple 'help' system that lists all commands [R6]}
 
-This requirement was found to be clear and unambiguous, assuming 'system' and 'application' refer to the same thing (see Section \ref{sec:key-term-definitions}). 
+This requirement was found to be clear and unambiguous, assuming 'system' and 'application' refer to the same thing (see section \ref{sec:key-term-definitions}). 
 
 % [7] -----------------------------------------------------------------------------
 \subsubsection{The system must not crash if the user enters something that they are not meant to [R7]}
 Assuming 'system' refers to the application, the requirement is clear. 
-This requirement relates to the application's robustness and should, in a more formal document  be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see section \ref{sec:non-functional-requirements}).
+This requirement relates to the application's robustness and should in a more formal document  be placed in the non-functional requirements section along with other requirements relating to performance, robustness, security (see section \ref{sec:non-functional-requirements}).
 
 % [8] -----------------------------------------------------------------------------
 \input{section1-requirements/requirements-r8}

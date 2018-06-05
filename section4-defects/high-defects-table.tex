@@ -26,6 +26,7 @@ D026
 & Use a better regular expression (see CorrectTaxEngine.java). 
 & Feature 8 Scenario 3 \\
 \hline % ============================================================================
+
 D024 
 & TaxEngine 
 & Wrongly formatted taxcode yields a zero taxable amount as an error. Zero is a valid taxable amount and does not represent an error. 
@@ -63,6 +64,19 @@ D004
 & Allow users to print customers using comma-separated list of IDs.
 & -\\
 \hline % ============================================================================
+\end{tabularx}
+\caption{High severity functional defects}
+\end{table}
+
+% ============================ > SPLIT TABLE
+
+\begin{table}[H]
+\footnotesize 
+\begin{tabularx}{\textwidth}{| c | P | X | X | P |}
+% ===================================================================================
+\hline % =================================    HEADER  ====================================================
+\tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
+\hline % ============================================================================
 D036 
 & TaxEngine
 & Married customer (salary < 27,000) is taxed at 150\% instead of 120\%
@@ -86,19 +100,6 @@ D039
 & Customer is student less than 24 y.o (salary < 2,000) is taxed 113\% instead of 107\%. 
 & Swap values of HI\_STUDENT1\_MODIFIER and LOW\_STUDENT1\_MODIFIER in Constants.
 & Feature 8 (a) Scenario 4\\
-\hline % ============================================================================
-\end{tabularx}
-\caption{High severity functional defects}
-\end{table}
-
-% ============================ > SPLIT TABLE
-
-\begin{table}[H]
-\footnotesize 
-\begin{tabularx}{\textwidth}{| c | P | X | X | P |}
-% ===================================================================================
-\hline % =================================    HEADER  ====================================================
-\tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
 \hline % ============================================================================
 D040
 & TaxEngine
