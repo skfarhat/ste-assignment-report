@@ -12,7 +12,7 @@
 
 \subsection{Code Structure} 
 \label{sec:code-structure}
-Overall, the code is difficult to read in part due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mainly due to questionable implementation choices. 
+Overall, the code is difficult to read in partly due to the lack of coherence and consistency with the coding style and the lack of useful documentation, but mostly due to questionable implementation choices. 
 
 Below, we shall focus on the code's structure and testability. Critique of the code that is unrelated to its testability can be found in Appendix \ref{app:code-critique}. 
 
@@ -27,14 +27,14 @@ Below, we shall focus on the code's structure and testability. Critique of the c
 % 2 - Comment on its testability 
 
 \subsection{Code testability \& Recommendations}
-The below items have been identified as hindrances to our testing. Each item will be described and suggestions to improve the structure provided. 
+The items below are identified as hindrances to the testing work.  Each item is described and suggestions to improve the structure are provided.
 
 % ----------------------------------------------------------------------------
 \subsubsection{Error reporting}
 \label{sec:error-reporting}
-The provided application exhibits weak and badly structured error reporting. We would normally expect methods in underlying classes to throw exceptions on invalid inputs and report their results to methods higher up the stack via booleans or return objects. The methods higher up would then evaluate the return code or try/catch exceptions outputting a readable user output when appropriate.
+The application provided exhibits weak and badly structured error reporting. We would normally expect methods in underlying classes to throw exceptions on invalid inputs and report their results to methods higher up the stack via booleans or return objects. The methods higher up would then evaluate the return code or try/catch exceptions outputting a readable user output when appropriate.
 \par
-Such a design would allow for good testabilty of the underlying methods while also protecting the user from confusing and verbose error messages. 
+Such a design would allow for good testability of the underlying methods while also protecting the user from confusing and verbose error messages. 
 \par 
 Part of our refactoring involved throwing exceptions where appropriate in the code allowing us to catch those exceptions in our test suites and evaluate whether they should or should not have been thrown. 
 This is especially relevant to testing \javainline{TaxEngine} whose input tax code may be invalid, in which case we would hope and expect an exception to be thrown. 
