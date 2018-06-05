@@ -32,8 +32,8 @@ An example of the tasks that can be run with the tool:
 Code coverage provides a useful metric on which classes, methods and lines of code have been executed in the application under test. 
 The metric is typically monitored by test managers who would attempt to ensure it does not fall fall below a pre-set threshold value; the end aim being to maintain the amount of testing the software has undergone, increasing its  reliability (or perceived reliability).  
 \par
-Gradle tasks have been configured to allow for the generation of coverage reports following the run of the Cucumber and JUnit suites. The jacoco plugin works by reading files (cucumber.exec and test.exec) and generating HTML reports from them. This can be achieved by running: 
-\lstinline{./gradlew jacocoTestReport} which runs the cucumber and JUnit tests before generating the reports which are placed in build/reports/jacoco/. 
+Gradle tasks have been configured to allow for the generation of coverage reports following the run of the Cucumber and JUnit suites. The jacoco plugin works by reading files cucumber.exec and test.exec from the build directory and generating HTML reports detailing their contents. This can be achieved by running: 
+\lstinline{./gradlew jacocoTestReport} which in turn runs the cucumber and JUnit tests before generating the reports which are placed in (build/reports/jacoco/) directory. 
 \par 
 The achieved code coverage from cucumber tests is 88\%. 
 When both Cucumber and JUnit are run the total coverage rises to 91\%. These values are deemed satisfactory but can certainly be further increased in the future.

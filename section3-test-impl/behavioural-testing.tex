@@ -46,8 +46,8 @@ Our CommonStepDefs included the definition of step definitions that were commonl
 \end{itemize}
 
 \paragraph{Scenario Outline:}
-Given the nature of the software under test and the range of possible combinations of inputs (tax-code, salary, base-amount) that are applicable, it was deemed infeasible time-effort wise to create a scenario for each combination. 
-However as the input constraints are understood, long lists could be generated using another program. Hence we developed the Generator class along with ExampleTablesGenerator, which together can provide longs lists of input combinations using some constraint (invalid tax codes, valid taxcodes, taxcodes with negative salaries). 
+Given the nature of the software under test and the range of possible combinations of inputs (tax-code, salary, base-amount), it was deemed impractical time and effort wise to create a scenario for each combination. 
+However, as the input constraints are understood, long lists could be generated using another program. Hence we developed the Generator class along with ExampleTablesGenerator which together provide longs lists of input combinations (invalid tax codes, valid taxcodes, taxcodes with negative salaries). 
 \par 
 The generated tables would then be plugged in to the "Examples" section in "Scenario Outline" allowing for a single Scenario definition to be executed by all the different examples. This feature allows for high code coverage using minimal additional effort. Our "8\_TaxRulesExtensive.feature" contains +1000 different examples that are all run for one scenario. 
 

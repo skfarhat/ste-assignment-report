@@ -32,25 +32,25 @@ The items below are identified as hindrances to the testing work.  Each item is 
 % ----------------------------------------------------------------------------
 \subsubsection{Error reporting}
 \label{sec:error-reporting}
-The application provided exhibits weak and badly structured error reporting. We would normally expect methods in underlying classes to throw exceptions on invalid inputs and report their results to methods higher up the stack via booleans or return objects. The methods higher up would then evaluate the return code or try/catch exceptions outputting a readable user output when appropriate.
+The application provided exhibits weak and badly structured error reporting. We would normally expect methods in underlying classes to throw exceptions on invalid inputs and report their results to methods higher up the stack via booleans or return objects. These high level methods would then evaluate the return-code or try/catch exceptions thereby generating a readable user output where appropriate.
 \par
-Such a design would allow for good testability of the underlying methods while also protecting the user from confusing and verbose error messages. 
+Such a design would allow reliable testing capabilities of underlying methods while also protecting the user from confusing and verbose error messages. 
 \par 
-Part of our refactoring involved throwing exceptions where appropriate in the code allowing us to catch those exceptions in our test suites and evaluate whether they should or should not have been thrown. 
+Part of the refactoring carried out involved throwing exceptions upon certain error conditions so that the test framework could catch those exceptions and evaluate the reasons for their throwing. 
 This is especially relevant to testing \javainline{TaxEngine} whose input tax code may be invalid, in which case we would hope and expect an exception to be thrown. 
 \par 
 We create \javainline{TaxCalcException} as a child of RuntimeException; the reason for it inheriting from RuntimeException and not Exception is that it allows us to avoid needing to add snippets \javainline{throws TaxCalcException} after every method definition hence polluting the code base. 
-Our approach was deemed less intrusive. 
+This approach was deemed less intrusive. 
 % ----------------------------------------------------------------------------
 
 % ----------------------------------------------------------------------------
 \subsubsection{Static Main}
 
-By design, the application's Main class is primarily static; meaning there are only one Scanner and one AllCustomers objects during the process' runtime. This is problematic for our testing which will seek to have all of its feature scenarios run independently and not be affected by one another. Not only this, but the tests may need to execute in parallel making race conditions a real threat to our test setup. 
+By design, the application's Main class is primarily static, meaning that there are only one Scanner and AllCustomers objects during the process' runtime. This is problematic in that it allows state to be maintained across different test runs leading to more tightly coupled feature scenarios.
 \par
 A solution to this is to remove static modifiers from the Main class forcing developers and testers to instantiate their own objects. This provides a much neater approach, one that is much less likely to lead to errors in testing. 
 \par
-Further to this, some of our tests will look to dependency-inject our own test objects into Main to be used (sections \ref{sec:main-stdio}, \ref{sec:allcustomers-inject}). An overview of the changes made can be seen below.
+Additionally, some of our tests will look to dependency-inject our own test objects into Main to be used (sections \ref{sec:main-stdio}, \ref{sec:allcustomers-inject}). An overview of the changes made can be seen below.
 \begin{itemize}
 	\item remove static modifiers from the class's members and methods.  
 	\item add a default constructor.
@@ -76,7 +76,7 @@ Further to this, some of our tests will look to dependency-inject our own test o
 \end{minipage}
 % ------------------------------------------------
 
-The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads. Below we describe how we get around these being shared. 
+The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads but are not sufficient. There are still only one standard input and one standard output contended on by all threads. Below we describe how we get around this contention.
 
 % -------------------------------------------------------
 \subsubsection{Main: Standard I/O}
@@ -89,7 +89,7 @@ An issue with this approach is that System.in is shared by all components of the
 \par 
 
 \paragraph{Recommendation:}
-To isolate the standard input and output of each Main instance and facilitate testing, we can introduce class members of type PrintStream and InputStream in Main class and allow callers to Main's constructor to inject those streams.
+In order to isolate the standard input and output of each Main instance and to facilitate testing, class members of type PrintStream and InputStream are introduced in Main class and would allow callers to Main's constructor to inject those streams.
 \par
 This allows us to provide specific streams for Main to work with when running the instance in a test environment where we would like to exert control and inspect the streams. 
 \par 
@@ -108,7 +108,7 @@ Another class in the application uses System.out to print and that is AllCustome
 % ----------------------------------------------------------------------------
 \subsubsection{Start/Stop Main}
 \label{sec:start-stop-main}
-The mechanism by which Main's loop is started and stopped is not sufficiently flexible to favour our testing; the reasons for this are outlined below.
+The mechanism by which Main's loop is started and stopped is not sufficiently flexible to favour the intended testing. The reasons for this are outlined below.
 \begin{itemize}
 	\item Calling \javainline{Main.main(null)} starts the application and runs the loop, but does not expose the \javainline{Main main} reference created in \javainline{void main()}. 
 	\item Stopping the application can only be done through the user inputting 'q' which leads to \javainline{System.exit(2)} being called. This exit call exits the running process (the entire Java JVM) and would kill any running test framework.
@@ -125,7 +125,7 @@ To get around these frailties, we
 % ----------------------------------------------------------------------------
 \subsubsection{Production run vs. debug run}
 \label{sec:production-vs-debug}
-Requirement (\RSeven) cites that the application must not crash upon wrong user input. To follow this requirements, the application developers seem to have surrounded most of the implementation of InterpretCommand() with a try/catch block to catch the exceptions and avoid throwing them up the stack where they would cause a crash.
+Requirement (\RSeven) specifies that the application must not crash in the event of wrong user input. Following this requirement, the application developers seem to have surrounded most of the implementation of InterpretCommand() with a try/catch block to stop the exceptions' propagation up the call stack where it would lead to a crash.
 \par 
 While good for application robustness, this design is not well-suited for our testing since testers would prefer the exceptions be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
 

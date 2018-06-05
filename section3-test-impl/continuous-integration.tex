@@ -6,8 +6,11 @@ Doing so means each developer has a near-latest sane copy of the code before mak
 In doing continuous integration, code changes pushed to the main repository  trigger the CI system to execute the steps defined in the pipeline.
 Such steps may include but are not limited to: building the different executables (main and test applications), running unit test suites, acceptance test suites, static analysers (code quality and style checkers) as well as any other defined gradle, shell or other scripts.  
 \par
-For this project, we setup several Jenkins pipelines which are triggered upon each commit of the code. There are many ways to trigger builds in Jenkins, one such way is to continuously poll the repository for changes. 
-Another is to trigger the build manually using HTTP POST. In our test implementation we have written a script found in (scripts/trigger\_jenkins.sh) to trigger the build manually using curl, a Linux tool. The script is run after every commit made. 
+For this project, we setup several Jenkins pipelines which are triggered upon each commit of the code. 
+Triggering builds in Jenkins can be achieved by various means, one such mean would be to continuously poll the repository for changes, 
+another would be to trigger the build manually using HTTP POST. 
+\par
+In our test implementation we have written a script found in (scripts/trigger\_jenkins.sh) to trigger the build manually using curl, a Linux tool. The script is run after every commit made. 
 \begin{itemize}
     \item TaxCalc-build
 	\item TaxCalc-test-acceptance
