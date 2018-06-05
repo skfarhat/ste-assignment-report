@@ -10,63 +10,58 @@
 % ========================================================================================================
 D022 
 & TaxEngine 
-& The application checks for letters in the tax string starting from index 1, so any letters at the very beginning of the string are not invoked. 
-& change >0 to >=0 
+& First letters in tax code is always ignored.   
+& Replace instances of "taxCode.indexOf() > 0" with "taxCode.indexOf() >= 0".
 &  Feature8 (Extensive) \\% + Cannot be detected using 'MT1000' and 'TM1000' because the current implementation is faulty due to it only checking lower case characters. If we temporarily remove case sensitivty from the taxAmount() parser code, then we can see that this test fails on the original implementation\\
 \hline % =================================================================================================
 D023 
 & TaxEngine 
-& Mutual exclusivity between letters in a same tax group is not enforced by the application 
-& Use a better regular expression (see CorrectTaxEngine.java) 
+& Mutual exclusivity between letters in a same tax group is not enforced by the application.
+& Use a better regular expression (see CorrectTaxEngine.java).
 & Feature 8 Scenario 2 \\
 \hline % =================================================================================================
 D026 
 & TaxEngine 
-& The application allows for tax code 100M100 which is not valid according to the requirements. 
-& Use a better regular expression (see CorrectTaxEngine.java) 
+& Tax codes with format similar to '100M100' are not invalidated by the application.
+& Use a better regular expression (see CorrectTaxEngine.java). 
 & Feature 8 Scenario 3 \\
 \hline % =================================================================================================
 D024 
 & TaxEngine 
 & Wrongly formatted taxcode yields a zero taxable amount as an error. Zero is a valid taxable amount and does not represent an error. 
-& Throw an exception instead 
+& Throw an exception instead.
 & Feature 8 (many)\\
 \hline % =================================================================================================
 D001 
 & AllCustomers 
-& Updating customer salary using ’y’ does not update the amount of tax they pay  and invoke engine.taxAmount() in updateSalary() 
-& Call taxEngine.taxAmount() in updateCustomerSalary()
+& Customer's tax amount is not updaed following a salary update (command 'y'). 
+& Call taxEngine.taxAmount() in updateCustomerSalary(). 
 & Feature 3 Scenario 4 \\
 \hline % =================================================================================================
 D002 
 & AllCustomers 
-& Updating customer tax code using ’u’ menu command does not update the amount of tax they pay 
-& Call taxEngine.taxAmount() in updateCustomerAll()
+& Customer's tax amount is not updaed following a full update (command 'u').
+& Call taxEngine.taxAmount() in updateCustomerAll(). 
 & Feature 3 Scenario 5\\
 \hline % =================================================================================================
+D009 
+& AllCustomers 
+& "getCustomer" loops from 0 to intCurrentCustomerIndex inclusive leading to a NullPointerException
+& Loop up to intCurrentCustomerIndex - 1 instead.
+& JUnit \linebreak {\tiny testGetInexistentCustomer()} \\
+\hline % =================================================================================================
 D008 
-& Main, AllCustomers 
-& Main creates a new AllCustomers object upon an exception, so if the user inputs something wrong, then an exception is thrown and data about all customers previously is lost 
-& Restructure the run() code so that the exception is caught and handled without having to recall interpret command and reinstantiating AllCustomers 
+& Main
+& All previous data is lost following an invalidate user input (Main reinstantiates allCustomers in InterpretCommand()).
+% Main creates a new AllCustomers object upon an exception, so if the user inputs something wrong, then an exception is thrown and data about all customers previously is lost 
+& Restructure the run() code so that the exception is caught and handled without having to recall interpret command and reinstantiating AllCustomers. 
 & Feature 7 Scenario 1 \\
 \hline % =================================================================================================
 D004 
 & Main 
-& Printing customers relies on internal array indices, which are not exposed to user and Allow printing blocks using ID ranges. Since the entries are contiguous in the array, this should be similarly straightforward. 
-& 
-& \\
-\hline % =================================================================================================
-D009 
-& AllCustomers 
-& getCustomer() loops from 0 to intCurrentCustomerIndex (inclusive), leading to NullPointerException
-& Change <= to < in the for loop of getCustomer() 
-& \\
-\hline % =================================================================================================
-D018 
-& TaxEngine 
-& Regex used for matching is wrong. Explain what it actually does. 
-&  developers should learn about non-capturing groups in regex. 
-& \\
+& Printing customers requires knowledge of internal array indices.  
+& Allow users to print customers using comma-separated list of IDs.
+& -\\
 \hline % =================================================================================================
 \end{tabularx}
 \caption{High severity functional defects}

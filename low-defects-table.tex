@@ -6,65 +6,65 @@
 \hline % =================================    HEADER  ====================================================
 \tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
 \hline % =================================================================================================
-D014 
-& Customer 
-& Code implementation: getter and setter methods do not match the member variables in Customer (lastname and second name)  
-& be consistent and rename. Most IDEs will generate the getter and setter methods using some shortcut anyway.  
-& \\
-\hline % =================================================================================================
 D011 
-&  
-& All different terms are used for when the customer details are changed: updated, modified (event deleted see D010).  There is not consistentcy, sometimes we say 'Customer salary' sometimes we just say 'FirstName' updated.  Also why are there "..." at the end of the sentence.  Is the application not sure if they were updated, or is it sighing at our indeciseveness. Bad output. 
-&  
-& \\
-\hline % =================================================================================================
-D028 
-& Main \linebreak PrintMenu()
-& PrintMenu(): Some functions are lower case others, upper case 
-&  
-& \\
-\hline % =================================================================================================
-D029 
-& Main \linebreak PrintMenu()
-& PrintMenu() inconsitencies: FIRST name, SURNAME, TAX CODE, details. All kinds of capitals  
-&  
-& \\
-\hline % =================================================================================================
-D030 
-& CustomerPrint() 
-& If first  > last in printing - show some error message - or alert the user.  
-&  
-& \\
-\hline % =================================================================================================
-D031 
-& Adding Customer 
-& First name and last name have no validation whatsover: they can be empty strings, just numbers and just odd characters. Use some form of validation  
-&  
-& \\
-\hline % =================================================================================================
-D032 
-&  
-& 7. After a new customer is added, the menu doesn't show again. This is inconsistent with other behaviour (such as after listing or deleting, or after help).  
-& Consume the new line in the printAccountNumbers()  
-& \\
+& Main 
+& Inconsistent word choice and formatting (e.g. changed, modified, updated..). Avoid ".." at the end of output messages.
+& Define a consistent output structure and format and enforce it. 
+& - \\
 \hline % =================================================================================================
 D034 
 & Main
-& No alert when attempting to delete a non-existent entry 
-&  
+& No alert when attempting to delete a non-existent entry. 
+& Provide an error output when the user attempts this operation. 
 & Feature 9 Scenario 2\\
 \hline % =================================================================================================
+D028 
+& Main
+& PrintMenu: some functions are displayed in lower case others in upper case.  
+& Choose a consistent format. 
+& -\\
+\hline % =================================================================================================
+D029 
+& Main
+& PrintMenu: FIRST name, SURNAME, TAX CODE, details. All kinds of capitals  
+& Choose a consistent format. 
+& -\\
+\hline % =================================================================================================
 D035 
-&  
-& Adding and updating are dissimilar in the order they ask for customer details. Updating asks for tax code then salary, whereas adding is the other way around 
-&  
-& \\
+& Main
+& addCustomer and updateCustomer differ in the order with which they request input (tax code then salary / salary then tax code) 
+& Reorder the readLine()/readInt() methods along with their respective println() statements
+& -\\
+\hline % =================================================================================================
+D030 
+& Main 
+& If user provides index $first > last$ for range, no error message is output. 
+& Provide an error output when the user provides 
+& -\\
+\hline % =================================================================================================
+D031 
+& Main 
+& First name and last name have no validation whatsoever: they can be empty strings, just numbers and just odd characters. Use some form of validation  
+& Regular expressions can be employed to validate input format.  
+& -\\
+\hline % =================================================================================================
+D032 
+& Main
+& Application unexpectedly prints the menu after 'list', 'add', 'delete' command are done.   
+& Consume the new line after reading integers with readInt(). 
+& -\\
 \hline % =================================================================================================
 D033 
-&  
-& "fourth group" doesn't start with a capital letter 
-&  
-& \\
+& TaxEngine
+& "fourth group" message inconsistently with similar messages, starts with a capital letter. This message should not be output in the first place (see D013). 
+& Remove this and related debug messages (see D013), or be consistent in formatting. 
+& -\\
+\hline % =================================================================================================
+D014 
+& Customer
+& Code style: getter/setter methods do not match their member variables (e.g. lastName).
+& Example: member name should have setter and getter: setName() and getName().
+& -\\
 \hline % =================================================================================================
 \end{tabularx}
 \caption{Low severity functional defects}

@@ -11,57 +11,51 @@
 \hline % =================================================================================================
 D010 
 & Main 
-& updating customer says customer 'deleted' instead of updated 
-& Fix the output message to say updated instead of deleted 
-& TODO: \\
+& Updating customer outputs 'customer deleted' instead of 'customer updated'.
+& Fix the output message to say updated instead of deleted.
+& -\\
 \hline % =================================================================================================
 D015 
 & Main 
-& Listing customers is not in the form of a table - so we can't quickly know what each field correspond to. This has to be inferred from context.  
-&  
-& \\
+& List: printed fields for a customer have no reference to what they refer to.
+& Provide a header row indicating the field type in order (firstName, lastName, taxCode...).  
+& -\\
 \hline % =================================================================================================
 D006 
-& Main \linebreak PrintMenu()
-& Menu does not expose command ’y’ 
-& Add line in PrintMenu() 
+& Main
+& PrintMenu: Menu does not expose command ’y’.
+& Add line in PrintMenu().
 & Feature 9 Scenario 1 \\ % Caught in in step And the application should inform the user that the customer as deleted \\
 \hline % =================================================================================================
 D007 
-& Main \linebreak PrintMenu()
-& Last line of Menu is missing a space to properly align vertical line 
-& Add one more space after “QUIT PROGRAM” in PrintMenu() 
-& \\
+& Main
+& PrintMenu: Last line of Menu is missing a space to properly align vertical line.
+& Add one more space after “QUIT PROGRAM” in PrintMenu(). 
+& -\\
 \hline % =================================================================================================
 D003 
 & Customer
 & Salary is restricted to $2^{31}−1$
-& Change salary type in Customer to Long or BigInteger 
-& \\
+& Change salary type in Customer to Long or BigInteger - otherwise expect issues taxing billionaires. 
+& -\\
 \hline % =================================================================================================
 D019 
 & TaxEngine 
-& The application does not guard against negative salaries 
-& Throw an exception  
+& The application does not guard against negative salaries. 
+& Use regex and throw an exception.
 & Feature 8 (Negative Salaries)\\
-\hline % =================================================================================================
-D020 
-& TaxEngine 
-& The application does not guard against negative base amounts 
-& Throw an exception  
-& \\
 \hline % =================================================================================================
 D025 \footnote{This was assessed as Medium, because the application did not double-tax when there were duplicates. The defect is just that it did not invalidate the tax code.}
 & TaxEngine 
-& The application does not invalidate the taxcode if there were duplicates of the same letter  
-&  
-& \\
+& The application does not invalidate the taxcode if there were duplicates of the same letter. 
+& Use regex and throw an exception.
+& -\\
 \hline % =================================================================================================
 D013 
 & TaxEngine 
-& User can see the output from regex matching; this shouldn't be user visible and is confusing  
-& Comment out those lines, or use a proper logging library  
-& \\
+& User can see the output from regex matching; this shouldn't be user visible and is confusing.
+& Comment out those lines, or use a proper logging library. 
+& -\\
 \hline % =================================================================================================
 \end{tabularx}
 \caption{Medium severity functional defects}

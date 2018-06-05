@@ -43,7 +43,7 @@
 \usepackage[super]{nth}             % formats 1st, 2nd, 3rd automatically 
 \usepackage{mdframed}               % to have frame around figure
 % Code - use minted instead of listings
-% \usepackage{listings}
+\usepackage{listings}
 % \usepackage{tikz}                 % for hierarchy structure
 
 % General 
@@ -95,7 +95,8 @@
 % for line breaks in table
 \newcolumntype{b}{X}
 \newcolumntype{s}{>{\hsize=.5\hsize}l}
-\newcolumntype{P}{>{\centering\arraybackslash}p{18mm}}
+\newcolumntype{P}{>{\centering\arraybackslash}p{20mm}}
+\def\tabularxcolumn#1{m{#1}}
 
 \newcommand{\specialcell}[2][l]{%
 \begin{tabular}[#1]{@{}l@{}}#2\end{tabular}}
