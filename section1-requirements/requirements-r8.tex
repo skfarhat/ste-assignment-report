@@ -5,20 +5,20 @@ In this sub-section comments will be provided on defects found in requirements (
 % ----------------------------------
 % Mutual exclusivity of tax brackets 
 % ----------------------------------
-\paragraph{Mutual exclusivity of tax brackets}
+\paragraph{Mutual exclusivity of tax brackets:}
 Requirement (\REightFour) does not specify the existence of any mutual exclusivity between tax letters in the same tax groups i.e. between: 
 \begin{itemize}[noitemsep]
 \item 'M', 'S', and 'D' 
 \item 'C', 'E', and 'F'
 \item 'T' and 'U'
 \end{itemize}
-This will be assumed since logically a person cannot have both (2 children) and (1 child) simultaneously, therefore cannot be in both groups. Similarly, one's martial status cannot be both single and divorced, hence the mutual exclusivity.  
+This will be assumed since logically a person cannot have both (2 children) and (1 child) simultaneously, therefore cannot be in both groups. Similarly, one's marital status cannot be both single and divorced, hence the mutual exclusivity.  
 
 % --------------------------------------
 % Marital Status is required in tax code
 % --------------------------------------
-\paragraph{Marital status is required in tax code}
-Requirement (\REightFour) does not specify that the tax code MUST contain a martial status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
+\paragraph{Marital status is required in tax code:}
+Requirement (\REightFour) does not specify that the tax code MUST contain a marital status. There are many reasons why this can be justifiably assumed to be a missing requirement: 
 \begin{enumerate}
 	\item Requirements (\REightEight) and onwards all indicate that the tax to be calculated for their respective brackets has to be done after the Marital status tax has been applied. This suggests that some tax due to Marital status must have previously been applied. 
 	\item Should it be possible that Marital status be absent from the tax code, then it would become possible for a tax code not to have any letters at all. This would conflict with requirement (\REightTwo). % This can happen if they have no Marital status, no children and are not in education. 
@@ -28,7 +28,7 @@ Requirement (\REightFour) does not specify that the tax code MUST contain a mart
 % -----------------
 % Unusual tax rates
 % -----------------
-\paragraph{Unusual tax rates \& negative salaries}
+\paragraph{Unusual tax rates \& negative salaries:}
 The unusual tax rates were brought to the attention of the reader in the assignment notes, hence there is no call for pointing them out as a defect. However, in view of the possibility of a tax payer earning a salary and paying all of it and more to the government (when tax rate > 100\%), one must ask whether negative salaries as a concept exist in Failovia. 
 \par
 It is not clear from the requirements how the application should respond to a user-provided negative salary or base amount. As testers, we would expect two valid application responses to negative salaries: 
@@ -43,8 +43,8 @@ It is preferable that the approach that the application must undertake should be
 % --------------------------
 % Contradictory requirements
 % --------------------------
-\paragraph{Contradictory requirements}
-The below requirement (\REightFive) is not correctly worded and may be interpreted differently by developers, whom it is believe have implemented what one would have expected the requirement to mean, rather than what it actually elicits. 
+\paragraph{Contradictory requirements:}
+The below requirement (\REightFive) is not correctly worded and may be interpreted differently by developers, whom it is believed may well have implemented the code based on what one would have expected the requirement to mean, rather than what it actually elicited. 
 \par
 \begin{figure}[H]
 \begin{mdframed}
@@ -68,11 +68,11 @@ Calculation of tax for Married people: one of the following four bands will appl
 \end{figure} 
 
 
-It is noted from the above that each bullet after the first one contradicts the bullets before it: for someone earning £3,000 in salary, the first bullet implies they should pay a tax rate of 70\%, the second overrides the first bullet and implies they should pay 90\%, the third one 120\% and the fourth one 130\%. It is believed that the intention behind the bullets is to establish tax brackets as below: 
+It is noted from the above that the bullets contradict the ones preceding them: for someone earning £3,000 in salary, the first bullet implies they should pay a tax rate of 70\%, the second overrides the first bullet and implies they should pay 90\%, the third one 120\% and the fourth one 130\%. It is believed that the intention behind the bullets is to establish tax brackets as below: 
 \begin{itemize}
-	\item People earning between £0 - £5,000 should pay 70\% tax rate 
-	\item People earning between £5,000 - £12,000 should pay 90\%
-	\item People earning between £12,000 - £27,000 should pay 120\%
+	\item People earning £0 - £5,000 should pay 70\% tax rate 
+	\item People earning £5,000 - £12,000 should pay 90\%
+	\item People earning £12,000 - £27,000 should pay 120\%
 	\item People earning over £27,000 should pay 130\%
 \end{itemize}
 The same applies for all subsequent requirements \REightSix \space to \REightTwelve. 
@@ -82,14 +82,14 @@ Requirements (\REightSix \space and \REightSeven) have contradictory \nth{3} and
 
 It is believed that the intention is as presented as below: 
 \begin{itemize}
-	\item People earning in bracket £11,000 - £22,000 pay a rate of 125\%
-	\item People earning £22,000 and above pay rate 132\%
+	\item People earning £11,000 - £22,000 should pay a rate of 125\%
+	\item People earning £22,000 and above should pay a rate 132\%
 \end{itemize}
 
 % -------------
 % EDGE SALARIES 
 % -------------
-\paragraph{Edge salaries}
+\paragraph{Edge salaries:}
 % 8 - Married section 
 The requirements for taxing married people do not cover those who earn exactly £27,000. The \nth{3} bullet ("less than") implies they are excluded from the 120\% tax rate, and the bullet right after ("above than") excludes them as well. 
 \par

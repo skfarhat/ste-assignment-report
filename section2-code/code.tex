@@ -76,7 +76,7 @@ Further to this, some of our tests will look to dependency-inject our own test o
 \end{minipage}
 % ------------------------------------------------
 
-The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads, below we describe how we get around these being shared. 
+The above steps improve encapsulation of state within Main instances and reduce the number of shared resources between threads, but are not sufficient. There are one of each standard input and output shared by all threads. Below we describe how we get around these being shared. 
 
 % -------------------------------------------------------
 \subsubsection{Main: Standard I/O}
@@ -108,13 +108,13 @@ Another class in the application uses System.out to print and that is AllCustome
 % ----------------------------------------------------------------------------
 \subsubsection{Start/Stop Main}
 \label{sec:start-stop-main}
-The mechanism by which Main's loop is started and stopped is not sufficiently flexible to favor our testing; the reasons for this are outlined below.
+The mechanism by which Main's loop is started and stopped is not sufficiently flexible to favour our testing; the reasons for this are outlined below.
 \begin{itemize}
 	\item Calling \javainline{Main.main(null)} starts the application and runs the loop, but does not expose the \javainline{Main main} reference created in \javainline{void main()}. 
 	\item Stopping the application can only be done through the user inputting 'q' which leads to \javainline{System.exit(2)} being called. This exit call exits the running process (the entire Java JVM) and would kill any running test framework.
 \end{itemize}
 
-To get around these frailities, we
+To get around these frailties, we
 \begin{itemize}
 	\item create a method \javainline{run()} in \javainline{Main} to separate starting the application from the creation of the \javainline{Main} object instance. 
 	\item replace infinite loops in Main with ones that monitor the value of a boolean member \javainline{running}. 
@@ -125,7 +125,7 @@ To get around these frailities, we
 % ----------------------------------------------------------------------------
 \subsubsection{Production run vs. debug run}
 \label{sec:production-vs-debug}
-Requirement (\RSeven) cites that the application must not crash upon wrong user input. To follow this requirements, the application developers seem to have surrounded most of the implemetation of InterpretCommand() with a try/catch block to catch the exceptions and avoid throwing them up the stack where they would cause a crash.
+Requirement (\RSeven) cites that the application must not crash upon wrong user input. To follow this requirements, the application developers seem to have surrounded most of the implementation of InterpretCommand() with a try/catch block to catch the exceptions and avoid throwing them up the stack where they would cause a crash.
 \par 
 While good for application robustness, this design is not well-suited for our testing since testers would prefer the exceptions be thrown by the application and caught in the test environment. Accordingly, we create two \javainline{run} methods that respond to exceptions thrown by application differently: 
 

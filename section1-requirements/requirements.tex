@@ -21,7 +21,7 @@ The source or basis of such system specifications has not been made identified d
 \subsection{Organisation of Requirements}
 Requirements are presented in the form of bullets, whereas a numbering scheme would have provided a smoother workflow, since those testing or reviewing the test document would reference individual requirements using specific identifiers.  In some organisations, test methods or test classes are prefixed with the requirement reference being addressed.
 \par
-A part of the work involved labelling requirements for the workflow process presented in the form of a table, as shown in Appendix \ref{app:labelled-requirements}.  Therefore as a good practice, it is recommended that additions or alterations to be made to requirements are actually amended on the reference table.
+A part of the work involved labelling requirements for the workflow process presented in the form of a table, as shown in Appendix \ref{app:labelled-requirements}.  Therefore as good practice, it is recommended that additions or alterations to be made to requirements are actually amended on the reference table.
 
 % The requirements are bulletised, a numbering scheme would be much more apt as it allows testers and reviewers of the document the ability to reference individual requirements using their identifier. In some organisation, test methods or classes are prefixed with the requirement reference they address. 
 % We will take it on ourselves to label the requirements for our own workflow (see Appendix \ref{app:labelled-requirements}) and we propose that any additions or alterations to be made on the requirements be done on that table.
@@ -34,7 +34,7 @@ A part of the work involved labelling requirements for the workflow process pres
 % --------------------------------------------------
 \subsection{Coherence of Requirements}
 
-At a first glance, it becomes apparent that there is a lack of coherence in the structure and wording of requirements, which indicates a lack of a formal and systematic approach in the software engineering process.  A positive spin-off of this surprisingly may be that it alerts the Tester on what he is to expect in the quality of software under test, hence may question project management procedures in place, and as a result the Developer’s approach and end-result.
+At a first glance, it becomes apparent that there is a lack of coherence in the structure and wording of requirements, which indicates a lack of a formal and systematic approach in the software engineering process.  A positive spin-off of this surprisingly may be that it alerts the tester on what he is to expect in the quality of software under test, hence may question project management procedures in place, and as a result the Developer’s approach and end-result.
 \par
 Below some of the non-coherences observed are listed. These are by no means critical, but may be flagged as defects.
 \begin{itemize}
@@ -63,8 +63,8 @@ Below some of the non-coherences observed are listed. These are by no means crit
 % ----------------------------------------------
 \subsection{Non-functional requirements}
 \label{sec:non-functional-requirements}
-It is understood that performance testing, security, and other non-functional requirements are not within the scope of testing for this project;
-However, including these in the system requirements review is essential as these constitute an integral part of the requirements development process. It is usually expected that requirements on security, performance, compatibility and robustness are elicited clearly in a separate non-functional requirements section.  However, it may well be that the scope of testing is restricted to functional aspects.
+It is understood that performance testing, security, and other non-functional requirements are not within the scope of testing for this project.
+However, including such items in the system requirements review is essential as they constitute an integral part of the requirements development process. It is usually expected that requirements on security, performance, compatibility and robustness are elicited clearly in a separate non-functional requirements section.  However, it may well be that the scope of testing is restricted to functional aspects.
 \par
 Despite this, the following is identified (\RSeven:\textit{"The system must not crash if the user enters something that they are not meant to."}) as a non-functional requirement pertaining to the robustness of the application. In a more formal document, this requirement would be separated from functional requirements.
 
@@ -89,7 +89,7 @@ Furthermore, the exact explicit definition of the below keywords is absolutely e
     \item Client, Customer, and Person - Client is used in requirements (\ROne, \RTwo, \RFive), Customer is used in (\RTwo, \RThree, \RFour, \RFive), and Person is used in all (\REight) requirements. \RFive \space interchangeably uses Customer and Client within the same sentence. 
     \item System and Application - System is used in (\RTwo, \RSix, \RSeven), while Application is used in (\ROne, \RFour, \RFive). 
 \end{itemize}
-It is assumed through contextual understanding that these refer to the same entity.  However, confirmation and a more precise definition of the terms must presented in a formal document.
+It is assumed through contextual understanding that these refer to the same entity.  However, confirmation and a more precise definition of the terms must be presented in a formal document.
 \par
 
 % It is good that the present requirements limit the key terms used to a subset of well-known ones (will, may, should, must) are used. This reduces the risk of vagueness emanating from (english understanding). 
@@ -119,7 +119,7 @@ Minor comment: the usage of the word 'die' did not seem entirely appropriate, ev
 % [3] -----------------------------------------------------------------------------
 \subsubsection{The PTMA should enable customer details to be updated [R3]}
 This requirement was found to be clear and unambiguous at first read. 
-However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definiton), testers would question whether there is a lack of specificity from the requirements perspective, or going over the requirements by the developers. 
+However, after noting that the implementation contains sizeable chunks of code pertaining to client updates (four menu commands each with its own method definition), testers would question whether there is a lack of specificity from the requirements perspective, or going over the requirements by the developers. 
 \par
 In both cases, it is not clear and surprising why for example the 'salary' field cannot be updated with one command, as the case for 'first-name', 'last-name' and 'tax-code'.  
 \par
@@ -155,13 +155,13 @@ This requirement relates to the application's robustness and should, in a more f
 \subsection{Missing requirements}
 
 % Delete clients. 
-There are no requirements for the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. It is believed that it is then an oversight on the requirements writers. 
+There are no requirements for the user's ability to delete customers from storage. This is tacitly mentioned as part of the second requirements relating to ID uniqueness. It is believed that it is then an oversight on the requirements' writers. 
 \par
 % Show ID of clients. 
 Requirement (\RFour) points to the need for allowing users to see customers based on their IDs. However, there is no reference to how the application-generated IDs are presented to the user. This was found to be an issue during exploratory testing, and was sourced back to both a defect in the implementation and absence in the requirements. 
 \par
 % Edge case: Negative salaries. 
-Is it implicity that negative salaries are not a thing? How could the code deal with that? 
+The question arises, is it implicit that negative salaries are not a thing, and how could the code deal with that? 
 \par
 % Edge case: taxcode with duplicate tax letters
 The requirement does not specify the application's behaviour for the case when duplicates of the same letter are found in the tax code. We would expect the tax code parser to complain and specify this as invalid, however others may interpret "DD1000" to be apply the Divorced taxing twice. 
