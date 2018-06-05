@@ -1,0 +1,47 @@
+\subsection{Test tools}
+This section outlines the different test tools used - or to be used - in testing the application. 
+% -------------------------------------------------------------------------
+\subsubsection{Git - Source Control}
+Git along with a private BitBucket account was used to source control all changes made to the original source code as well as committing individual changes and developments made to the test suite throughout developments. Changes were pushed upstream ensuring no risk of loss to progress made. Additionally, the tool is invaluable in situations where new changes break an existing reliable structure and a revert to the old state is required. 
+\par 
+In case the developers have not used source control as part of their workflow, we would strongly urge them to. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{res/git-tree.png}
+\caption{Git-tree}
+\end{figure}
+% -------------------------------------------------------------------------
+\subsubsection{Gradle - Build automation}
+Gradle is a build automation and dependency management system often used for Java projects, providing similar functionality to Apache’s Maven and Ant. 
+Gradle projects can be created by placing build.gradle file in the root of the project and defining the plugins and tasks to run. 
+The tool's aptness at establishing dependency trees and the flexibility it provides in configuring new and existing tasks, allowed us to set-up convenient automations that made for a smoother testing experience. 
+\par
+An example of the tasks that can be run with the tool: 
+\begin{itemize}
+    \item \lstinline{./gradlew generate_table} is a custom task created to generate "customer tables" used in feature files. This task runs a Java executable ExamplesTableGenerator.
+    \item \lstinline{./gradlew test} to run JUnit test suite 
+    \item \lstinline{./gradlew cucumber} to run cucumber test suite 
+    \item \lstinline{./gradlew jacocoTestReport} creates coverage reports from both JUnit and cucumber test suites. This task will run the former two to ensure most up-to-date coverage information. 
+    \item \lstinline{./gradlew check} runs all static analysers (see section xx) as well as the test task. 
+    \item \lstinline{./gradlew build} runs the previous check task as all compilation and setup required.  
+\end{itemize}
+% -------------------------------------------------------------------------
+\subsubsection{Jacoco - Code Coverage}
+Code coverage provides a useful metric on which classes, methods and lines of code have been executed in the application under test. 
+The metric is typically monitored by test managers who would attempt to ensure it does not fall fall below a pre-set threshold value; the end aim being to maintain the amount of testing the software has undergone, increasing its  reliability (or perceived reliability).  
+\par
+Gradle tasks have been configured to allow for the generation of coverage reports following the run of the Cucumber and JUnit suites. The jacoco plugin works by reading files (cucumber.exec and test.exec) and generating HTML reports from them. This can be achieved by running: 
+\lstinline{./gradlew jacocoTestReport} which runs the cucumber and JUnit tests before generating the reports which are placed in build/reports/jacoco/. 
+\par 
+The achieved code coverage from cucumber tests is 88\%. 
+When both Cucumber and JUnit are run the total coverage rises to 91\%. These values are deemed satisfactory but can certainly be further increased in the future.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.4]{res/cucumber-coverage.png}
+\caption{Jacoco Code Coverage from Cucumber tests}
+\end{figure}
+% -----------------------------------------------------------------------
+\input{section3-test-impl/continuous-integration}
+% -----------------------------------------------------------------------
+\subsubsection{Bugzilla - Defect Management}

@@ -3,7 +3,7 @@
 % we expect to be correct (given we know the implementation). As such, it is always better to try and make no assumptions about the contents 
 % of the code when writing the tests. 
 % =========================================================================
-
+\section{Code Review}
 
 % =========================================================================
 % Code structure 
@@ -142,7 +142,7 @@ Our cucumber testing aims to simulate a user interacting with the application.  
 For instance, step definitions were often found to be providing new input before the thread running Main had finished processing previous input. This lead to lots of inconsistent behaviour that lead to our test setup failing. 
 \par 
 For this reason, a new mechanism for communicating state between the two threads was required and many approaches were debated; some going as far as establishing ConcurrentQueues on which the two threads could communicate.
-However, as testers, we opted for lesser intrusive ways of accomlishing our needs. 
+However, as testers, we opted for lesser intrusive ways of accomplishing our needs. 
 \par 
 We added a \javainline{volatile boolean isWaitingForStdin} in Main that would be set to true just before Main was ready to be call readLine() or readInt() from the Scanner. The testing thread could then monitor the value of the boolean before deciding if it was appropriate to inject additional string input. The boolean had to be made volatile to avoid compiler optimisations which could lead to the threads monitoring their local view of the boolean rather than the actual one. 
 \par 
