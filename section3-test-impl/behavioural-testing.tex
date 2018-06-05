@@ -1,0 +1,52 @@
+\subsubsection{Behavioural driven testing}
+
+% -----------------------------------------------------------------------------
+\paragraph{Introduction}
+Cucumber provides a framework by which testers can define feature files that detail in common language the required features of the application as well as providing different scenarios while specifying the expected behaviour from the application in response to the scenarios. 
+\par 
+Feature files allow professional who are not familiar with programming the ability to both understand and write application features. 
+These files are then linked to application specific step definitions (in our case written in Java), translating scenario steps to code. Java methods with annotations (@Given, @And, @Then, @When) and a regular expression allow the linking of feature file to Java classes.  
+% -----------------------------------------------------------------------------
+\paragraph{FeatureXStepDefs}
+Step definitions defined within a class need to share data among them to accomplish their task; in Cucumber Java, this is most often done by defining member variables that can be accessed by methods within this same class.  
+\par 
+As the number of features and scenarios grew, so did the number of member variables created, making it impede code readability. In response to this, step definitions describing different features were separated into disparate classes (Feature1StepDefs, Feature2StepDefs..) each encapsulating their feature's own logic.  
+\par 
+% -----------------------------------------------------------------------------
+\paragraph{CommonStepDefs} 
+While useful for readability, the above separation of classes introduced new challenges: many of these features shared step definitions in common; and a step definition matching a regex could only be defined in one class and one class only.
+\par 
+A single class housing these common step definitions was hence required, such a class would need to link to all other feature classes: inheritance and composition were considered.
+\par
+Inheritance was first attempted but rejected by cucumber as it would cause step definition methods to be defined for each inheriting instance causing confusion for the cucumber on which method to invoke. 
+\par
+Composition on the other hand was possible, and aided by another cucumber dependency titled PicoContainer.  The library allows cucumber to create the object to be composed (CommonStepDefs in our case) and inject it into each of the Feature classes that requires it. From a code point of view, the only requirement on behalf of the Feature class would be to define a constructor taking in the object to be injected. Figure \ref{code:cucumber-piccontainer-di} is an extract of all that is required for this to be achieved. 
+\begin{figure}[H]
+\begin{javacode}
+/** injected through constructor by Cucumber PicoContainer */
+private CommonStepDefs common;
+
+/** constructor */ 
+public Feature1StepDefs(CommonStepDefs common) {
+    this.common = common;
+}
+\end{javacode}
+\caption{Dependency injection - CommonStepDefs in Feature1StepDefs}    
+\label{code:cucumber-piccontainer-di}
+\end{figure}
+Our CommonStepDefs included the definition of step definitions that were commonly used by most scenarios as well as helper methods that were integral to the Feature class' functioning. 
+\begin{itemize}
+    \item \javainline{applicationHasStarted}
+    \item \javainline{userEnters}
+    \item \javainline{resetOutStream}, 
+    \item \javainline{closeApp}, 
+    \item \javainline{waitForMainToBeReady}.
+    \item \javainline{theApplicationShouldNotCrash}
+    \item \javainline{listOfCustomerDetails}
+\end{itemize}
+
+\paragraph{Scenario Outline}
+
+\paragraph{Test per defect}
+
+\paragraph{Correct implementation}

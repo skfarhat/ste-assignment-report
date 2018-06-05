@@ -66,28 +66,26 @@ public Main(InputStream in, PrintStream out) {
 \end{figure}
 % -----------------------------------------------------------------------------
 \pagebreak
-\section{Project setup \& organisation}
-
-\subsection{Using gradle}
-Gradle is a build automation and dependency management system often used for Java projects, and provides similar functionality to Apache's Maven and Ant. Gradle projects can be created by placing build.gradle file in the root of the project and defining the plugins and tasks to run. For our project, the most relevant tasks are build (which includes running the set of JUnit tests), packaging the project into a fat jar file, generating documentation, and coverage reports.\\
-\\
-gradlew is a wrapper script that is useful for downloading gradle for your OS type and your system architecture. Below, we list some of the useful commands that have been used in developing this system: \\ 
-
-\begin{tabularx}{\textwidth}{ | s | b |}
-\hline %  -----------   Header  ---------------------------------
-\tblheader{Gradle commands} & \tblheader{Notes} \\
-\hline %  ---------------------------------------------------------------------
-./gradlew build & Compile project and run tests -- fails if any compilation fails or any of the tests fail \\
-\hline %  ---------------------------------------------------------------------
-./gradlew test & Run all JUnit test suite\\
-\hline %  ---------------------------------------------------------------------
-./gradlew cucumber & Run cucumber test suite \\
-\hline %  ---------------------------------------------------------------------
-./gradlew check & Run JUnit test suite \& static checkers (JDepend, FindBugs..) \\
-\hline %  ---------------------------------------------------------------------
-./gradlew jacocoRootReport & Creates coverage report\\
-\hline %  ---------------------------------------------------------------------
-./gradlew clean & remove all executable and generated files \\
-\hline %  ---------------------------------------------------------------------
-\end{tabularx}
+\section{Summary of tools used} 
+\begin{tabularx}{\textwidth}{ | s | b | }
+  \hline %  -----------   Header  ---------------------------------
+  \tblheader{Tools} & \tblheader{Use} \\
+  \hline %  ---------------------------------------------------------------------
+  IntelliJ & Integrated Development Environment\\ 
+  \hline %  ---------------------------------------------------------------------
+  Git & Source Control\\ 
+  \hline %  ---------------------------------------------------------------------
+  JUnit & Unit Testing\\ 
+  \hline % --------------------------------------------------------------
+  Cucumber & Acceptance Testing\\ 
+  \hline % --------------------------------------------------------------
+  Jenkins & Automated Continuous Integration \\
+  \hline %  ---------------------------------------------------------------------
+  Gradle & Build and Dependency Management\\ 
+  \hline % ------------------------------------------------------------
+  Javadocs & Documentation \\ 
+  \hline %  ---------------------------------------------------------------------
+  Jacoco & Code Coverage \\ 
+  \hline %  ---------------------------------------------------------------------
+  \end{tabularx}
 
