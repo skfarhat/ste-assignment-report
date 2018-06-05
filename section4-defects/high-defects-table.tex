@@ -2,67 +2,122 @@
 \begin{table}[H]
 \footnotesize 
 \begin{tabularx}{\textwidth}{| c | P | X | X | P |}
-% ========================================================================================================
+% ===================================================================================
 \hline % =================================    HEADER  ====================================================
 \tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
-\hline % =================================================================================================
+\hline % ============================================================================
 
-% ========================================================================================================
+% ===================================================================================
 D022 
 & TaxEngine 
 & First letters in tax code is always ignored.   
 & Replace instances of "taxCode.indexOf() > 0" with "taxCode.indexOf() >= 0".
 &  Feature8 (Extensive) \\% + Cannot be detected using 'MT1000' and 'TM1000' because the current implementation is faulty due to it only checking lower case characters. If we temporarily remove case sensitivty from the taxAmount() parser code, then we can see that this test fails on the original implementation\\
-\hline % =================================================================================================
+\hline % ============================================================================
 D023 
 & TaxEngine 
 & Mutual exclusivity between letters in a same tax group is not enforced by the application.
 & Use a better regular expression (see CorrectTaxEngine.java).
 & Feature 8 Scenario 2 \\
-\hline % =================================================================================================
+\hline % ============================================================================
 D026 
 & TaxEngine 
 & Tax codes with format similar to '100M100' are not invalidated by the application.
 & Use a better regular expression (see CorrectTaxEngine.java). 
 & Feature 8 Scenario 3 \\
-\hline % =================================================================================================
+\hline % ============================================================================
 D024 
 & TaxEngine 
 & Wrongly formatted taxcode yields a zero taxable amount as an error. Zero is a valid taxable amount and does not represent an error. 
 & Throw an exception instead.
 & Feature 8 (many)\\
-\hline % =================================================================================================
+\hline % ============================================================================
 D001 
 & AllCustomers 
-& Customer's tax amount is not updaed following a salary update (command 'y'). 
+& Customer's tax amount is not updated following a salary update (command 'y'). 
 & Call taxEngine.taxAmount() in updateCustomerSalary(). 
 & Feature 3 Scenario 4 \\
-\hline % =================================================================================================
+\hline % ============================================================================
 D002 
 & AllCustomers 
-& Customer's tax amount is not updaed following a full update (command 'u').
+& Customer's tax amount is not updated following a full update (command 'u').
 & Call taxEngine.taxAmount() in updateCustomerAll(). 
 & Feature 3 Scenario 5\\
-\hline % =================================================================================================
+\hline % ============================================================================
 D009 
 & AllCustomers 
 & "getCustomer" loops from 0 to intCurrentCustomerIndex inclusive leading to a NullPointerException
 & Loop up to intCurrentCustomerIndex - 1 instead.
 & JUnit \linebreak {\tiny testGetInexistentCustomer()} \\
-\hline % =================================================================================================
+\hline % ============================================================================
 D008 
 & Main
 & All previous data is lost following an invalidate user input (Main reinstantiates allCustomers in InterpretCommand()).
 % Main creates a new AllCustomers object upon an exception, so if the user inputs something wrong, then an exception is thrown and data about all customers previously is lost 
 & Restructure the run() code so that the exception is caught and handled without having to recall interpret command and reinstantiating AllCustomers. 
 & Feature 7 Scenario 1 \\
-\hline % =================================================================================================
+\hline % ============================================================================
 D004 
 & Main 
 & Printing customers requires knowledge of internal array indices.  
 & Allow users to print customers using comma-separated list of IDs.
 & -\\
-\hline % =================================================================================================
+\hline % ============================================================================
+D036 
+& TaxEngine
+& Married customer (salary < 27,000) is taxed at 150\% instead of 120\%
+& Use HIGH\_MARRIED\_MODIFIER instead of HI\_MARRIED\_MODIFIER
+& Feature 8 (a) Scenario 1\\
+\hline % ============================================================================
+D037
+& TaxEngine
+& Divorced customer (salary < 24,000) is taxed 118\% instead of 95\%
+& Use HIGH\_DIVORCED\_MODIFIER instead of HI\_DIVORCED\_MODIFIER.
+& Feature 8 (a) Scenario 2\\
+\hline % ============================================================================
+D038
+& TaxEngine
+& Customer with 2 children (salary > 9,900) is taxed ten times more than he should be. 
+& Replace TOP\_CHILD2\_MODIFIER = 10.1, with TOP\_CHILD2\_MODIFIER = 1.01.
+& Feature 8 (a) Scenario 3\\
+\hline % ============================================================================
+D039
+& TaxEngine
+& Customer is student less than 24 y.o (salary < 2,000) is taxed 113\% instead of 107\%. 
+& Swap values of HI\_STUDENT1\_MODIFIER and LOW\_STUDENT1\_MODIFIER in Constants.
+& Feature 8 (a) Scenario 4\\
+\hline % ============================================================================
 \end{tabularx}
 \caption{High severity functional defects}
+\end{table}
+
+% ============================ > SPLIT TABLE
+
+\begin{table}[H]
+\footnotesize 
+\begin{tabularx}{\textwidth}{| c | P | X | X | P |}
+% ===================================================================================
+\hline % =================================    HEADER  ====================================================
+\tblheader{ID} & \tblheader{Component} & \tblheader{Description} & \tblheader{Recommendation} & \tblheader{Test} \\
+\hline % ============================================================================
+D040
+& TaxEngine
+& Customer is student less than 24 y.o (salary < 3,000) is taxed 125\% instead of 113\%
+& Use TOP\_STUDENT1\_MODIFIER instead of HIGH\_CHILDm\_MODIFIER. 
+& Feature 8 (a) Scenario 5\\
+\hline % ============================================================================
+D041
+& TaxEngine
+& Customer is student over 24 y.o (salary < 2,000)
+& Swap values of LOW\_STUDENT2\_MODIFIER and HI\_STUDENT2\_MODIFIER in Constants
+& Feature 8 (a) Scenario 6\\
+\hline % ============================================================================
+D042
+& TaxEngine
+& Customer is student over 24 y.o (salary < 3,000)
+& Swap values of LOW\_STUDENT2\_MODIFIER and HI\_STUDENT2\_MODIFIER in Constants
+& Feature 8 (a) Scenario 7\\
+\hline % ============================================================================
+\end{tabularx}
+\caption{High severity functional defects (cont'd)}
 \end{table}

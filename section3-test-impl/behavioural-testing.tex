@@ -46,7 +46,16 @@ Our CommonStepDefs included the definition of step definitions that were commonl
 \end{itemize}
 
 \paragraph{Scenario Outline}
-
-\paragraph{Test per defect}
+Given the nature of the software under test and the range of possible combinations of inputs (tax-code, salary, base-amount) that are applicable, it was deemed infeasible time-effort wise to create a scenario for each combination. 
+However as the input constraints are understood, long lists could be generated using another program. Hence we developed the Generator class along with ExampleTablesGenerator, which together can provide longs lists of input combinations using some constraint (invalid tax codes, valid taxcodes, taxcodes with negative salaries). 
+\par 
+The generated tables would then be plugged in to the "Examples" section in "Scenario Outline" allowing for a single Scenario definition to be executed by all the different examples. This feature allows for high code coverage using minimal additional effort. Our 8\_TaxRulesExtensive.feature contains +1000 different examples that are all run for one scenario. 
 
 \paragraph{Correct implementation}
+In order to compare the given application's behaviour to what would be expected in the correct case, effort was expended on developing working versions of the different classes in question. 
+\par 
+It is well acknowledged that this may not always be possible when testing as some of the code bases under test can consist of thousands of files. However, in our situation it was deemed feasible and beneficial in that it served to confirm either defects in the code under test or even defects in the written tests. 
+\par 
+The working versions of the different classes consist of the class names prefixed with "Correct": CorrectTaxEngine, CorrectMain... 
+\par 
+There is no proof that the test implementation is in fact correct, and cases where both generate the same output may well be cases where both implementations are defective.
